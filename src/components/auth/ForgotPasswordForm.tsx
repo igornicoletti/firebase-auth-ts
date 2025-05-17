@@ -34,7 +34,7 @@ export const ForgotPasswordForm = () => {
         description: 'We’ve sent you a link to reset your password.',
         content: (
           <Button variant='secondary' onClick={handleBackToLogin}>
-            Back to login
+            Continue to login
             <GradientHighlight />
           </Button>
         ),

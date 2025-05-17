@@ -45,7 +45,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const resetPassword = (email: string) => {
-    return sendPasswordResetEmail(auth, email)
+    return sendPasswordResetEmail(auth, email, {
+      url: `${import.meta.env.VITE_APP_ORIGIN}/reset-password`,
+      handleCodeInApp: true,
+    })
   }
 
   const confirmResetPassword = (oobCode: string, password: string) => {

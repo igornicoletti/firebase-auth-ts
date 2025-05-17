@@ -10,18 +10,19 @@ export const SocialProvider = () => {
   const location = useLocation()
   const { signInWithGoogle } = useAuth()
 
-  const stateFrom = location.state?.from?.pathname || '/dashboard'
+  const from = location.state?.from?.pathname || '/dashboard'
 
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle()
-      navigate(stateFrom, { replace: true })
-      toast(' ', { description: ' ' })
+      toast.success('Login successful')
+      navigate(from, { replace: true })
     } catch (err) {
-      toast(' ', { description: ' ' })
+      toast.error('Login failed', {
+        description: (err as Error)?.message || 'Something went wrong'
+      })
     }
   }
-
   return (
     <Button variant='secondary' onClick={handleGoogleSignIn}>
       <GoogleLogo />
