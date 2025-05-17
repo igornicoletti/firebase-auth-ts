@@ -1,6 +1,6 @@
-import { GradientHighlight } from '@/components/custom/GradientHighlight'
+import { GradientHighlight } from '@/components/custom'
 import { Button } from '@/components/ui/button'
-import { useAuth } from '@/contexts/auth/AuthContext'
+import { useAuth } from '@/contexts/auth'
 import { GoogleLogo } from 'phosphor-react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'

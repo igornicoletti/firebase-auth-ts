@@ -1,10 +1,10 @@
-import { ControlledInputForm } from '@/components/auth/ControlledInputForm'
-import { GradientHighlight } from '@/components/custom/GradientHighlight'
+import { ControlledInputForm } from '@/components/auth'
+import { GradientHighlight } from '@/components/custom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
-import { useAuth } from '@/contexts/auth/AuthContext'
-import { useDialog } from '@/contexts/dialog/DialogContext'
-import { forgotPasswordSchema, type ForgotPasswordData } from '@/validations/auth/schemas'
+import { useAuth } from '@/contexts/auth'
+import { useDialog } from '@/contexts/dialog'
+import { forgotPasswordSchema, type ForgotPasswordData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
 import { useForm } from 'react-hook-form'
@@ -16,15 +16,15 @@ export const ForgotPasswordForm = () => {
   const { resetPassword } = useAuth()
   const { openDialog, closeDialog } = useDialog()
 
-  const handleBackToLogin = () => {
-    closeDialog()
-    navigate('/login')
-  }
-
   const form = useForm<ForgotPasswordData>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: { email: '' }
   })
+
+  const handleBackToLogin = () => {
+    closeDialog()
+    navigate('/login')
+  }
 
   const onSubmit = async (data: ForgotPasswordData) => {
     try {
@@ -32,13 +32,13 @@ export const ForgotPasswordForm = () => {
       openDialog({
         title: 'Check your email',
         description: 'We’ve sent you a link to reset your password.',
-        onClose: () => navigate('/login'),
         content: (
           <Button variant='secondary' onClick={handleBackToLogin}>
             Back to login
             <GradientHighlight />
           </Button>
-        )
+        ),
+        onClose: () => navigate('/login'),
       })
     } catch (err) {
       toast('Reset failed', {

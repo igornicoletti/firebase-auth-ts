@@ -1,7 +1,7 @@
 import { Toaster } from '@/components/ui/sonner'
-import { AuthProvider } from '@/contexts/auth/AuthContext'
-import { DialogProvider } from '@/contexts/dialog/DialogContext'
-import { ThemeProvider } from '@/contexts/theme/ThemeProvider'
+import { AuthProvider } from '@/contexts/auth'
+import { DialogProvider } from '@/contexts/dialog'
+import { ThemeProvider } from '@/contexts/theme'
 import { router } from '@/router'
 import { RouterProvider } from 'react-router-dom'
 

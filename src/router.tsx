@@ -1,11 +1,7 @@
-import { ProtectedRoute } from '@/components/route/ProtectedRoute'
-import { AuthLayout } from '@/pages/auth/AuthLayout'
-import { ForgotPasswordPage } from '@/pages/auth/ForgotPasswordPage'
-import { LoginPage } from '@/pages/auth/LoginPage'
-import { RegisterPage } from '@/pages/auth/RegisterPage'
-import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage'
-import { DashboardPage } from '@/pages/dashboard/DashboardPage'
-import { ErrorBoundaryPage } from '@/pages/errorBoundary/ErrorBoundaryPage'
+import { ProtectedRoute } from '@/components/route'
+import { AuthLayout, ForgotPasswordPage, LoginPage, RegisterPage, ResetPasswordPage } from '@/pages/auth'
+import { DashboardPage } from '@/pages/dashboard'
+import { ErrorBoundaryPage } from '@/pages/errorBoundary'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 export async function errorLoader() {

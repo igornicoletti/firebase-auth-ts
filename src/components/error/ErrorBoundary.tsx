@@ -1,4 +1,4 @@
-import { GradientHighlight } from '@/components/custom/GradientHighlight'
+import { GradientHighlight } from '@/components/custom'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { HouseSimple, LineVertical } from '@phosphor-icons/react'

@@ -1,6 +1,4 @@
-import { AnchorData } from '@/components/auth/AnchorData'
-import { ForgotPasswordForm } from '@/components/auth/ForgotPasswordForm'
-import { HeroData } from '@/components/auth/HeroData'
+import { AnchorData, ForgotPasswordForm, HeroData } from '@/components/auth'
 
 const heroData = {
   title: 'Forgotten password',

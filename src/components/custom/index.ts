@@ -1,0 +1,1 @@
+export { GradientHighlight } from './GradientHighlight'

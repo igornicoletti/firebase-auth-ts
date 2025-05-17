@@ -1,7 +1,7 @@
-import { ThemeToggle } from '@/components/theme/ThemeToggle'
+import { ThemeToggle } from '@/components/theme'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useAuth } from '@/contexts/auth/AuthContext'
+import { useAuth } from '@/contexts/auth'
 import { useNavigate } from 'react-router-dom'
 
 export const DashboardPage = () => {

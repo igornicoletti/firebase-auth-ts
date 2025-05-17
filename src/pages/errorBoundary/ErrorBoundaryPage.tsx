@@ -1,4 +1,4 @@
-import { ErrorBoundary } from '@/components/error/ErrorBoundary'
+import { ErrorBoundary } from '@/components/error'
 
 export const ErrorBoundaryPage = () => {
   return (

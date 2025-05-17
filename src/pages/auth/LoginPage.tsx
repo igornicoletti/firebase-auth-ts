@@ -1,7 +1,4 @@
-import { AnchorData } from '@/components/auth/AnchorData'
-import { HeroData } from '@/components/auth/HeroData'
-import { LoginForm } from '@/components/auth/LoginForm'
-import { SocialProvider } from '@/components/auth/SocialProvider'
+import { AnchorData, HeroData, LoginForm, SocialProvider } from '@/components/auth'
 
 const heroData = {
   title: 'Sign in to your account',

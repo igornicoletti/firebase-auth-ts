@@ -1,6 +1,4 @@
-import { AnchorData } from '@/components/auth/AnchorData'
-import { HeroData } from '@/components/auth/HeroData'
-import { RegisterForm } from '@/components/auth/RegisterForm'
+import { AnchorData, HeroData, RegisterForm } from '@/components/auth'
 
 const heroData = {
   title: 'Create your account',
