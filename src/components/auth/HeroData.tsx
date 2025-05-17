@@ -10,5 +10,4 @@ export const HeroData = ({ title, description }: HeroDataProps) => {
       <p className='text-sm text-muted-foreground'>{description}</p>
     </div>
   )
-
 }

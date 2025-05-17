@@ -1,8 +1,6 @@
-import { GradientHighlight } from '@/components/custom'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Button } from '@/components/ui/button'
-import { HouseSimple, LineVertical } from '@phosphor-icons/react'
-import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom'
+import { Terminal } from '@phosphor-icons/react'
+import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
 
 type NormalizedError = {
   status: string
@@ -47,27 +45,13 @@ const normalizeError = (error: unknown): NormalizedError => {
 
 export const ErrorBoundary = () => {
   const error = useRouteError()
-  console.error('Route Error:', error)
-
   const { status, title, description } = normalizeError(error)
 
   return (
-    <Alert className='grid gap-y-2 bg-transparent'>
-      <AlertTitle className='flex items-center justify-center text-center gap-2'>
-        {status}
-        <LineVertical weight='thin' className='size-6 text-muted-foreground' />
-        {title}
-      </AlertTitle>
-      <AlertDescription className='flex flex-col items-center justify-center text-center gap-6 text-muted-foreground'>
-        {description}
-        <Button asChild variant='secondary' className='w-full'>
-          <Link to='/dashboard'>
-            <HouseSimple />
-            Go to homepage
-            <GradientHighlight />
-          </Link>
-        </Button>
-      </AlertDescription>
+    <Alert>
+      <Terminal />
+      <AlertTitle>{status} | {title}</AlertTitle>
+      <AlertDescription>{description}</AlertDescription>
     </Alert>
   )
 }

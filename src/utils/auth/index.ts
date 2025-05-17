@@ -1,1 +1,2 @@
-export { getAuthMessageByCode } from './authMessages'
+export { authConfig } from './authConfig'
+export * from './authMessages'

@@ -1,22 +1,14 @@
 import { AnchorData, ForgotPasswordForm, HeroData } from '@/components/auth'
-
-const heroData = {
-  title: 'Forgotten password',
-  description: 'Enter your email to receive reset instructions',
-}
-
-const anchorData = {
-  ask: 'Remember your password?',
-  souce: 'Login',
-  pathname: '/login',
-}
+import { authConfig } from '@/utils/auth'
 
 export const ForgotPasswordPage = () => {
+  const { hero, anchor } = authConfig.forgotPassword
+
   return (
     <div className='grid gap-6'>
-      <HeroData {...heroData} />
+      <HeroData {...hero} />
       <ForgotPasswordForm />
-      <AnchorData {...anchorData} />
+      <AnchorData {...anchor} />
     </div>
   )
 }

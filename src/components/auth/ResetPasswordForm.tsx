@@ -2,14 +2,13 @@ import { ControlledInputForm } from '@/components/auth'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
-import { getAuthMessageByCode } from '@/utils/auth'
+import { authToast } from '@/utils/auth'
 import { resetPasswordSchema, type ResetPasswordData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
 import { FirebaseError } from 'firebase/app'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { toast } from 'sonner'
 
 export const ResetPasswordForm = () => {
   const navigate = useNavigate()
@@ -25,20 +24,17 @@ export const ResetPasswordForm = () => {
 
   const onSubmit = async (data: ResetPasswordData) => {
     if (!oobCode) {
-      const errorMsg = getAuthMessageByCode('auth/missing-oob-code')
-      toast.error(errorMsg.title, { description: errorMsg.description })
+      authToast('auth/missing-oob-code', 'error')
       return
     }
 
     try {
       await confirmResetPassword(oobCode, data.password)
-      const successMsg = getAuthMessageByCode('auth/reset-password-success')
-      toast(successMsg.title, { description: successMsg.description })
+      authToast('auth/reset-password-success', 'success')
       navigate('/login')
     } catch (err) {
-      const error = err instanceof FirebaseError ? err : new FirebaseError('unknown', 'Unknown error')
-      const errorMsg = getAuthMessageByCode(error.code)
-      toast(errorMsg.title, { description: errorMsg.description })
+      const code = err instanceof FirebaseError ? err.code : 'unknown'
+      authToast(code, 'error')
     }
   }
   return (

@@ -1,22 +1,14 @@
 import { AnchorData, HeroData, ResetPasswordForm } from '@/components/auth'
-
-const heroData = {
-  title: 'Reset password',
-  description: 'Set a new password for your account',
-}
-
-const anchorData = {
-  ask: 'Back to login?',
-  souce: 'Login',
-  pathname: '/login',
-}
+import { authConfig } from '@/utils/auth'
 
 export const ResetPasswordPage = () => {
+  const { hero, anchor } = authConfig.resetPassword
+
   return (
     <div className='grid gap-6'>
-      <HeroData {...heroData} />
+      <HeroData {...hero} />
       <ResetPasswordForm />
-      <AnchorData {...anchorData} />
+      <AnchorData {...anchor} />
     </div>
   )
 }

@@ -1,11 +1,10 @@
 import { GradientHighlight } from '@/components/custom'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/auth'
-import { getAuthMessageByCode } from '@/utils/auth'
+import { authToast } from '@/utils/auth'
 import { FirebaseError } from 'firebase/app'
 import { GoogleLogo } from 'phosphor-react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
 
 export const SocialProvider = () => {
   const navigate = useNavigate()
@@ -17,13 +16,11 @@ export const SocialProvider = () => {
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle()
-      const successMsg = getAuthMessageByCode('auth/login-success')
-      toast(successMsg.title, { description: successMsg.description })
+      authToast('auth/login-success', 'success')
       navigate(from, { replace: true })
     } catch (err) {
-      const error = err instanceof FirebaseError ? err : new FirebaseError('unknown', 'Unknown error')
-      const errorMsg = getAuthMessageByCode(error.code)
-      toast(errorMsg.title, { description: errorMsg.description })
+      const code = err instanceof FirebaseError ? err.code : 'unknown'
+      authToast(code, 'error')
     }
   }
 

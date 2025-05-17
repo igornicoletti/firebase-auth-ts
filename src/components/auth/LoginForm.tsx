@@ -2,14 +2,13 @@ import { ControlledInputForm } from '@/components/auth'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
-import { getAuthMessageByCode } from '@/utils/auth'
+import { authToast } from '@/utils/auth'
 import { loginSchema, type LoginFormData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
 import { FirebaseError } from 'firebase/app'
 import { useForm } from 'react-hook-form'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
 
 export const LoginForm = () => {
   const { signIn } = useAuth()
@@ -26,13 +25,11 @@ export const LoginForm = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       await signIn(data.email, data.password)
-      const successMsg = getAuthMessageByCode('auth/login-success')
-      toast(successMsg.title, { description: successMsg.description })
+      authToast('auth/login-success', 'success')
       navigate(from, { replace: true })
     } catch (err) {
-      const error = err instanceof FirebaseError ? err : new FirebaseError('unknown', 'Unknown error')
-      const errorMsg = getAuthMessageByCode(error.code)
-      toast(errorMsg.title, { description: errorMsg.description })
+      const code = err instanceof FirebaseError ? err.code : 'unknown'
+      authToast(code, 'error')
     }
   }
 

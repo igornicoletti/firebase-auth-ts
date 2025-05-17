@@ -4,14 +4,13 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
 import { useDialog } from '@/contexts/dialog'
-import { getAuthMessageByCode } from '@/utils/auth'
+import { authToast } from '@/utils/auth'
 import { forgotPasswordSchema, type ForgotPasswordData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
 import { FirebaseError } from 'firebase/app'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
 
 export const ForgotPasswordForm = () => {
   const navigate = useNavigate()
@@ -43,9 +42,8 @@ export const ForgotPasswordForm = () => {
         onClose: () => navigate('/login'),
       })
     } catch (err) {
-      const error = err instanceof FirebaseError ? err : new FirebaseError('unknown', 'Unknown error')
-      const errorMsg = getAuthMessageByCode(error.code)
-      toast(errorMsg.title, { description: errorMsg.description })
+      const code = err instanceof FirebaseError ? err.code : 'unknown'
+      authToast(code, 'error')
     }
   }
 

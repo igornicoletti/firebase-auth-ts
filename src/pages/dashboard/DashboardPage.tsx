@@ -1,39 +1,37 @@
 import { ThemeToggle } from '@/components/theme'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/contexts/auth'
+import { authToast } from '@/utils/auth'
+import { FirebaseError } from 'firebase/app'
 import { useNavigate } from 'react-router-dom'
 
 export const DashboardPage = () => {
-  const { currentUser, logout } = useAuth()
   const navigate = useNavigate()
+  const { currentUser, logout } = useAuth()
 
   const handleLogout = async () => {
     try {
       await logout()
+      authToast('auth/logout-success', 'success')
       navigate('/login')
-    } catch (error) {
-      console.error('Failed to log out', error)
+    } catch (err) {
+      const code = err instanceof FirebaseError ? err.code : 'unknown'
+      authToast(code, 'error')
     }
   }
 
   return (
-    <div className='min-h-screen p-8'>
-      <div className='max-w-2xl mx-auto'>
-        <div className='flex justify-end mb-4'>
+    <div className='min-h-screen grid place-items-center px-4 py-6'>
+      <div className='w-full max-w-7xl'>
+        <div className='absolute right-6 top-6'>
           <ThemeToggle />
         </div>
-        <Card>
-          <CardHeader>
-            <CardTitle>Dashboard</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className='mb-4'>Welcome, {currentUser?.email}!</p>
-            <Button onClick={handleLogout} variant='outline'>
-              Logout
-            </Button>
-          </CardContent>
-        </Card>
+        <div className='grid gap-4'>
+          <p>{currentUser?.email}!</p>
+          <Button variant='secondary' onClick={handleLogout}>
+            Logout
+          </Button>
+        </div>
       </div>
     </div>
   )
