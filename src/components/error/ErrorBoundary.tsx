@@ -4,39 +4,62 @@ import { Button } from '@/components/ui/button'
 import { HouseSimple, LineVertical } from '@phosphor-icons/react'
 import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom'
 
+type NormalizedError = {
+  status: string
+  title: string
+  description: string
+}
+
+const normalizeError = (error: unknown): NormalizedError => {
+  if (isRouteErrorResponse(error)) {
+    const status = error.status === 404 ? '404' : `${error.status}`
+    const title = error.statusText || 'Something went wrong'
+
+    let description = 'No additional details were provided.'
+
+    if (typeof error.data === 'string') {
+      description = error.data
+    } else if (typeof error.data === 'object') {
+      try {
+        description = JSON.stringify(error.data, null, 2)
+      } catch {
+        description = 'An error occurred, but the error details could not be parsed.'
+      }
+    }
+
+    return { status, title, description }
+  }
+
+  if (error instanceof Error) {
+    return {
+      status: 'Error',
+      title: 'Unexpected error',
+      description: error.message
+    }
+  }
+
+  return {
+    status: 'Unknown',
+    title: 'Unknown error',
+    description: 'An unexpected error occurred.'
+  }
+}
+
 export const ErrorBoundary = () => {
   const error = useRouteError()
   console.error('Route Error:', error)
 
-  let status = 'Opss!'
-  let statusText = 'An unexpected error occurred.'
-  let details = 'An unexpected error occurred No additional error details were provided.'
-
-  if (isRouteErrorResponse(error)) {
-    status = error.status === 404 ? '404' : `${error.status}`
-    statusText = error.statusText || statusText
-
-    if (typeof error.data === 'string') {
-      details = error.data
-    } else if (typeof error.data === 'object') {
-      try {
-        details = JSON.stringify(error.data, null, 2)
-      } catch {
-        details = 'An error occurred, but the data could not be parsed.'
-      }
-    }
-  } else if (error instanceof Error) {
-    statusText = error.message
-  }
+  const { status, title, description } = normalizeError(error)
 
   return (
     <Alert className='grid gap-y-2 bg-transparent'>
-      <AlertTitle className='flex items-center justify-center gap-2'>
+      <AlertTitle className='flex items-center justify-center text-center gap-2'>
         {status}
         <LineVertical weight='thin' className='size-6 text-muted-foreground' />
-        {details}
+        {title}
       </AlertTitle>
-      <AlertDescription>
+      <AlertDescription className='flex flex-col items-center justify-center text-center gap-6 text-muted-foreground'>
+        {description}
         <Button asChild variant='secondary' className='w-full'>
           <Link to='/dashboard'>
             <HouseSimple />

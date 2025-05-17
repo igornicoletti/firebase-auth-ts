@@ -2,9 +2,11 @@ import { ControlledInputForm } from '@/components/auth'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
+import { getAuthMessageByCode } from '@/utils/auth'
 import { resetPasswordSchema, type ResetPasswordData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
+import { FirebaseError } from 'firebase/app'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -23,19 +25,22 @@ export const ResetPasswordForm = () => {
 
   const onSubmit = async (data: ResetPasswordData) => {
     if (!oobCode) {
-      toast('Error', { description: 'Invalid reset link. Please request a new one.' })
+      const errorMsg = getAuthMessageByCode('auth/missing-oob-code')
+      toast.error(errorMsg.title, { description: errorMsg.description })
       return
     }
 
     try {
       await confirmResetPassword(oobCode, data.password)
-      toast('Password reset successfully', { description: 'You can now log in with your new password.' })
+      const successMsg = getAuthMessageByCode('auth/reset-password-success')
+      toast(successMsg.title, { description: successMsg.description })
       navigate('/login')
     } catch (err) {
-      toast('Error resetting password', { description: 'Please try again or request a new reset link.' })
+      const error = err instanceof FirebaseError ? err : new FirebaseError('unknown', 'Unknown error')
+      const errorMsg = getAuthMessageByCode(error.code)
+      toast(errorMsg.title, { description: errorMsg.description })
     }
   }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-4'>
@@ -43,7 +48,7 @@ export const ResetPasswordForm = () => {
           name='password'
           type='password'
           control={form.control}
-          placeholder='Password' />
+          placeholder='New password' />
         <ControlledInputForm
           name='confirmPassword'
           type='password'
