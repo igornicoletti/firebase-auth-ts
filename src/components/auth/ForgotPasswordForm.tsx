@@ -1,5 +1,4 @@
 import { ControlledInputForm } from '@/components/auth'
-import { GradientHighlight } from '@/components/custom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
@@ -14,8 +13,8 @@ import { useNavigate } from 'react-router-dom'
 
 export const ForgotPasswordForm = () => {
   const navigate = useNavigate()
+  const { openDialog } = useDialog()
   const { resetPassword } = useAuth()
-  const { openDialog, closeDialog } = useDialog()
 
   const form = useForm<ForgotPasswordData>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -28,18 +27,6 @@ export const ForgotPasswordForm = () => {
       openDialog({
         title: 'Check your email',
         description: 'We’ve sent you a link to reset your password.',
-        content: (
-          <div className="grid grid-cols-2 gap-2">
-            <Button variant='secondary' onClick={() => closeDialog(false)}>
-              Fix email
-              <GradientHighlight />
-            </Button>
-            <Button variant='secondary' onClick={() => closeDialog(true)}>
-              Back to login
-              <GradientHighlight />
-            </Button>
-          </div>
-        ),
         onClose: () => navigate('/login'),
       })
     } catch (err) {

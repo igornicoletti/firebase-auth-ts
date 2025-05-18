@@ -77,6 +77,11 @@ const authMessages: AuthMessageProps[] = [
     title: 'Account created!',
     description: 'You have successfully registered. You can now log in.'
   },
+  {
+    code: 'auth/verify-email',
+    title: 'Email sent!',
+    description: 'Verification email sent! Check your inbox.'
+  },
 ]
 
 const getMessageByCode = (code: string): AuthMessageProps => {
@@ -93,6 +98,6 @@ export const authToast = (code: string, status: string) => {
   const { title, description } = getMessageByCode(code)
   toast(
     <span className={status === 'success' ? 'text-primary' : 'text-destructive'}>{title}</span>,
-    { description: description }
+    { description: <span className='text-muted-foreground'>{description}</span> }
   )
 }

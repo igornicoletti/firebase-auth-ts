@@ -1,4 +1,4 @@
-import { ProtectedRoute } from '@/components/route'
+import { ProtectedRoute, PublicRoute } from '@/components/route'
 import {
   AuthLayout,
   ForgotPasswordPage,
@@ -6,7 +6,7 @@ import {
   RegisterPage,
   ResetPasswordPage,
 } from '@/pages/auth'
-import { DashboardPage } from '@/pages/dashboard'
+import { DashboardLayout, DashboardPage, VerifyEmailPage } from '@/pages/dashboard'
 import { ErrorBoundaryPage } from '@/pages/errorBoundary'
 import { NotFoundPage } from '@/pages/notFound'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
@@ -18,20 +18,31 @@ export const router = createBrowserRouter([
     errorElement: <ErrorBoundaryPage />,
   },
   {
-    element: <AuthLayout />,
+    element: <PublicRoute />,
     errorElement: <ErrorBoundaryPage />,
     children: [
-      { path: '/login', element: <LoginPage /> },
-      { path: '/register', element: <RegisterPage /> },
-      { path: '/forgot-password', element: <ForgotPasswordPage /> },
-      { path: '/reset-password', element: <ResetPasswordPage /> },
+      {
+        element: <AuthLayout />,
+        children: [
+          { path: '/login', element: <LoginPage /> },
+          { path: '/register', element: <RegisterPage /> },
+          { path: '/forgot-password', element: <ForgotPasswordPage /> },
+          { path: '/reset-password', element: <ResetPasswordPage /> },
+        ],
+      },
     ],
   },
   {
     element: <ProtectedRoute />,
     errorElement: <ErrorBoundaryPage />,
     children: [
-      { path: '/dashboard', element: <DashboardPage /> },
+      {
+        element: <DashboardLayout />,
+        children: [
+          { path: '/dashboard', element: <DashboardPage /> },
+          { path: '/verify-email', element: <VerifyEmailPage /> },
+        ],
+      },
     ],
   },
   {

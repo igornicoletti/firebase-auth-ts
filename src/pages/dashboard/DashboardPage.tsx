@@ -21,17 +21,15 @@ export const DashboardPage = () => {
   }
 
   return (
-    <div className='min-h-screen grid place-items-center px-4 py-6'>
-      <div className='w-full max-w-7xl'>
-        <div className='absolute right-6 top-6'>
-          <ThemeToggle />
-        </div>
-        <div className='grid gap-4'>
-          <p>{currentUser?.displayName || currentUser?.email}!</p>
-          <Button variant='secondary' onClick={handleLogout}>
-            Logout
-          </Button>
-        </div>
+    <div className='w-full max-w-7xl'>
+      <div className='absolute right-6 top-6'>
+        <ThemeToggle />
+      </div>
+      <div className='grid gap-4'>
+        <p>Welcome {currentUser?.displayName || currentUser?.email}!</p>
+        <Button variant='secondary' onClick={handleLogout}>
+          Logout
+        </Button>
       </div>
     </div>
   )

@@ -43,4 +43,10 @@ export const authConfig = {
       pathname: '/login',
     },
   },
+  verifyEmail: {
+    hero: {
+      title: 'Verify your email',
+      description: 'Confirm your email to access the App',
+    }
+  },
 }

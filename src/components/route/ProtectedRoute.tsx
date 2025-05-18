@@ -5,13 +5,8 @@ export const ProtectedRoute = () => {
   const location = useLocation()
   const { currentUser } = useAuth()
 
-  if (!currentUser) {
-    return <Navigate to="/login" replace state={{ from: location }} />
-  }
+  if (!currentUser) return <Navigate to='/login' replace state={{ from: location }} />
+  if (!currentUser.emailVerified) return <Navigate to='/verify-email' replace />
 
-  return (
-    <div className='min-h-screen grid place-items-center'>
-      <Outlet />
-    </div>
-  )
+  return <Outlet />
 }

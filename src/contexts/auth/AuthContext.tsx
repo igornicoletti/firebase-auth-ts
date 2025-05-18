@@ -1,5 +1,5 @@
 import { auth } from '@/services/firebase'
-import { GoogleAuthProvider, type User, type UserCredential, confirmPasswordReset, createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth'
+import { GoogleAuthProvider, type User, type UserCredential, confirmPasswordReset, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 type AuthContextType = {
@@ -33,6 +33,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (username) {
       await updateProfile(userCredential.user, { displayName: username })
     }
+
+    await sendEmailVerification(userCredential.user)
 
     return userCredential
   }

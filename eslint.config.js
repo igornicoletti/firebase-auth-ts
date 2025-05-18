@@ -15,8 +15,19 @@ export default tseslint.config(
     ],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
+      parser: '@typescript-eslint/parser',
       ecmaVersion: 2024,
       globals: globals.browser,
+      parserOptions: {
+        project: './tsconfig.app.json',
+      },
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: './tsconfig.app.json',
+        },
+      },
     },
     plugins: {
       'react-hooks': reactHooks,
@@ -34,11 +45,11 @@ export default tseslint.config(
         'warn',
         {
           groups: [
-            ["builtin", "external"],
-            "internal",
-            "parent",
-            "sibling",
-            "index"
+            ['builtin', 'external'],
+            'internal',
+            'parent',
+            'sibling',
+            'index',
           ],
           alphabetize: { order: 'asc', caseInsensitive: true },
           pathGroups: [
