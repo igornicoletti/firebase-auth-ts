@@ -1,7 +1,7 @@
 import { ThemeToggle } from '@/components/theme'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/auth'
-import { authToast } from '@/utils/auth'
+import { authToast } from '@/features/auth'
 import { FirebaseError } from 'firebase/app'
 import { useNavigate } from 'react-router-dom'
 
@@ -27,7 +27,7 @@ export const DashboardPage = () => {
           <ThemeToggle />
         </div>
         <div className='grid gap-4'>
-          <p>{currentUser?.email}!</p>
+          <p>{currentUser?.displayName || currentUser?.email}!</p>
           <Button variant='secondary' onClick={handleLogout}>
             Logout
           </Button>

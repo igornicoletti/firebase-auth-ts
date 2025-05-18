@@ -1,7 +1,7 @@
 import { GradientHighlight } from '@/components/custom'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/auth'
-import { authToast } from '@/utils/auth'
+import { authToast } from '@/features/auth'
 import { FirebaseError } from 'firebase/app'
 import { GoogleLogo } from 'phosphor-react'
 import { useLocation, useNavigate } from 'react-router-dom'

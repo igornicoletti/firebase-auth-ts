@@ -1,5 +1,5 @@
 import { AnchorData, ForgotPasswordForm, HeroData } from '@/components/auth'
-import { authConfig } from '@/utils/auth'
+import { authConfig } from '@/features/auth'
 
 export const ForgotPasswordPage = () => {
   const { hero, anchor } = authConfig.forgotPassword

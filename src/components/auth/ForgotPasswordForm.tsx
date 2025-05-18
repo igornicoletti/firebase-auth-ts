@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
 import { useDialog } from '@/contexts/dialog'
-import { authToast } from '@/utils/auth'
+import { authToast } from '@/features/auth'
 import { forgotPasswordSchema, type ForgotPasswordData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
@@ -22,11 +22,6 @@ export const ForgotPasswordForm = () => {
     defaultValues: { email: '' }
   })
 
-  const handleBackToLogin = () => {
-    closeDialog()
-    navigate('/login')
-  }
-
   const onSubmit = async (data: ForgotPasswordData) => {
     try {
       await resetPassword(data.email)
@@ -34,10 +29,16 @@ export const ForgotPasswordForm = () => {
         title: 'Check your email',
         description: 'We’ve sent you a link to reset your password.',
         content: (
-          <Button variant='secondary' onClick={handleBackToLogin}>
-            Continue to login
-            <GradientHighlight />
-          </Button>
+          <div className="grid grid-cols-2 gap-2">
+            <Button variant='secondary' onClick={() => closeDialog(false)}>
+              Fix email
+              <GradientHighlight />
+            </Button>
+            <Button variant='secondary' onClick={() => closeDialog(true)}>
+              Back to login
+              <GradientHighlight />
+            </Button>
+          </div>
         ),
         onClose: () => navigate('/login'),
       })

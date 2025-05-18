@@ -1,5 +1,11 @@
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { createContext, useContext, useState } from 'react'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 
 type DialogProps = {
   title: string
@@ -10,27 +16,37 @@ type DialogProps = {
 
 type DialogContextType = {
   openDialog: (data: DialogProps) => void
-  closeDialog: () => void
+  closeDialog: (triggerOnClose?: boolean) => void
 }
 
 const DialogContext = createContext<DialogContextType | undefined>(undefined)
 
 export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
   const [dialog, setDialog] = useState<DialogProps | null>(null)
+  const triggerOnCloseRef = useRef(false)
+  const lastDialogRef = useRef<DialogProps | null>(null)
 
   const openDialog = (data: DialogProps) => {
     setDialog(data)
+    lastDialogRef.current = data
   }
 
-  const closeDialog = () => {
-    if (dialog?.onClose) dialog.onClose()
+  const closeDialog = (triggerOnClose: boolean = true) => {
+    triggerOnCloseRef.current = triggerOnClose
     setDialog(null)
   }
+
+  useEffect(() => {
+    if (!dialog && triggerOnCloseRef.current) {
+      triggerOnCloseRef.current = false
+      lastDialogRef.current?.onClose?.()
+    }
+  }, [dialog])
 
   return (
     <DialogContext.Provider value={{ openDialog, closeDialog }}>
       {children}
-      <Dialog open={!!dialog} onOpenChange={(open) => !open && closeDialog()}>
+      <Dialog open={!!dialog} onOpenChange={(open) => !open && closeDialog(true)}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle className='text-center'>{dialog?.title}</DialogTitle>

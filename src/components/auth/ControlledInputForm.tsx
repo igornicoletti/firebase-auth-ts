@@ -27,7 +27,11 @@ export const ControlledInputForm = <T extends FieldValues>(
         <FormItem>
           <FormControl>
             <div className='relative'>
-              <Input {...field} type={inputType} placeholder={placeholder} />
+              <Input
+                {...field}
+                type={inputType}
+                autoComplete='on'
+                placeholder={placeholder} />
               {isPassword && (
                 <Button
                   size='icon'

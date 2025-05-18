@@ -8,12 +8,12 @@ import { RouterProvider } from 'react-router-dom'
 export const App = () => {
   return (
     <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
-      <DialogProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <DialogProvider>
           <RouterProvider router={router} />
           <Toaster />
-        </AuthProvider>
-      </DialogProvider>
+        </DialogProvider>
+      </AuthProvider>
     </ThemeProvider>
   )
 }

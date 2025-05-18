@@ -2,7 +2,7 @@ import { ControlledInputForm } from '@/components/auth'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
-import { authToast } from '@/utils/auth'
+import { authToast } from '@/features/auth'
 import { registerSchema, type RegisterFormData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
@@ -16,12 +16,12 @@ export const RegisterForm = () => {
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { email: '', password: '', confirmPassword: '' }
+    defaultValues: { email: '', password: '', confirmPassword: '', username: '' }
   })
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      await signUp(data.email, data.password)
+      await signUp(data.email, data.password, data.username)
       authToast('auth/register-success', 'success')
       navigate('/login')
     } catch (err) {
@@ -33,6 +33,11 @@ export const RegisterForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-4'>
+        <ControlledInputForm
+          name='username'
+          type='text'
+          control={form.control}
+          placeholder='Username (optional)' />
         <ControlledInputForm
           name='email'
           type='email'

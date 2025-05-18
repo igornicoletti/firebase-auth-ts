@@ -1,5 +1,5 @@
 import { AnchorData, HeroData, ResetPasswordForm } from '@/components/auth'
-import { authConfig } from '@/utils/auth'
+import { authConfig } from '@/features/auth'
 
 export const ResetPasswordPage = () => {
   const { hero, anchor } = authConfig.resetPassword

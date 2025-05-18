@@ -1,5 +1,5 @@
 import { AnchorData, HeroData, LoginForm, SocialProvider } from '@/components/auth'
-import { authConfig } from '@/utils/auth'
+import { authConfig } from '@/features/auth'
 
 export const LoginPage = () => {
   const { hero, anchor } = authConfig.login

@@ -1,12 +1,12 @@
 import { auth } from '@/services/firebase'
-import { GoogleAuthProvider, type User, type UserCredential, confirmPasswordReset, createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
+import { GoogleAuthProvider, type User, type UserCredential, confirmPasswordReset, createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 type AuthContextType = {
   currentUser: User | null
   logout: () => Promise<void>
-  signUp: (email: string, password: string) => Promise<UserCredential>
   signIn: (email: string, password: string) => Promise<UserCredential>
+  signUp: (email: string, password: string, username?: string) => Promise<UserCredential>
   signInWithGoogle: () => Promise<UserCredential>
   resetPassword: (email: string) => Promise<void>
   confirmResetPassword: (oobCode: string, password: string) => Promise<void>
@@ -27,8 +27,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return unsubscribe
   }, [])
 
-  const signUp = (email: string, password: string) => {
-    return createUserWithEmailAndPassword(auth, email, password)
+  const signUp = async (email: string, password: string, username?: string) => {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+
+    if (username) {
+      await updateProfile(userCredential.user, { displayName: username })
+    }
+
+    return userCredential
   }
 
   const signIn = (email: string, password: string) => {
