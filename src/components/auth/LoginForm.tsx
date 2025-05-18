@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 export const LoginForm = () => {
-  const { signIn } = useAuth()
+  const { signInWithEmailPassword } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -24,7 +24,7 @@ export const LoginForm = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      await signIn(data.email, data.password)
+      await signInWithEmailPassword(data.email, data.password)
       authToast('auth/login-success', 'success')
       navigate(from, { replace: true })
     } catch (err) {

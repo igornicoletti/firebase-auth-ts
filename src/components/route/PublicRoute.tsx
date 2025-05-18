@@ -4,8 +4,9 @@ import { Navigate, Outlet } from 'react-router-dom'
 export const PublicRoute = () => {
   const { currentUser } = useAuth()
 
-  if (currentUser?.emailVerified) return <Navigate to="/dashboard" replace />
-  if (currentUser && !currentUser.emailVerified) return <Navigate to="/verify-email" replace />
+  if (currentUser?.emailVerified) {
+    return <Navigate to="/dashboard" replace />
+  }
 
   return <Outlet />
 }

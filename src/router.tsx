@@ -14,7 +14,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to='/dashboard' replace />,
+    element: <Navigate to="/dashboard" replace />,
     errorElement: <ErrorBoundaryPage />,
   },
   {

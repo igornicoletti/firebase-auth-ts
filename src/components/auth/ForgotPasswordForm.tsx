@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom'
 export const ForgotPasswordForm = () => {
   const navigate = useNavigate()
   const { openDialog } = useDialog()
-  const { resetPassword } = useAuth()
+  const { sendPasswordReset } = useAuth()
 
   const form = useForm<ForgotPasswordData>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -23,7 +23,7 @@ export const ForgotPasswordForm = () => {
 
   const onSubmit = async (data: ForgotPasswordData) => {
     try {
-      await resetPassword(data.email)
+      await sendPasswordReset(data.email)
       openDialog({
         title: 'Check your email',
         description: 'We’ve sent you a link to reset your password.',

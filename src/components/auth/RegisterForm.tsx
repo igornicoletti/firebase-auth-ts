@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 export const RegisterForm = () => {
-  const { signUp } = useAuth()
+  const { signUpWithEmailPassword } = useAuth()
   const navigate = useNavigate()
   const { openDialog } = useDialog()
 
@@ -28,7 +28,7 @@ export const RegisterForm = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      await signUp(data.email, data.password, data.username)
+      await signUpWithEmailPassword(data.email, data.password, data.username)
       authToast('auth/register-success', 'success')
       openDialog({
         title: 'Check your email',

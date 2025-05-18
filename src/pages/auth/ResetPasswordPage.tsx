@@ -2,7 +2,7 @@ import { AnchorData, HeroData, ResetPasswordForm } from '@/components/auth'
 import { authConfig } from '@/features/auth'
 
 export const ResetPasswordPage = () => {
-  const { hero, anchor } = authConfig.resetPassword
+  const { hero, anchor } = authConfig.sendPasswordReset
 
   return (
     <div className='grid gap-6'>

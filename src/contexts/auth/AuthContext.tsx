@@ -5,10 +5,10 @@ import { createContext, useContext, useEffect, useState } from 'react'
 type AuthContextType = {
   currentUser: User | null
   logout: () => Promise<void>
-  signIn: (email: string, password: string) => Promise<UserCredential>
-  signUp: (email: string, password: string, username?: string) => Promise<UserCredential>
+  signInWithEmailPassword: (email: string, password: string) => Promise<UserCredential>
+  signUpWithEmailPassword: (email: string, password: string, username?: string) => Promise<UserCredential>
   signInWithGoogle: () => Promise<UserCredential>
-  resetPassword: (email: string) => Promise<void>
+  sendPasswordReset: (email: string) => Promise<void>
   confirmResetPassword: (oobCode: string, password: string) => Promise<void>
 }
 
@@ -23,36 +23,36 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setCurrentUser(user)
       setLoading(false)
     })
-
     return unsubscribe
   }, [])
 
-  const signUp = async (email: string, password: string, username?: string) => {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-
-    if (username) {
-      await updateProfile(userCredential.user, { displayName: username })
-    }
-
-    await sendEmailVerification(userCredential.user)
-
+  const signInWithEmailPassword = async (email: string, password: string) => {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password)
+    await userCredential.user.reload()
     return userCredential
   }
 
-  const signIn = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password)
+  const signUpWithEmailPassword = async (email: string, password: string, username?: string) => {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+    if (username) {
+      await updateProfile(userCredential.user, { displayName: username })
+    }
+    await sendEmailVerification(userCredential.user)
+    return userCredential
   }
 
-  const signInWithGoogle = () => {
+  const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider()
-    return signInWithPopup(auth, provider)
+    const userCredential = await signInWithPopup(auth, provider)
+    await userCredential.user.reload()
+    return userCredential
   }
 
   const logout = () => {
     return signOut(auth)
   }
 
-  const resetPassword = (email: string) => {
+  const sendPasswordReset = (email: string) => {
     return sendPasswordResetEmail(auth, email, {
       url: `${import.meta.env.VITE_APP_ORIGIN}/reset-password`,
       handleCodeInApp: true,
@@ -63,7 +63,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return confirmPasswordReset(auth, oobCode, password)
   }
 
-  const value = { currentUser, signUp, signIn, signInWithGoogle, logout, resetPassword, confirmResetPassword }
+  const value = {
+    currentUser,
+    logout,
+    signInWithEmailPassword,
+    signUpWithEmailPassword,
+    signInWithGoogle,
+    sendPasswordReset,
+    confirmResetPassword
+  }
 
   return (
     <AuthContext.Provider value={value}>

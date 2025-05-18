@@ -32,7 +32,7 @@ export const authConfig = {
       pathname: '/login',
     },
   },
-  resetPassword: {
+  sendPasswordReset: {
     hero: {
       title: 'Reset password',
       description: 'Set a new password for your account',

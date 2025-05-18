@@ -5,8 +5,15 @@ export const ProtectedRoute = () => {
   const location = useLocation()
   const { currentUser } = useAuth()
 
-  if (!currentUser) return <Navigate to='/login' replace state={{ from: location }} />
-  if (!currentUser.emailVerified) return <Navigate to='/verify-email' replace />
+  if (!currentUser) {
+    return <Navigate to="/login" replace state={{ from: location }} />
+  }
+
+  const isVerifyEmailPage = location.pathname === '/verify-email'
+
+  if (!currentUser.emailVerified && !isVerifyEmailPage) {
+    return <Navigate to="/verify-email" replace />
+  }
 
   return <Outlet />
 }
