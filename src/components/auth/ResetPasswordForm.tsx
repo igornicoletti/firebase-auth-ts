@@ -2,17 +2,16 @@ import { ControlledInputForm } from '@/components/auth'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
-import { authToast } from '@/features/auth'
+import { authErrorToast } from '@/features/auth'
 import { resetPasswordSchema, type ResetPasswordData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
-import { FirebaseError } from 'firebase/app'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 export const ResetPasswordForm = () => {
   const navigate = useNavigate()
-  const { confirmResetPassword } = useAuth()
+  const { confirmNewPassword } = useAuth()
   const [searchParams] = useSearchParams()
 
   const oobCode = searchParams.get('oobCode')
@@ -23,20 +22,16 @@ export const ResetPasswordForm = () => {
   })
 
   const onSubmit = async (data: ResetPasswordData) => {
-    if (!oobCode) {
-      authToast('auth/missing-oob-code', 'error')
-      return
-    }
+    if (!oobCode) return
 
     try {
-      await confirmResetPassword(oobCode, data.password)
-      authToast('auth/reset-password-success', 'success')
+      await confirmNewPassword(oobCode, data.password)
       navigate('/login')
-    } catch (err) {
-      const code = err instanceof FirebaseError ? err.code : 'unknown'
-      authToast(code, 'error')
+    } catch (error) {
+      authErrorToast(error)
     }
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-4'>

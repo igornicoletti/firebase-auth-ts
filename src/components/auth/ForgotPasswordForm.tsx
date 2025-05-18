@@ -3,11 +3,10 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
 import { useDialog } from '@/contexts/dialog'
-import { authToast } from '@/features/auth'
+import { authErrorToast } from '@/features/auth'
 import { forgotPasswordSchema, type ForgotPasswordData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
-import { FirebaseError } from 'firebase/app'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
@@ -25,13 +24,12 @@ export const ForgotPasswordForm = () => {
     try {
       await sendPasswordReset(data.email)
       openDialog({
-        title: 'Check your email',
-        description: 'We’ve sent you a link to reset your password.',
+        title: 'Password reset email sent',
+        description: `We've sent a password reset link to ${data.email}. Please check your inbox (and spam folder) to proceed.`,
         onClose: () => navigate('/login'),
       })
-    } catch (err) {
-      const code = err instanceof FirebaseError ? err.code : 'unknown'
-      authToast(code, 'error')
+    } catch (error) {
+      authErrorToast(error)
     }
   }
 

@@ -1,8 +1,6 @@
 import { ThemeToggle } from '@/components/theme'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/auth'
-import { authToast } from '@/features/auth'
-import { FirebaseError } from 'firebase/app'
 import { useNavigate } from 'react-router-dom'
 
 export const DashboardPage = () => {
@@ -12,11 +10,9 @@ export const DashboardPage = () => {
   const handleLogout = async () => {
     try {
       await logout()
-      authToast('auth/logout-success', 'success')
       navigate('/login')
     } catch (err) {
-      const code = err instanceof FirebaseError ? err.code : 'unknown'
-      authToast(code, 'error')
+      console.log(err)
     }
   }
 

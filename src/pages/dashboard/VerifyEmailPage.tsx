@@ -2,8 +2,7 @@ import { HeroData } from '@/components/auth'
 import { GradientHighlight } from '@/components/custom'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/auth'
-import { authConfig, authToast } from '@/features/auth'
-import { FirebaseError } from 'firebase/app'
+import { authConfig } from '@/features/auth'
 import { sendEmailVerification } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,10 +15,8 @@ export const VerifyEmailPage = () => {
     if (currentUser) {
       try {
         await sendEmailVerification(currentUser)
-        authToast('auth/verify-email', 'success')
       } catch (err) {
-        const code = err instanceof FirebaseError ? err.code : 'unknown'
-        authToast(code, 'error')
+        console.log(err)
       }
     }
   }
@@ -27,11 +24,9 @@ export const VerifyEmailPage = () => {
   const handleLogout = async () => {
     try {
       await logout()
-      authToast('auth/logout-success', 'success')
       navigate('/login')
     } catch (err) {
-      const code = err instanceof FirebaseError ? err.code : 'unknown'
-      authToast(code, 'error')
+      console.log(err)
     }
   }
 

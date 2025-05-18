@@ -15,7 +15,6 @@ type ControlledInputProps<T extends FieldValues> = {
 export const ControlledInputForm = <T extends FieldValues>(
   { control, name, type, placeholder }: ControlledInputProps<T>) => {
   const [visible, setVisible] = useState<boolean>(false)
-
   const isPassword = type === 'password'
   const inputType = isPassword && visible ? 'text' : type
 

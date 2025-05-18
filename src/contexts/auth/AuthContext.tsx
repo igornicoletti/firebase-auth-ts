@@ -1,86 +1,68 @@
 import { auth } from '@/services/firebase'
-import { GoogleAuthProvider, type User, type UserCredential, confirmPasswordReset, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth'
-import { createContext, useContext, useEffect, useState } from 'react'
+import {
+  confirmPasswordReset,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  updateProfile,
+  type Auth,
+  type User,
+} from 'firebase/auth'
+import { createContext, useContext } from 'react'
 
-type AuthContextType = {
+interface AuthContextType {
+  auth: Auth
   currentUser: User | null
-  logout: () => Promise<void>
-  signInWithEmailPassword: (email: string, password: string) => Promise<UserCredential>
-  signUpWithEmailPassword: (email: string, password: string, username?: string) => Promise<UserCredential>
-  signInWithGoogle: () => Promise<UserCredential>
+  signInWithEmailPassword: (email: string, password: string) => Promise<void>
+  signUpWithEmailPassword: (email: string, password: string, username?: string) => Promise<void>
+  signInWithGoogle: () => Promise<void>
   sendPasswordReset: (email: string) => Promise<void>
-  confirmResetPassword: (oobCode: string, password: string) => Promise<void>
+  confirmNewPassword: (oobCode: string, newPassword: string) => Promise<void>
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const AuthContext = createContext<AuthContextType | null>(null)
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        await user.reload()
-        setCurrentUser(auth.currentUser)
-      } else {
-        setCurrentUser(null)
-      }
-      setLoading(false)
-    })
-    return unsubscribe
-  }, [])
+  const currentUser = auth.currentUser
 
   const signInWithEmailPassword = async (email: string, password: string) => {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password)
-    await userCredential.user.reload()
-    return userCredential
+    await signInWithEmailAndPassword(auth, email, password)
   }
 
   const signUpWithEmailPassword = async (email: string, password: string, username?: string) => {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-    if (username) {
-      await updateProfile(userCredential.user, { displayName: username })
+    const { user } = await createUserWithEmailAndPassword(auth, email, password)
+    if (user && username) {
+      await updateProfile(user, { displayName: username })
     }
-    await sendEmailVerification(userCredential.user)
-    return userCredential
   }
 
   const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider()
-    const userCredential = await signInWithPopup(auth, provider)
-    await userCredential.user.reload()
-    return userCredential
+    await signInWithPopup(auth, provider)
   }
 
-  const logout = () => {
-    return signOut(auth)
+  const sendPasswordReset = async (email: string) => {
+    await sendPasswordResetEmail(auth, email)
   }
 
-  const sendPasswordReset = (email: string) => {
-    return sendPasswordResetEmail(auth, email, {
-      url: `${import.meta.env.VITE_APP_ORIGIN}/reset-password`,
-      handleCodeInApp: true,
-    })
-  }
-
-  const confirmResetPassword = (oobCode: string, password: string) => {
-    return confirmPasswordReset(auth, oobCode, password)
-  }
-
-  const value = {
-    currentUser,
-    logout,
-    signInWithEmailPassword,
-    signUpWithEmailPassword,
-    signInWithGoogle,
-    sendPasswordReset,
-    confirmResetPassword
+  const confirmNewPassword = async (oobCode: string, newPassword: string) => {
+    await confirmPasswordReset(auth, oobCode, newPassword)
   }
 
   return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
+    <AuthContext.Provider
+      value={{
+        auth,
+        currentUser,
+        sendPasswordReset,
+        confirmNewPassword,
+        signInWithEmailPassword,
+        signUpWithEmailPassword,
+        signInWithGoogle,
+      }}>
+      {children}
     </AuthContext.Provider>
   )
 }

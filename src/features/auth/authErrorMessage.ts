@@ -1,0 +1,15 @@
+export const authErrorMessage = {
+  'auth/invalid-email': { message: 'Invalid email address.' },
+  'auth/wrong-password': { message: 'Incorrect password.' },
+  'auth/user-not-found': { message: 'User not found.' },
+  'auth/email-already-in-use': { message: 'Email already in use.' },
+  'auth/weak-password': { message: 'Password is too weak.' },
+  'auth/too-many-requests': { message: 'Too many requests. Try again later.' },
+  'auth/network-request-failed': { message: 'Network error. Check your connection.' },
+  'auth/popup-closed-by-user': { message: 'Popup closed before completing sign in.' },
+  'auth/cancelled-popup-request': { message: 'Only one popup request allowed at a time.' },
+  'auth/internal-error': { message: 'An internal error occurred. Please try again.' },
+  'auth/invalid-credential': { message: 'Invalid credentials.' },
+  'auth/operation-not-allowed': { message: 'This operation is not allowed.' },
+  'auth/user-disabled': { message: 'This user has been disabled.' },
+} as const

@@ -3,18 +3,17 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
 import { useDialog } from '@/contexts/dialog'
-import { authToast } from '@/features/auth'
+import { authErrorToast } from '@/features/auth'
 import { registerSchema, type RegisterFormData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
-import { FirebaseError } from 'firebase/app'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 export const RegisterForm = () => {
-  const { signUpWithEmailPassword } = useAuth()
   const navigate = useNavigate()
   const { openDialog } = useDialog()
+  const { signUpWithEmailPassword } = useAuth()
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -29,15 +28,13 @@ export const RegisterForm = () => {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       await signUpWithEmailPassword(data.email, data.password, data.username)
-      authToast('auth/register-success', 'success')
       openDialog({
         title: 'Check your email',
-        description: 'We’ve sent you a verification link. Please confirm your email before signing in.',
+        description: `A verification link has been sent to ${data.email}. Please check your inbox and confirm your email to complete your registration.`,
         onClose: () => navigate('/login'),
       })
-    } catch (err) {
-      const code = err instanceof FirebaseError ? err.code : 'unknown'
-      authToast(code, 'error')
+    } catch (error) {
+      authErrorToast(error)
     }
   }
 
