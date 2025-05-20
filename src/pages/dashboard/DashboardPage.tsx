@@ -11,7 +11,6 @@ export const DashboardPage = () => {
       </div>
       <div className='grid gap-4'>
         <p>Welcome {currentUser?.displayName || currentUser?.email}!</p>
-
       </div>
     </div>
   )

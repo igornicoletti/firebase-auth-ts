@@ -4,7 +4,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 export const PublicRoute = () => {
   const { currentUser } = useAuth()
 
-  if (currentUser?.emailVerified) {
+  if (currentUser) {
     return <Navigate to="/dashboard" replace />
   }
 

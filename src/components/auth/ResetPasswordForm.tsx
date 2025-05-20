@@ -2,7 +2,7 @@ import { ControlledInputForm } from '@/components/auth'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
-import { authErrorToast } from '@/features/auth'
+import { authToast } from '@/features/auth'
 import { resetPasswordSchema, type ResetPasswordData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
@@ -22,13 +22,18 @@ export const ResetPasswordForm = () => {
   })
 
   const onSubmit = async (data: ResetPasswordData) => {
-    if (!oobCode) return
+    if (!oobCode) {
+      authToast('auth/invalid-action-code')
+      navigate('/forgot-password')
+      return
+    }
 
     try {
       await confirmNewPassword(oobCode, data.password)
+      authToast('auth/password-reset-success')
       navigate('/login')
     } catch (error) {
-      authErrorToast(error)
+      authToast(error)
     }
   }
 

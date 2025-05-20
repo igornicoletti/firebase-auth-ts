@@ -2,7 +2,7 @@ import { ControlledInputForm } from '@/components/auth'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
-import { authErrorToast } from '@/features/auth'
+import { authToast } from '@/features/auth'
 import { loginSchema, type LoginFormData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
@@ -23,7 +23,7 @@ export const LoginForm = () => {
       await signInWithEmailPassword(data.email, data.password)
       navigate('/dashboard', { replace: true })
     } catch (error) {
-      authErrorToast(error)
+      authToast(error)
     }
   }
 

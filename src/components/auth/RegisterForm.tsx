@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
 import { useDialog } from '@/contexts/dialog'
-import { authErrorToast } from '@/features/auth'
+import { authToast } from '@/features/auth'
 import { registerSchema, type RegisterFormData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
@@ -34,7 +34,7 @@ export const RegisterForm = () => {
         onClose: () => navigate('/login'),
       })
     } catch (error) {
-      authErrorToast(error)
+      authToast(error)
     }
   }
 
