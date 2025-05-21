@@ -8,10 +8,8 @@ import { registerSchema, type RegisterFormData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 
 export const RegisterForm = () => {
-  const navigate = useNavigate()
   const { openDialog } = useDialog()
   const { signUpWithEmailPassword } = useAuth()
 
@@ -31,7 +29,6 @@ export const RegisterForm = () => {
       openDialog({
         title: 'Check your email',
         description: `A verification link has been sent to ${data.email}. Please check your inbox and confirm your email to complete your registration.`,
-        onClose: () => navigate('/login'),
       })
     } catch (error) {
       authToast(error)

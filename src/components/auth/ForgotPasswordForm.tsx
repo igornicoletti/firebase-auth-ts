@@ -8,10 +8,8 @@ import { forgotPasswordSchema, type ForgotPasswordData } from '@/validations/aut
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 
 export const ForgotPasswordForm = () => {
-  const navigate = useNavigate()
   const { openDialog } = useDialog()
   const { sendPasswordReset } = useAuth()
 
@@ -26,7 +24,6 @@ export const ForgotPasswordForm = () => {
       openDialog({
         title: 'Password reset email sent',
         description: `We've sent a password reset link to ${data.email}. Please check your inbox (and spam folder) to proceed.`,
-        onClose: () => navigate('/login'),
       })
     } catch (error) {
       authToast(error)

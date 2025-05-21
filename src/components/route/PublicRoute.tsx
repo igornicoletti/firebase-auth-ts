@@ -1,11 +1,23 @@
 import { useAuth } from '@/contexts/auth'
-import { Navigate, Outlet } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 export const PublicRoute = () => {
-  const { currentUser } = useAuth()
+  const { isAuthenticated, isEmailVerified, isLoading } = useAuth()
+  const navigate = useNavigate()
 
-  if (currentUser) {
-    return <Navigate to="/dashboard" replace />
+  useEffect(() => {
+    if (!isLoading && isAuthenticated && isEmailVerified) {
+      navigate('/dashboard')
+    } else if (!isLoading && isAuthenticated && !isEmailVerified) {
+      navigate('/login')
+    } else if (!isLoading && isAuthenticated) {
+      navigate('/dashboard')
+    }
+  }, [isLoading, isAuthenticated, isEmailVerified, navigate])
+
+  if (isLoading) {
+    return <div>Loading...</div>
   }
 
   return <Outlet />

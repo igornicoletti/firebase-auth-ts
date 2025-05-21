@@ -18,20 +18,19 @@ export const ResetPasswordForm = () => {
 
   const form = useForm<ResetPasswordData>({
     resolver: zodResolver(resetPasswordSchema),
-    defaultValues: { password: '', confirmPassword: '' }
+    defaultValues: { password: '', confirmPassword: '' },
+    mode: 'onSubmit',
   })
 
   const onSubmit = async (data: ResetPasswordData) => {
     if (!oobCode) {
       authToast('auth/invalid-action-code')
-      navigate('/forgot-password')
       return
     }
 
     try {
       await confirmNewPassword(oobCode, data.password)
-      authToast('auth/password-reset-success')
-      navigate('/login')
+      navigate('/login', { replace: true })
     } catch (error) {
       authToast(error)
     }
@@ -44,12 +43,14 @@ export const ResetPasswordForm = () => {
           name='password'
           type='password'
           control={form.control}
-          placeholder='New password' />
+          placeholder='New password'
+        />
         <ControlledInputForm
           name='confirmPassword'
           type='password'
           control={form.control}
-          placeholder='Confirm password' />
+          placeholder='Confirm password'
+        />
         <Button type='submit' disabled={form.formState.isSubmitting}>
           {!form.formState.isSubmitting ? 'Continue' : <SpinnerGap weight='bold' className='animate-spin' />}
         </Button>

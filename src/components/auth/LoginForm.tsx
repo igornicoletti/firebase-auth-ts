@@ -10,8 +10,8 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 
 export const LoginForm = () => {
-  const { signInWithEmailPassword } = useAuth()
   const navigate = useNavigate()
+  const { signInWithEmailPassword } = useAuth()
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),

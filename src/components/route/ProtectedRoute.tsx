@@ -1,12 +1,37 @@
 import { useAuth } from '@/contexts/auth'
-import { Navigate, Outlet } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
 
-export const ProtectedRoute = () => {
-  const { currentUser } = useAuth()
+type ProtectedRouteProps = {
+  requireAuth?: boolean
+  requireVerification?: boolean
+}
 
-  if (!currentUser) {
-    return <Navigate to="/login" replace />
+export const ProtectedRoute = ({ requireAuth = true, requireVerification }: ProtectedRouteProps) => {
+  const navigate = useNavigate()
+  const { isAuthenticated, isEmailVerified, isLoading } = useAuth()
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (requireAuth && !isAuthenticated) {
+        navigate('/login')
+      } else if (requireAuth && requireVerification && !isEmailVerified) {
+        navigate('/verify-email')
+      }
+    }
+  }, [isLoading, isAuthenticated, isEmailVerified, navigate, requireAuth, requireVerification])
+
+  if (isLoading) {
+    return <div>Loading...</div>
   }
 
-  return <Outlet />
+  if (
+    (!requireAuth) ||
+    (requireAuth && isAuthenticated && !requireVerification) ||
+    (requireAuth && isAuthenticated && requireVerification && isEmailVerified)
+  ) {
+    return <Outlet />
+  }
+
+  return <div>Redirecting...</div>
 }

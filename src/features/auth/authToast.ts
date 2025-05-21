@@ -2,15 +2,19 @@ import { authMessage } from '@/features/auth'
 import { FirebaseError } from 'firebase/app'
 import { toast } from 'sonner'
 
-const getErrorMessageCode = (code: string) => {
-  const fallback = {
+type AuthErrorMessage = { title: string; message: string }
+
+const getErrorMessageCode = (code: string): AuthErrorMessage => {
+  const fallback: AuthErrorMessage = {
     title: 'Authentication Error',
-    message: 'An unexpected error occurred. Please try again.'
+    message: 'An unexpected error occurred. Please try again.',
   }
 
-  if (code in authMessage) {
-    const { title, message } = authMessage[code as keyof typeof authMessage]
-    return { title, message }
+  if (code && code in authMessage) {
+    const entry = authMessage[code as keyof typeof authMessage]
+    if (entry?.title && entry?.message) {
+      return { title: entry.title, message: entry.message }
+    }
   }
 
   return fallback
@@ -19,15 +23,21 @@ const getErrorMessageCode = (code: string) => {
 export const authToast = (error: unknown | string) => {
   if (typeof error === 'string') {
     const { title, message } = getErrorMessageCode(error)
-    return toast.error(title, { description: message })
+    return toast(title, { description: message })
   }
 
   if (error instanceof FirebaseError) {
     const { title, message } = getErrorMessageCode(error.code)
-    return toast.error(title, { description: message })
+    return toast(title, { description: message })
   }
 
-  return toast.error('Unexpected Error', {
-    description: 'Something went wrong. Please try again.'
+  if (error instanceof Error) {
+    return toast(error.message || 'Unexpected Error', {
+      description: 'Something went wrong. Please try again.',
+    })
+  }
+
+  return toast('Unexpected Error', {
+    description: 'Something went wrong. Please try again.',
   })
 }

@@ -59,8 +59,4 @@ export const authMessage = {
     title: 'Invalid Link',
     message: 'The link is invalid or has already been used.',
   },
-  'auth/password-reset-success': {
-    title: 'Password Updated',
-    message: 'Your password has been successfully changed. You can now log in.',
-  },
 } as const
