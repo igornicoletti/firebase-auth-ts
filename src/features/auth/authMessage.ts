@@ -1,62 +1,107 @@
-export const authMessage = {
+export type MessageType = 'error' | 'success'
+
+export type Message = {
+  title: string
+  message: string
+}
+
+const errorMessages = {
+  'auth/email-already-in-use': {
+    title: 'Email Already In Use',
+    message: 'This email address is already in use.',
+  },
   'auth/invalid-email': {
     title: 'Invalid Email',
-    message: 'Please provide a valid email address.',
-  },
-  'auth/wrong-password': {
-    title: 'Wrong Password',
-    message: 'The password you entered is incorrect.',
+    message: 'The email address is not valid.',
   },
   'auth/user-not-found': {
     title: 'User Not Found',
-    message: 'There’s no account associated with this email.',
+    message: 'No user found with this email.',
   },
-  'auth/email-already-in-use': {
-    title: 'Email In Use',
-    message: 'This email is already linked to another account.',
+  'auth/wrong-password': {
+    title: 'Wrong Password',
+    message: 'Incorrect password. Please try again.',
   },
   'auth/weak-password': {
     title: 'Weak Password',
-    message: 'Your password must be stronger.',
+    message: 'The password is too weak.',
   },
   'auth/too-many-requests': {
-    title: 'Too Many Attempts',
-    message: 'You’ve tried too many times.',
-  },
-  'auth/network-request-failed': {
-    title: 'Network Error',
-    message: 'Unable to connect. Check your internet connection.',
-  },
-  'auth/popup-closed-by-user': {
-    title: 'Popup Closed',
-    message: 'The sign-in popup was closed before completing the process.',
-  },
-  'auth/cancelled-popup-request': {
-    title: 'Popup Cancelled',
-    message: 'You already have a sign-in popup open.',
-  },
-  'auth/internal-error': {
-    title: 'Internal Error',
-    message: 'Something went wrong on our side.',
-  },
-  'auth/invalid-credential': {
-    title: 'Invalid Credentials',
-    message: 'The credentials provided are not valid.',
-  },
-  'auth/operation-not-allowed': {
-    title: 'Operation Blocked',
-    message: 'This operation has been disabled.',
+    title: 'Too Many Requests',
+    message: 'Too many unsuccessful login attempts. Please try again later.',
   },
   'auth/user-disabled': {
     title: 'User Disabled',
-    message: 'This account has been disabled and can’t be accessed.',
+    message: 'This user account has been disabled.',
   },
   'auth/expired-action-code': {
-    title: 'Expired Link',
-    message: 'This link has expired. Please request a new password reset.',
+    title: 'Expired Code',
+    message: 'The action code has expired.',
   },
   'auth/invalid-action-code': {
-    title: 'Invalid Link',
-    message: 'The link is invalid or has already been used.',
+    title: 'Invalid Code',
+    message: 'The action code is invalid.',
+  },
+  'auth/operation-not-allowed': {
+    title: 'Operation Not Allowed',
+    message: 'This operation is not allowed.',
+  },
+  'auth/invalid-credential': {
+    title: 'Invalid Credential',
+    message: 'The credential used is invalid. Please try again.',
+  },
+  'auth/email-not-verified': {
+    title: 'Email Not Verified',
+    message: 'Your email address is not verified. Please verify before logging in.',
   },
 } as const
+
+const successMessages = {
+  'auth/email-verified': {
+    title: 'Email Verified',
+    message: 'Your email has been successfully verified.',
+  },
+  'auth/password-reset-success': {
+    title: 'Password Reset',
+    message: 'Your password has been reset successfully.',
+  },
+  'auth/login-success': {
+    title: 'Login Successful',
+    message: 'You have logged in successfully.',
+  },
+  'auth/register-success': {
+    title: 'Registration Successful',
+    message: 'Your account has been created successfully.',
+  },
+} as const
+
+type ErrorCode = keyof typeof errorMessages
+type SuccessCode = keyof typeof successMessages
+
+const isErrorCode = (code: string): code is ErrorCode => code in errorMessages
+const isSuccessCode = (code: string): code is SuccessCode => code in successMessages
+
+export const getMessage = (code: string, type: MessageType): Message => {
+  if (type === 'error') {
+    return isErrorCode(code)
+      ? errorMessages[code]
+      : {
+        title: 'Authentication Error',
+        message: 'An unknown authentication error occurred.',
+      }
+  }
+
+  if (type === 'success') {
+    return isSuccessCode(code)
+      ? successMessages[code]
+      : {
+        title: 'Success',
+        message: 'Operation completed successfully.',
+      }
+  }
+
+  return {
+    title: 'Info',
+    message: 'Status unknown.',
+  }
+}

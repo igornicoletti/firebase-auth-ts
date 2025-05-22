@@ -3,8 +3,8 @@ import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 export const PublicRoute = () => {
-  const { isAuthenticated, isEmailVerified, isLoading } = useAuth()
   const navigate = useNavigate()
+  const { isAuthenticated, isEmailVerified, isLoading } = useAuth()
 
   useEffect(() => {
     if (!isLoading && isAuthenticated && isEmailVerified) {
@@ -15,10 +15,6 @@ export const PublicRoute = () => {
       navigate('/dashboard')
     }
   }, [isLoading, isAuthenticated, isEmailVerified, navigate])
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
 
   return <Outlet />
 }

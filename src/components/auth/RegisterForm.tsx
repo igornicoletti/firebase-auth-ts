@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
 import { useDialog } from '@/contexts/dialog'
-import { authToast } from '@/features/auth'
+import { useAuthToast } from '@/hooks/useAuthToast'
 import { registerSchema, type RegisterFormData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
@@ -11,16 +11,12 @@ import { useForm } from 'react-hook-form'
 
 export const RegisterForm = () => {
   const { openDialog } = useDialog()
+  const { toastError } = useAuthToast()
   const { signUpWithEmailPassword } = useAuth()
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-      confirmPassword: '',
-      username: ''
-    }
+    defaultValues: { email: '', password: '', confirmPassword: '', username: '' }
   })
 
   const onSubmit = async (data: RegisterFormData) => {
@@ -30,8 +26,9 @@ export const RegisterForm = () => {
         title: 'Check your email',
         description: `A verification link has been sent to ${data.email}. Please check your inbox and confirm your email to complete your registration.`,
       })
-    } catch (error) {
-      authToast(error)
+    } catch (error: unknown) {
+      toastError(error)
+      throw error
     }
   }
 

@@ -19,18 +19,12 @@ interface AuthContextType {
   isAuthenticated: boolean
   isEmailVerified: boolean
   logout: () => Promise<void>
-  signInWithGoogle: () => Promise<UserCredential | undefined>
+  signInWithGoogle: () => Promise<UserCredential>
   signInWithEmailPassword: (email: string, password: string) => Promise<UserCredential>
   signUpWithEmailPassword: (email: string, password: string, username?: string) => Promise<{ success: boolean; requiresVerification: boolean }>
   sendVerificationEmail: () => Promise<void>
   sendPasswordReset: (email: string) => Promise<void>
   confirmNewPassword: (oobCode: string, newPassword: string) => Promise<void>
-}
-
-const handleAuthError = (error: unknown): never => {
-  const code = (error as { code?: string })?.code ?? 'AUTH/UNKNOWN'
-  console.error('[Auth Error]', code)
-  throw { code }
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -47,90 +41,46 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => unsubscribe()
   }, [])
 
-  const logout = async () => {
-    try {
-      await auth.signOut()
-    } catch (error) {
-      handleAuthError(error)
-    }
+  const logout = () => auth.signOut()
+
+  const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider()
+    return signInWithPopup(auth, provider)
   }
 
-  const signInWithGoogle = async (): Promise<UserCredential | undefined> => {
-    try {
-      const provider = new GoogleAuthProvider()
-      console.log("Google Provider:", provider)
-      console.log("Auth Instance:", auth)
-      return await signInWithPopup(auth, provider)
-    } catch (error) {
-      handleAuthError(error)
-    }
-  }
-
-  const signInWithEmailPassword = async (email: string, password: string): Promise<UserCredential> => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password)
-
-      if (!userCredential.user.emailVerified) {
-        await logout()
-        throw new Error('EMAIL_NOT_VERIFIED')
-      }
-
-      return userCredential
-    } catch (error) {
-      handleAuthError(error)
+  const signInWithEmailPassword = async (email: string, password: string) => {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password)
+    if (!userCredential.user.emailVerified) {
+      await logout()
+      const error = new Error('auth/email-not-verified');
+      (error as any).code = 'auth/email-not-verified'
       throw error
     }
+    return userCredential
   }
 
-  const signUpWithEmailPassword = async (email: string, password: string, username?: string): Promise<{ success: boolean; requiresVerification: boolean }> => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-
-      await sendEmailVerification(userCredential.user)
-
-      if (username) {
-        await updateProfile(userCredential.user, { displayName: username })
-      }
-
-      await logout()
-
-      return { success: true, requiresVerification: true }
-    } catch (error) {
-      handleAuthError(error)
-      return { success: false, requiresVerification: false }
+  const signUpWithEmailPassword = async (email: string, password: string, username?: string) => {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+    await sendEmailVerification(userCredential.user)
+    if (username) {
+      await updateProfile(userCredential.user, { displayName: username })
     }
+    await logout()
+    return { success: true, requiresVerification: true }
   }
 
-  const sendVerificationEmail = async (): Promise<void> => {
-    try {
-      if (currentUser) {
-        await sendEmailVerification(currentUser)
-      } else {
-        throw new Error('No user is currently signed in')
-      }
-    } catch (error) {
-      handleAuthError(error)
-    }
+  const sendVerificationEmail = () => {
+    if (!currentUser) return Promise.reject(new Error('No user logged in'))
+    return sendEmailVerification(currentUser)
   }
 
-  const sendPasswordReset = async (email: string): Promise<void> => {
-    try {
-      await sendPasswordResetEmail(auth, email)
-    } catch (error) {
-      handleAuthError(error)
-    }
-  }
+  const sendPasswordReset = (email: string) => sendPasswordResetEmail(auth, email)
 
-  const confirmNewPassword = async (oobCode: string, newPassword: string): Promise<void> => {
-    try {
-      await confirmPasswordReset(auth, oobCode, newPassword)
-    } catch (error) {
-      handleAuthError(error)
-    }
-  }
+  const confirmNewPassword = (oobCode: string, newPassword: string) =>
+    confirmPasswordReset(auth, oobCode, newPassword)
 
-  const isAuthenticated = !!currentUser
-  const isEmailVerified = currentUser?.emailVerified || false
+  const isAuthenticated = Boolean(currentUser)
+  const isEmailVerified = currentUser?.emailVerified ?? false
 
   return (
     <AuthContext.Provider
@@ -146,8 +96,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         sendVerificationEmail,
         sendPasswordReset,
         confirmNewPassword,
-      }}
-    >
+      }}>
       {children}
     </AuthContext.Provider>
   )

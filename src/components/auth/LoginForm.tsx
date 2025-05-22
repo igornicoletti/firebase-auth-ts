@@ -2,16 +2,16 @@ import { ControlledInputForm } from '@/components/auth'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
-import { authToast } from '@/features/auth'
+import { useAuthToast } from '@/hooks/useAuthToast'
 import { loginSchema, type LoginFormData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export const LoginForm = () => {
-  const navigate = useNavigate()
   const { signInWithEmailPassword } = useAuth()
+  const { toastError, toastSuccess } = useAuthToast()
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -21,9 +21,10 @@ export const LoginForm = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       await signInWithEmailPassword(data.email, data.password)
-      navigate('/dashboard', { replace: true })
-    } catch (error) {
-      authToast(error)
+      toastSuccess('auth/login-success')
+    } catch (error: unknown) {
+      toastError(error)
+      throw error
     }
   }
 

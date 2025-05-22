@@ -2,16 +2,18 @@ import { ControlledInputForm } from '@/components/auth'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
-import { authToast } from '@/features/auth'
+import { useAuthToast } from '@/hooks/useAuthToast'
 import { resetPasswordSchema, type ResetPasswordData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
 import { useForm } from 'react-hook-form'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 
 export const ResetPasswordForm = () => {
   const navigate = useNavigate()
   const { confirmNewPassword } = useAuth()
+  const { toastError, toastSuccess } = useAuthToast()
+
   const [searchParams] = useSearchParams()
 
   const oobCode = searchParams.get('oobCode')
@@ -24,15 +26,16 @@ export const ResetPasswordForm = () => {
 
   const onSubmit = async (data: ResetPasswordData) => {
     if (!oobCode) {
-      authToast('auth/invalid-action-code')
-      return
+      return <Navigate to="/login" replace />
     }
 
     try {
       await confirmNewPassword(oobCode, data.password)
+      toastSuccess('auth/password-reset-success')
       navigate('/login', { replace: true })
-    } catch (error) {
-      authToast(error)
+    } catch (error: unknown) {
+      toastError(error)
+      throw error
     }
   }
 

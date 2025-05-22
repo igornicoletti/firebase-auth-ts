@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
 import { useDialog } from '@/contexts/dialog'
-import { authToast } from '@/features/auth'
+import { useAuthToast } from '@/hooks/useAuthToast'
 import { forgotPasswordSchema, type ForgotPasswordData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form'
 
 export const ForgotPasswordForm = () => {
   const { openDialog } = useDialog()
+  const { toastError } = useAuthToast()
   const { sendPasswordReset } = useAuth()
 
   const form = useForm<ForgotPasswordData>({
@@ -25,8 +26,9 @@ export const ForgotPasswordForm = () => {
         title: 'Password reset email sent',
         description: `We've sent a password reset link to ${data.email}. Please check your inbox (and spam folder) to proceed.`,
       })
-    } catch (error) {
-      authToast(error)
+    } catch (error: unknown) {
+      toastError(error)
+      throw error
     }
   }
 

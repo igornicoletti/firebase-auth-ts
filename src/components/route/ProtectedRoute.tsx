@@ -21,10 +21,6 @@ export const ProtectedRoute = ({ requireAuth = true, requireVerification }: Prot
     }
   }, [isLoading, isAuthenticated, isEmailVerified, navigate, requireAuth, requireVerification])
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
   if (
     (!requireAuth) ||
     (requireAuth && isAuthenticated && !requireVerification) ||
@@ -33,5 +29,5 @@ export const ProtectedRoute = ({ requireAuth = true, requireVerification }: Prot
     return <Outlet />
   }
 
-  return <div>Redirecting...</div>
+  return <Outlet />
 }
