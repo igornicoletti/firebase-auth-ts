@@ -6,7 +6,6 @@ import {
   LoginPage,
   RegisterPage,
   ResetPasswordPage,
-  VerifyEmailPage,
 } from '@/pages/auth'
 import { DashboardLayout, DashboardPage } from '@/pages/dashboard'
 import { ErrorBoundaryPage } from '@/pages/errorBoundary'
@@ -31,7 +30,6 @@ export const router = createBrowserRouter([
           { path: '/register', element: <RegisterPage /> },
           { path: '/forgot-password', element: <ForgotPasswordPage /> },
           { path: '/reset-password', element: <ResetPasswordPage /> },
-          { path: '/verify-email', element: <VerifyEmailPage /> },
         ],
       },
     ],

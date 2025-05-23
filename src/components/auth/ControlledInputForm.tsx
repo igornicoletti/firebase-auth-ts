@@ -38,6 +38,7 @@ export const ControlledInputForm = <T extends FieldValues>(
                   type='button'
                   variant='ghost'
                   onClick={() => setVisible((prev) => !prev)}
+                  aria-label={visible ? 'Hide password' : 'Show password'}
                   className='absolute top-0 right-0 text-muted-foreground hover:bg-transparent'>
                   {visible ? <EyeClosed /> : <Eye />}
                 </Button>
