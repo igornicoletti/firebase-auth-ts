@@ -3,15 +3,15 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
 import { useDialog } from '@/contexts/dialog'
-import { useAuthToast } from '@/hooks/useAuthToast'
+import { useToast } from '@/hooks/auth'
 import { forgotPasswordSchema, type ForgotPasswordData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
 import { useForm } from 'react-hook-form'
 
 export const ForgotPasswordForm = () => {
+  const { toastError } = useToast()
   const { openDialog } = useDialog()
-  const { toastError } = useAuthToast()
   const { sendPasswordReset } = useAuth()
 
   const form = useForm<ForgotPasswordData>({

@@ -2,7 +2,7 @@ import { ControlledInputForm } from '@/components/auth'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
-import { useAuthToast } from '@/hooks/useAuthToast'
+import { useToast } from '@/hooks/auth'
 import { registerSchema, type RegisterFormData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form'
 
 export const RegisterForm = () => {
   const { signUpWithEmailPassword } = useAuth()
-  const { toastError, toastSuccess } = useAuthToast()
+  const { toastError, toastSuccess } = useToast()
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),

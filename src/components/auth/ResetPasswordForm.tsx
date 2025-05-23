@@ -2,7 +2,7 @@ import { ControlledInputForm } from '@/components/auth'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
-import { useAuthToast } from '@/hooks/useAuthToast'
+import { useToast } from '@/hooks/auth'
 import { resetPasswordSchema, type ResetPasswordData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
@@ -12,7 +12,7 @@ import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 export const ResetPasswordForm = () => {
   const navigate = useNavigate()
   const { confirmNewPassword } = useAuth()
-  const { toastError, toastSuccess } = useAuthToast()
+  const { toastError, toastSuccess } = useToast()
 
   const [searchParams] = useSearchParams()
 

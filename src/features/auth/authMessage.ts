@@ -1,6 +1,6 @@
-export type MessageType = 'error' | 'success'
+type MessageType = 'error' | 'success'
 
-export type Message = {
+type Message = {
   title: string
   message: string
 }
@@ -55,6 +55,7 @@ const errorMessages = {
     message: 'Your email address is not verified. Please verify before logging in.',
   },
 } as const
+
 const successMessages = {
   'auth/email-verified': {
     title: 'Email Verified',

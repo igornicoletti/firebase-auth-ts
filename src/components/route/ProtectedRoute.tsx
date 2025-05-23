@@ -1,7 +1,7 @@
 import { useAuth } from '@/contexts/auth'
 import { useDialog } from '@/contexts/dialog'
 import { useEffect } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 interface ProtectedRouteProps {
   requireAuth?: boolean
@@ -10,6 +10,7 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute = ({ requireAuth = true, requireVerification = false }: ProtectedRouteProps) => {
   const navigate = useNavigate()
+  const location = useLocation()
   const { openDialog } = useDialog()
   const { isAuthenticated, isEmailVerified, isLoading } = useAuth()
 
@@ -19,12 +20,15 @@ export const ProtectedRoute = ({ requireAuth = true, requireVerification = false
     if (requireAuth && !isAuthenticated) {
       navigate('/login')
     } else if (requireAuth && requireVerification && !isEmailVerified) {
+      if (location.pathname !== '/login') {
+        navigate('/login')
+      }
       openDialog({
         title: 'Check your email',
-        description: `A verification link has been sent. Please check your inbox and confirm your email to complete your registration.`,
+        description: 'Please check your inbox and confirm your email to activate your account.',
       })
     }
-  }, [isLoading, isAuthenticated, isEmailVerified, requireAuth, requireVerification, navigate])
+  }, [isLoading, isAuthenticated, isEmailVerified, requireAuth, requireVerification, location.pathname, navigate])
 
   return <Outlet />
 }

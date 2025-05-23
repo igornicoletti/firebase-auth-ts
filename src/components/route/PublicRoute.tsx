@@ -1,10 +1,11 @@
 import { useAuth } from '@/contexts/auth'
 import { useDialog } from '@/contexts/dialog'
 import { useEffect } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 export const PublicRoute = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const { openDialog } = useDialog()
   const { isAuthenticated, isEmailVerified, isLoading } = useAuth()
 
@@ -13,14 +14,16 @@ export const PublicRoute = () => {
       if (isEmailVerified) {
         navigate('/dashboard')
       } else {
-        navigate('/login')
+        if (location.pathname !== '/login') {
+          navigate('/login')
+        }
         openDialog({
           title: 'Check your email',
-          description: `A verification link has been sent. Please check your inbox and confirm your email to complete your registration.`,
+          description: 'Please check your inbox and confirm your email to activate your account.',
         })
       }
     }
-  }, [isLoading, isAuthenticated, isEmailVerified, navigate])
+  }, [isLoading, isAuthenticated, isEmailVerified, location.pathname, navigate])
 
   return <Outlet />
 }

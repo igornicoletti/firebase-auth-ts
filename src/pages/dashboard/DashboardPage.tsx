@@ -1,12 +1,12 @@
 import { ThemeToggle } from '@/components/theme'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/auth'
-import { useAuthToast } from '@/hooks/useAuthToast'
+import { useToast } from '@/hooks/auth'
 import { useNavigate } from 'react-router-dom'
 
 export const DashboardPage = () => {
   const navigate = useNavigate()
-  const { toastSuccess } = useAuthToast()
+  const { toastSuccess } = useToast()
   const { currentUser, logout } = useAuth()
 
   const handleLogout = async () => {
