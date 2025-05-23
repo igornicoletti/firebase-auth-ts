@@ -1,14 +1,17 @@
 import { ThemeToggle } from '@/components/theme'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/auth'
+import { useAuthToast } from '@/hooks/useAuthToast'
 import { useNavigate } from 'react-router-dom'
 
 export const DashboardPage = () => {
-  const { currentUser, logout } = useAuth()
   const navigate = useNavigate()
+  const { toastSuccess } = useAuthToast()
+  const { currentUser, logout } = useAuth()
 
   const handleLogout = async () => {
     await logout()
+    toastSuccess('auth/logout-success')
     navigate('/login', { replace: true })
   }
 

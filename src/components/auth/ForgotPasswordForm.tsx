@@ -24,8 +24,9 @@ export const ForgotPasswordForm = () => {
       await sendPasswordReset(data.email)
       openDialog({
         title: 'Password reset email sent',
-        description: `We've sent a password reset link to ${data.email}. Please check your inbox (and spam folder) to proceed.`,
+        description: `We've sent a password reset link to ${data.email}. Please check your inbox to proceed.`,
       })
+      form.reset()
     } catch (error: unknown) {
       toastError(error)
       throw error

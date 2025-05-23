@@ -55,7 +55,6 @@ const errorMessages = {
     message: 'Your email address is not verified. Please verify before logging in.',
   },
 } as const
-
 const successMessages = {
   'auth/email-verified': {
     title: 'Email Verified',
@@ -73,7 +72,12 @@ const successMessages = {
     title: 'Registration Successful',
     message: 'Your account has been created successfully.',
   },
+  'auth/logout-success': {
+    title: 'Logged Out',
+    message: 'You have been logged out successfully.',
+  },
 } as const
+
 
 type ErrorCode = keyof typeof errorMessages
 type SuccessCode = keyof typeof successMessages

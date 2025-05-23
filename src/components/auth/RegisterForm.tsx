@@ -2,7 +2,6 @@ import { ControlledInputForm } from '@/components/auth'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth'
-import { useDialog } from '@/contexts/dialog'
 import { useAuthToast } from '@/hooks/useAuthToast'
 import { registerSchema, type RegisterFormData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -10,9 +9,8 @@ import { SpinnerGap } from '@phosphor-icons/react'
 import { useForm } from 'react-hook-form'
 
 export const RegisterForm = () => {
-  const { openDialog } = useDialog()
-  const { toastError } = useAuthToast()
   const { signUpWithEmailPassword } = useAuth()
+  const { toastError, toastSuccess } = useAuthToast()
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -22,10 +20,7 @@ export const RegisterForm = () => {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       await signUpWithEmailPassword(data.email, data.password, data.username)
-      openDialog({
-        title: 'Check your email',
-        description: `A verification link has been sent to ${data.email}. Please check your inbox and confirm your email to complete your registration.`,
-      })
+      toastSuccess('auth/register-success')
     } catch (error: unknown) {
       toastError(error)
       throw error
