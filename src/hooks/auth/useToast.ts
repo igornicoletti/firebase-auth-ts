@@ -1,11 +1,11 @@
-import { getMessage } from '@/features/auth'
+import { authMessage } from '@/features/auth'
 import { toast, type ToasterProps } from 'sonner'
 
 export const useToast = () => {
   const toastError = (error: unknown, options?: Omit<ToasterProps, 'title' | 'description'>): string | undefined => {
     const code = (error as { code?: string })?.code
     if (typeof code === 'string') {
-      const { title, message } = getMessage(code, 'error')
+      const { title, message } = authMessage(code, 'error')
       toast(title, { description: message, ...options })
       return code
     }
@@ -14,7 +14,7 @@ export const useToast = () => {
   }
 
   const toastSuccess = (code: string, options?: Omit<ToasterProps, 'title' | 'description'>): void => {
-    const { title, message } = getMessage(code, 'success')
+    const { title, message } = authMessage(code, 'success')
     toast(title, { description: message, ...options })
   }
 

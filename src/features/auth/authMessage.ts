@@ -86,7 +86,7 @@ type SuccessCode = keyof typeof successMessages
 const isErrorCode = (code: string): code is ErrorCode => code in errorMessages
 const isSuccessCode = (code: string): code is SuccessCode => code in successMessages
 
-export const getMessage = (code: string, type: MessageType): Message => {
+export const authMessage = (code: string, type: MessageType): Message => {
   if (type === 'error') {
     return isErrorCode(code)
       ? errorMessages[code]
