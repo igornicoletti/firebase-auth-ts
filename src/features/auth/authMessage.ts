@@ -100,13 +100,13 @@ export const authMessage = (code: string, type: MessageType): Message => {
     return isSuccessCode(code)
       ? successMessages[code]
       : {
-        title: 'Success',
-        message: 'Operation completed successfully.',
+        title: 'Authentication Success',
+        message: 'Authentication operation completed successfully.',
       }
   }
 
   return {
-    title: 'Info',
+    title: 'N/A',
     message: 'Status unknown.',
   }
 }

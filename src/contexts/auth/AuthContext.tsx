@@ -48,10 +48,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return unsubscribe
   }, [])
 
-  const getCallbackUrl = () => {
-    return `${import.meta.env.VITE_APP_ORIGIN}/callback`
-  }
-
   const logout = () => signOut(auth)
 
   const reloadUser = async () => {
@@ -92,15 +88,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const sendVerificationEmail = () => {
     if (!currentUser) return Promise.reject(new Error('auth/no-current-user'))
-    return sendEmailVerification(currentUser, {
-      url: getCallbackUrl(),
-    })
+    return sendEmailVerification(currentUser)
   }
 
-  const sendPasswordReset = (email: string) =>
-    sendPasswordResetEmail(auth, email, {
-      url: getCallbackUrl(),
-    })
+  const sendPasswordReset = (email: string) => sendPasswordResetEmail(auth, email)
 
   const confirmNewPassword = (oobCode: string, newPassword: string) => confirmPasswordReset(auth, oobCode, newPassword)
 

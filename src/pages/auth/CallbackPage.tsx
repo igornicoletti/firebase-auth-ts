@@ -26,7 +26,7 @@ export const CallbackPage = () => {
       try {
         if (mode === 'verifyemail') {
           await applyActionCode(auth, oobCode)
-          toastSuccess('auth/email-verification-success')
+          toastSuccess('auth/email-verified')
           navigate('/login', { replace: true })
         } else if (mode === 'resetpassword') {
           navigate(`/reset-password?oobCode=${encodeURIComponent(oobCode)}`, { replace: true })
