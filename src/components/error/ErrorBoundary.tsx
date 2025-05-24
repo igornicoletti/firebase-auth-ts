@@ -8,49 +8,61 @@ type NormalizedError = {
   description: string
 }
 
+type ErrorBoundaryProps = {
+  fallback?: React.ReactNode
+}
+
 const normalizeError = (error: unknown): NormalizedError => {
   if (isRouteErrorResponse(error)) {
     const status = error.status === 404 ? '404' : `${error.status}`
     const title = error.statusText || 'Something went wrong'
 
     let description = 'No additional details were provided.'
-
     if (typeof error.data === 'string') {
       description = error.data
     } else if (typeof error.data === 'object') {
       try {
         description = JSON.stringify(error.data, null, 2)
       } catch {
-        description = 'An error occurred, but the error details could not be parsed.'
+        description =
+          'An error occurred, but the error details could not be parsed.'
       }
     }
+
     return { status, title, description }
   }
 
   if (error instanceof Error) {
     return {
-      status: 'Error',
+      status: '500',
       title: 'Unexpected error',
-      description: error.message
+      description: error.message,
     }
   }
 
   return {
-    status: 'Unknown',
+    status: 'N/A',
     title: 'Unknown error',
-    description: 'An unexpected error occurred.'
+    description: 'An unexpected error occurred.',
   }
 }
 
-export const ErrorBoundary = () => {
+export const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ fallback }) => {
   const error = useRouteError()
-  const { status, title, description } = normalizeError(error)
+  const normalizedError = error ? normalizeError(error) : null
 
-  return (
-    <Alert>
-      <Terminal />
-      <AlertTitle>{status} | {title}</AlertTitle>
-      <AlertDescription>{description}</AlertDescription>
-    </Alert>
-  )
+  if (normalizedError) {
+    const { status, title, description } = normalizedError
+    return (
+      fallback || (
+        <Alert>
+          <Terminal aria-hidden="true" />
+          <AlertTitle>{status} | {title}</AlertTitle>
+          <AlertDescription>{description}</AlertDescription>
+        </Alert>
+      )
+    )
+  }
+
+  return null
 }

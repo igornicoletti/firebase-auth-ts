@@ -20,31 +20,55 @@ export const router = createBrowserRouter([
   },
   {
     element: <PublicRoute />,
-    errorElement: <ErrorBoundaryPage />,
     children: [
       {
         element: <AuthLayout />,
         children: [
-          { path: '/callback', element: <CallbackPage /> },
-          { path: '/login', element: <LoginPage /> },
-          { path: '/register', element: <RegisterPage /> },
-          { path: '/forgot-password', element: <ForgotPasswordPage /> },
-          { path: '/reset-password', element: <ResetPasswordPage /> },
+          {
+            path: '/callback',
+            element: <CallbackPage />,
+            errorElement: <ErrorBoundaryPage />
+          },
+          {
+            path: '/login',
+            element: <LoginPage />,
+            errorElement: <ErrorBoundaryPage />
+          },
+          {
+            path: '/register',
+            element: <RegisterPage />,
+            errorElement: <ErrorBoundaryPage />
+          },
+          {
+            path: '/forgot-password',
+            element: <ForgotPasswordPage />,
+            errorElement: <ErrorBoundaryPage />
+          },
+          {
+            path: '/reset-password',
+            element: <ResetPasswordPage />,
+            errorElement: <ErrorBoundaryPage />
+          },
         ],
       },
     ],
+    errorElement: <ErrorBoundaryPage />,
   },
   {
     element: <ProtectedRoute requireAuth requireVerification />,
-    errorElement: <ErrorBoundaryPage />,
     children: [
       {
         element: <DashboardLayout />,
         children: [
-          { path: '/dashboard', element: <DashboardPage /> },
+          {
+            path: '/dashboard',
+            element: <DashboardPage />,
+            errorElement: <ErrorBoundaryPage />
+          },
         ],
       },
     ],
+    errorElement: <ErrorBoundaryPage />,
   },
   {
     path: '*',
