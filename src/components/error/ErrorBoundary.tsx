@@ -24,7 +24,6 @@ const normalizeError = (error: unknown): NormalizedError => {
         description = 'An error occurred, but the error details could not be parsed.'
       }
     }
-
     return { status, title, description }
   }
 
