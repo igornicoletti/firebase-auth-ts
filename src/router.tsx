@@ -7,7 +7,7 @@ import {
   RegisterPage,
   ResetPasswordPage,
 } from '@/pages/auth'
-import { DashboardLayout, DashboardPage } from '@/pages/dashboard'
+import { DashboardPage } from '@/pages/dashboard'
 import { ErrorBoundaryPage } from '@/pages/errorBoundary'
 import { NotFoundPage } from '@/pages/notFound'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
@@ -58,14 +58,9 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute requireAuth requireVerification />,
     children: [
       {
-        element: <DashboardLayout />,
-        children: [
-          {
-            path: '/dashboard',
-            element: <DashboardPage />,
-            errorElement: <ErrorBoundaryPage />
-          },
-        ],
+        path: '/dashboard',
+        element: <DashboardPage />,
+        errorElement: <ErrorBoundaryPage />
       },
     ],
     errorElement: <ErrorBoundaryPage />,
