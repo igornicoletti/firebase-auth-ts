@@ -22,7 +22,7 @@ export const LoginForm = () => {
     try {
       await signInWithEmailPassword(data.email, data.password)
       toastSuccess('auth/login-success')
-    } catch (error: unknown) {
+    } catch (error) {
       toastError(error)
       throw error
     }

@@ -21,7 +21,7 @@ export const RegisterForm = () => {
     try {
       await signUpWithEmailPassword(data.email, data.password, data.username)
       toastSuccess('auth/register-success')
-    } catch (error: unknown) {
+    } catch (error) {
       toastError(error)
       throw error
     }

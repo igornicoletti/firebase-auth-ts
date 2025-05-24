@@ -12,7 +12,7 @@ export const SocialProvider = () => {
     try {
       await signInWithGoogle()
       toastSuccess('auth/login-success')
-    } catch (error: unknown) {
+    } catch (error) {
       toastError(error)
       throw error
     }

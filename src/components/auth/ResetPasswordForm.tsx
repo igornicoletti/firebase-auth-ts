@@ -33,7 +33,7 @@ export const ResetPasswordForm = () => {
       await confirmNewPassword(oobCode, data.password)
       toastSuccess('auth/password-reset-success')
       navigate('/login', { replace: true })
-    } catch (error: unknown) {
+    } catch (error) {
       toastError(error)
       throw error
     }
