@@ -65,20 +65,16 @@ export const DashboardPage = () => {
           </div>
         </header>
         <div className='flex flex-1 flex-col gap-4 p-4 pt-0'>
-          <div className='grid gap-6'>
-            <p className='text-lg font-semibold'>Welcome, {user?.displayName || user?.email}!</p>
-            <ThemeToggle />
-          </div>
-          <div className='min-h-[100vh] flex-1 md:min-h-min'>
-            <Button
-              type='button'
-              variant='secondary'
-              onClick={handleLogout}
-              className='w-full max-w-xs'
-              aria-label='Logout and end session'>
-              Logout
-            </Button>
-          </div>
+          <p className='text-lg font-semibold'>Welcome, {user?.displayName || user?.email}!</p>
+          <ThemeToggle />
+          <Button
+            type='button'
+            variant='secondary'
+            onClick={handleLogout}
+            className='w-full max-w-xs'
+            aria-label='Logout and end session'>
+            Logout
+          </Button>
         </div>
       </SidebarInset>
     </SidebarProvider>
