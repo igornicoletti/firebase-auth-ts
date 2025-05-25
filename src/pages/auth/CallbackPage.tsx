@@ -1,44 +1,39 @@
+import { useAuth } from '@/contexts/auth'
 import { useToast } from '@/hooks/auth'
 import { auth } from '@/services/firebase'
 import { applyActionCode } from 'firebase/auth'
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-type Mode = 'verifyemail' | 'resetpassword'
-
 export const CallbackPage = () => {
   const navigate = useNavigate()
-  const [params] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { toastError, toastSuccess } = useToast()
+  const { reloadUser } = useAuth()
 
   useEffect(() => {
-    const modeParam = params.get('mode')?.toLowerCase()
-    const oobCode = params.get('oobCode')
+    const mode = searchParams.get('mode')?.toLowerCase()
+    const oobCode = searchParams.get('oobCode')
 
-    const mode = (modeParam === 'verifyemail' || modeParam === 'resetpassword') ? modeParam as Mode : null
-
-    if (!mode || !oobCode) {
-      navigate('/login', { replace: true })
-      return
-    }
-
-    const handleCallback = async () => {
-      try {
-        if (mode === 'verifyemail') {
-          await applyActionCode(auth, oobCode)
-          toastSuccess('auth/email-verified')
+    if (mode === 'verifyemail' && oobCode) {
+      applyActionCode(auth, oobCode)
+        .then(() => reloadUser())                 // ← recarrega user no contexto
+        .then(() => toastSuccess('auth/email-verified'))
+        .catch(err => toastError(err))
+        .finally(() => {
+          setSearchParams({})                     // ← limpa a URL
           navigate('/login', { replace: true })
-        } else if (mode === 'resetpassword') {
-          navigate(`/reset-password?oobCode=${encodeURIComponent(oobCode)}`, { replace: true })
-        }
-      } catch (error) {
-        toastError(error)
-        navigate('/login', { replace: true })
-      }
+        })
+    } else if (mode === 'resetpassword' && oobCode) {
+      navigate(`/reset-password?oobCode=${encodeURIComponent(oobCode)}`, { replace: true })
+    } else {
+      // seu fluxo de Google Redirect, se houver
     }
+  }, [searchParams, setSearchParams, reloadUser, toastError, toastSuccess, navigate])
 
-    void handleCallback()
-  }, [params, navigate, toastError, toastSuccess])
-
-  return null
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="animate-spin rounded-full h-10 w-10 border-4 border-muted border-t-primary" />
+    </div>
+  )
 }

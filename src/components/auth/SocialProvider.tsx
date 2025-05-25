@@ -1,25 +1,25 @@
 import { GradientHighlight } from '@/components/custom'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/auth'
-import { useToast } from '@/hooks/auth'
 import { GoogleLogo } from '@phosphor-icons/react'
 
 export const SocialProvider = () => {
-  const { signInWithGoogle } = useAuth()
-  const { toastError, toastSuccess } = useToast()
+  const { isLoading, loginGoogle, clearError } = useAuth() // Use o hook
 
   const onSubmit = async () => {
+    clearError()
     try {
-      await signInWithGoogle()
-      toastSuccess('auth/login-success')
-    } catch (error) {
-      toastError(error)
-      throw error
+      await loginGoogle()
+      console.log("Tentativa de login com Google realizada.")
+      // Redirecionamento automático via ProtectedRoute ou lógica similar
+    } catch (err: any) {
+      console.error("Erro no login com Google:", err)
+      // O erro será exibido na UI via `error` do contexto
     }
   }
 
   return (
-    <Button variant='secondary' onClick={onSubmit}>
+    <Button variant='secondary' onClick={onSubmit} disabled={isLoading}>
       <GoogleLogo />
       Continue with Google
       <GradientHighlight />

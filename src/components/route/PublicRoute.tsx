@@ -1,29 +1,36 @@
 import { useAuth } from '@/contexts/auth'
 import { useDialog } from '@/contexts/dialog'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 export const PublicRoute = () => {
+  const { user, loading } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const { openDialog } = useDialog()
-  const { isAuthenticated, isEmailVerified, isLoading } = useAuth()
+  const dialogShown = useRef(false)
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      if (isEmailVerified) {
-        navigate('/dashboard')
-      } else {
-        if (location.pathname !== '/login') {
-          navigate('/login')
-        }
+    if (loading) return
+
+    const isAuthenticated = !!user
+    const isEmailVerified = user?.emailVerified
+
+    if (isAuthenticated && isEmailVerified) {
+      navigate('/dashboard', { replace: true })
+    } else if (isAuthenticated && !isEmailVerified) {
+      if (!dialogShown.current) {
         openDialog({
           title: 'Check your email',
           description: 'Please check your inbox and confirm your email to activate your account.',
         })
+        dialogShown.current = true
+      }
+      if (location.pathname !== '/login') {
+        navigate('/login', { replace: true })
       }
     }
-  }, [isLoading, isAuthenticated, isEmailVerified, location.pathname, navigate])
+  }, [user, loading, navigate, location.pathname, openDialog])
 
   return <Outlet />
 }

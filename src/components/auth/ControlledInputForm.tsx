@@ -10,10 +10,11 @@ type ControlledInputProps<T extends FieldValues> = {
   name: Path<T>
   type: string
   placeholder: string
+  disabled: boolean
 }
 
 export const ControlledInputForm = <T extends FieldValues>(
-  { control, name, type, placeholder }: ControlledInputProps<T>) => {
+  { control, name, type, placeholder, disabled }: ControlledInputProps<T>) => {
   const [visible, setVisible] = useState<boolean>(false)
   const isPassword = type === 'password'
   const inputType = isPassword && visible ? 'text' : type
@@ -31,6 +32,7 @@ export const ControlledInputForm = <T extends FieldValues>(
                 {...field}
                 type={inputType}
                 autoComplete='on'
+                disabled={disabled}
                 placeholder={placeholder} />
               {isPassword && (
                 <Button
