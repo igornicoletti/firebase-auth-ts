@@ -8,7 +8,7 @@ import { SpinnerGap } from '@phosphor-icons/react'
 import { useForm } from 'react-hook-form'
 
 export const ForgotPasswordForm = () => {
-  const { forgotPasswordRequest, clearError } = useAuth()
+  const { forgotPasswordRequest } = useAuth()
 
   const form = useForm<ForgotPasswordData>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -17,7 +17,6 @@ export const ForgotPasswordForm = () => {
   })
 
   const onSubmit = async (data: ForgotPasswordData) => {
-    clearError()
     try {
       // Chama a função forgotPasswordRequest do contexto
       await forgotPasswordRequest(data.email)

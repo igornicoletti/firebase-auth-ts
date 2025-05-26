@@ -1,34 +1,17 @@
 import { AppSidebar } from '@/components/sidebar'
 import { ThemeToggle } from '@/components/theme'
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/components/ui/sidebar'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { useAuth } from '@/contexts/auth'
 
 export const DashboardPage = () => {
-  const { user, logoutUser, isLoading, clearError } = useAuth() // Use o hook
+  const { user, logoutUser, isLoading } = useAuth() // Use o hook
 
   const handleLogout = async () => {
-    clearError() // Limpa qualquer erro anterior antes de deslogar
     try {
       await logoutUser()
-      // Se o logoutUser resolver com sucesso, o onAuthStateChanged no AuthContext
-      // vai definir o 'user' para null.
-      // O ProtectedRoute ou sua lógica de roteamento irá detectar isso
-      // e redirecionar automaticamente para a tela de login.
-      console.log("Tentativa de logout realizada.")
     } catch (err: any) {
       console.error("Erro ao fazer logout:", err)
       // O erro (se houver) já foi definido no contexto e será exibido via `error`.

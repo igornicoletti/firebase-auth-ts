@@ -4,10 +4,9 @@ import { useAuth } from '@/contexts/auth'
 import { GoogleLogo } from '@phosphor-icons/react'
 
 export const SocialProvider = () => {
-  const { isLoading, loginGoogle, clearError } = useAuth() // Use o hook
+  const { isLoading, loginGoogle } = useAuth() // Use o hook
 
   const onSubmit = async () => {
-    clearError()
     try {
       await loginGoogle()
       console.log("Tentativa de login com Google realizada.")

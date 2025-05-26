@@ -9,7 +9,7 @@ export const ProtectedRoute = () => {
     return <LoadingSpinner />
   }
 
-  if (!user) {
+  if (!user || !user.emailVerified) {
     return <Navigate to="/login" replace />
   }
 

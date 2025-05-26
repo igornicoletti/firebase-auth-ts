@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 
 export const RegisterForm = () => {
   const navigate = useNavigate()
-  const { signup, clearError } = useAuth()
+  const { signup } = useAuth()
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -19,7 +19,6 @@ export const RegisterForm = () => {
   })
 
   const onSubmit = async (data: RegisterFormData) => {
-    clearError()
     try {
       // Chama a função signup do contexto.
       // O AuthContext.signup já envia o email de verificação e desloga.

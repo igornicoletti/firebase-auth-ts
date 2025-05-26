@@ -12,29 +12,19 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 export const ResetPasswordForm = () => {
   const [actionCode, setActionCode] = useState<string | null>(null)
 
-  const { resetPasswordConfirm, error, isLoading, clearError } = useAuth()
+  const { resetPasswordConfirm, error, isLoading } = useAuth()
   const navigate = useNavigate()
-  // Hook para ler os parâmetros da URL
   const [searchParams] = useSearchParams()
 
-  // Efeito para ler o oobCode da URL quando o componente monta
   useEffect(() => {
     const oobCode = searchParams.get('oobCode')
     if (oobCode) {
       setActionCode(oobCode)
-      // Opcional: Validar o código de ação antes de exibir o formulário
-      // Firebase pode ter um método para verificar se o código é válido/não expirado sem aplicá-lo.
-      // Por agora, vamos apenas armazená-lo e usá-lo no submit.
     } else {
-      // Se não houver oobCode, algo está errado - redirecionar ou mostrar erro.
-      clearError() // Limpa qualquer erro anterior do AuthContext
-      // Define um erro local ou redireciona
-      // setError("Código de redefinição de senha inválido ou faltando."); // Se quiser usar o estado de erro do contexto para isso
       console.error("oobCode faltando na URL.")
-      // Podemos redirecionar para uma página de erro ou para a de login com uma mensagem
-      navigate('/login?error=invalid_reset_link') // Redireciona e adiciona um param de erro na URL
+      navigate('/login?error=invalid_reset_link')
     }
-  }, [searchParams, navigate, clearError]) // Dependências do efeito
+  }, [searchParams, navigate])
 
   const form = useForm<ResetPasswordData>({
     resolver: zodResolver(resetPasswordSchema),
@@ -43,29 +33,15 @@ export const ResetPasswordForm = () => {
   })
 
   const onSubmit = async (data: ResetPasswordData) => {
-    clearError() // Limpa erros anteriores
-
     if (!actionCode) {
-      // Não deveria acontecer se a validação inicial funcionar, mas é um safeguard
-      console.error("Tentativa de reset de senha sem actionCode.")
-      // setError("Não foi possível resetar a senha. Link inválido."); // Usar erro do contexto
-      alert("Link de redefinição inválido.") // Feedback rápido
       return
     }
 
     try {
-      // Chama a função resetPasswordConfirm do contexto
-      // O AuthContext.resetPasswordConfirm já lida com erros do Firebase e exibe alerta de sucesso
       await resetPasswordConfirm(actionCode, data.newPassword, data.confirmNewPassword)
-
-      // Se a Promise resolver com sucesso, a senha foi resetada.
-      // Conforme o fluxo definido ("resetar senha -> login"), redirecionamos para a tela de login.
       console.log("Senha resetada, redirecionando para login...")
-      // O alerta de sucesso já foi exibido no AuthContext.
-      // navigate('/login'); // <-- O REDIRECIONAMENTO PODE SER FEITO AQUI APÓS O ALERT
-
+      navigate('/login')
     } catch (err: any) {
-      // O erro já foi definido no contexto e será exibido via `error`.
       console.error("Erro ao resetar senha:", err)
     }
   }

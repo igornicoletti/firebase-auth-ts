@@ -6,10 +6,12 @@ import { loginSchema, type LoginFormData } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap } from '@phosphor-icons/react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 export const LoginForm = () => {
-  const { login, isLoading, clearError } = useAuth() // Use o hook
+  const navigate = useNavigate()
+  const { login, isLoading, error } = useAuth()
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -18,12 +20,13 @@ export const LoginForm = () => {
   })
 
   const onSubmit = async (data: LoginFormData) => {
-    clearError()
     try {
       await login(data.email, data.password)
-      console.log("Tentativa de login realizada.")
-    } catch (err: any) {
-      console.error("Erro no login:", err)
+      navigate('/dashboard')
+      toast.success('Success!', { description: '' })
+    } catch {
+      toast.error(error)
+      toast('', { description: '' })
     }
   }
 

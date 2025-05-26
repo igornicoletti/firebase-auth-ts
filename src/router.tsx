@@ -1,14 +1,7 @@
 import { LoadingSpinner } from '@/components/custom'
 import { ProtectedRoute } from '@/components/route'
 import { useAuth } from '@/contexts/auth'
-import {
-  AuthLayout,
-  CallbackPage,
-  ForgotPasswordPage,
-  LoginPage,
-  RegisterPage,
-  ResetPasswordPage,
-} from '@/pages/auth'
+import { AuthLayout, ForgotPasswordPage, LoginPage, RegisterPage, ResetPasswordPage } from '@/pages/auth'
 import { DashboardPage } from '@/pages/dashboard'
 import { ErrorBoundaryPage } from '@/pages/errorBoundary'
 import { NotFoundPage } from '@/pages/notFound'
@@ -29,11 +22,6 @@ export const router = createBrowserRouter([
   {
     element: <AuthLayout />,
     children: [
-      {
-        path: '/callback',
-        element: <CallbackPage />,
-        errorElement: <ErrorBoundaryPage />,
-      },
       {
         path: '/login',
         element: <LoginPage />,
