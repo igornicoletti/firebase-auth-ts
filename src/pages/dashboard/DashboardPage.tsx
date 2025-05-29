@@ -1,27 +1,25 @@
 import { AppSidebar } from '@/components/sidebar'
 import { ThemeToggle } from '@/components/theme'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
-import { Button } from '@/components/ui/button'
+import { Button, ButtonHighlight } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { useAuth } from '@/contexts/auth'
+import { useAuth } from '@/lib/auth/contexts/auth-context'
+import { useAuthToast } from '@/lib/auth/hooks'
+import { auth } from '@/lib/firebase'
+import { signOut } from 'firebase/auth'
 
 export const DashboardPage = () => {
-  const { user, logoutUser, isLoading } = useAuth() // Use o hook
+  const { user } = useAuth() // Consome o estado do contexto
+  const { toastError } = useAuthToast()
 
   const handleLogout = async () => {
     try {
-      await logoutUser()
-    } catch (err: any) {
-      console.error("Erro ao fazer logout:", err)
-      // O erro (se houver) já foi definido no contexto e será exibido via `error`.
+      await signOut(auth) // Chama a função de logout do Firebase
+      // O useAuthState no AuthProvider vai detectar o logout e atualizar o 'user' para null
+    } catch (error) {
+      toastError(error)
     }
-  }
-
-  // Enquanto o estado de autenticação está carregando, talvez mostre um loading
-  // Mas o ProtectedRoute já deve cuidar disso antes de chegar aqui.
-  if (isLoading) {
-    return <div>Carregando dashboard...</div>
   }
 
   return (
@@ -48,7 +46,11 @@ export const DashboardPage = () => {
           </div>
         </header>
         <div className='flex flex-1 flex-col gap-4 p-4 pt-0'>
-          <p className='text-lg font-semibold'>Welcome, {user?.displayName || user?.email}!</p>
+          {user && (
+            <p className='text-lg font-semibold'>
+              Welcome, {user.displayName || user.email}!
+            </p>
+          )}
           <ThemeToggle />
           <Button
             type='button'
@@ -56,6 +58,7 @@ export const DashboardPage = () => {
             onClick={handleLogout}
             className='w-full max-w-xs'
             aria-label='Logout and end session'>
+            <ButtonHighlight />
             Logout
           </Button>
         </div>

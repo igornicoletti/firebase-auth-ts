@@ -1,2 +1,2 @@
-export { GradientHighlight } from './GradientHighlight'
+export { HighlightEffect } from './HighlightEffect'
 export { LoadingSpinner } from './LoadingSpinner'

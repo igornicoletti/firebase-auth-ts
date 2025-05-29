@@ -1,9 +1,10 @@
+import { RouterProvider } from 'react-router-dom'
+
 import { Toaster } from '@/components/ui/sonner'
-import { AuthProvider } from '@/contexts/auth'
 import { DialogProvider } from '@/contexts/dialog'
 import { ThemeProvider } from '@/contexts/theme'
+import { AuthProvider } from '@/lib/auth/contexts'
 import { router } from '@/router'
-import { RouterProvider } from 'react-router-dom'
 
 export const App = () => {
   return (
@@ -11,7 +12,7 @@ export const App = () => {
       <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
         <DialogProvider>
           <RouterProvider router={router} />
-          <Toaster />
+          <Toaster closeButton />
         </DialogProvider>
       </ThemeProvider>
     </AuthProvider>

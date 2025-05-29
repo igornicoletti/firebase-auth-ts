@@ -1,8 +1,0 @@
-export { AnchorData } from './AnchorData'
-export { ControlledInputForm } from './ControlledInputForm'
-export { ForgotPasswordForm } from './ForgotPasswordForm'
-export { HeroData } from './HeroData'
-export { LoginForm } from './LoginForm'
-export { RegisterForm } from './RegisterForm'
-export { ResetPasswordForm } from './ResetPasswordForm'
-export { SocialProvider } from './SocialProvider'
