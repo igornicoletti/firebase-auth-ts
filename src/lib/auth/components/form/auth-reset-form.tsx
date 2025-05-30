@@ -56,8 +56,12 @@ export const AuthResetForm = () => {
     // Redirecionar para a página de login
     try {
       await confirmUserPasswordReset(oobCode, data.newPassword)
-      toast.success("Password Reset Successful", {
-        description: "Your password has been updated. Please login with your new password."
+      toast.message("Password Reset Successful", {
+        description: "Your password has been updated. Please login with your new password.",
+        classNames: {
+          title: '!text-success',
+          description: '!text-foreground'
+        }
       })
       navigate('/login')
 

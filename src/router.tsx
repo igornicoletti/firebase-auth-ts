@@ -4,12 +4,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import { LoadingSpinner } from '@/components/custom'
 import { AuthCallbackRoute, AuthProtectedRoute } from '@/lib/auth/components'
-import {
-  AuthForgotForm,
-  AuthLoginForm,
-  AuthRegisterForm,
-  AuthResetForm
-} from '@/lib/auth/components/form'
+import { AuthForgotForm, AuthLoginForm, AuthRegisterForm, AuthResetForm } from '@/lib/auth/components/form'
 import { useAuth } from '@/lib/auth/contexts'
 import { AuthLayout } from '@/lib/auth/layouts'
 import { authLoader } from '@/lib/auth/loaders'

@@ -44,7 +44,7 @@ export const AuthLoginForm = () => {
       toast.message('Login Successful', {
         description: 'Welcome back!.',
         classNames: {
-          title: '!text-primary',
+          title: '!text-success',
           description: '!text-foreground'
         }
       })
@@ -59,14 +59,22 @@ export const AuthLoginForm = () => {
   }
 
   const handleGoogleLogin = async () => {
-    setIsLoading(true) // Mostra loading para o login com Google também
+    setIsLoading(true)
+
     try {
       await signInWithGoogle()
-      // SUCESSO com Google:
-      toast.message('Google Login Successful', { description: 'Welcome back!' })
-      navigate('/dashboard') // Redireciona
+      toast.message('Login Successful', {
+        description: 'Welcome back!.',
+        classNames: {
+          title: '!text-success',
+          description: '!text-foreground'
+        }
+      })
+      navigate('/dashboard')
+
     } catch (error) {
-      toastError(error) // Trata o erro (ex: popup fechado, etc.)
+      toastError(error)
+
     } finally {
       setIsLoading(false)
     }

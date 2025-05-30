@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -21,7 +20,6 @@ type ForgotFormData = z.infer<typeof authForgotSchema>
 export const AuthForgotForm = () => {
   const [loading, setIsLoading] = useState<boolean>(false)
   const { toastError } = useAuthToast()
-  const navigate = useNavigate()
 
   const form = useForm<ForgotFormData>({
     resolver: zodResolver(authForgotSchema),
@@ -30,18 +28,19 @@ export const AuthForgotForm = () => {
     },
   })
 
-  // CHAMA O MÉTODO FIREBASE AUTH PARA ENVIAR EMAIL DE RESET DE SENHA
-  // Exibir mensagem de sucesso (Mensagem padrão Firebase por segurança - Email Enumeration Protection)
-  // Opcional: Redirecionar para a página de login
   const onSubmit = async (data: ForgotFormData) => {
     setIsLoading(true)
 
     try {
       await sendPasswordReset(data.email)
-      toast.success('Password Reset Email Sent', {
-        description: 'If an account exists with that email, a reset link has been sent.'
+      toast.message('Password Reset Email Sent', {
+        description: 'If an account exists with that email, a reset link has been sent.',
+        classNames: {
+          title: '!text-success',
+          description: '!text-foreground'
+        }
       })
-      navigate('/login')
+      form.reset()
 
     } catch (error) {
       toastError(error)

@@ -42,14 +42,15 @@ export const AuthRegisterForm = () => {
     setIsLoading(true)
 
     try {
-      await signUpWithEmail(data.email, data.password)
+      await signUpWithEmail(data.email, data.password, data.username)
       toast.message('Registration Successful', {
         description: 'Please check your email to verify your account.',
         classNames: {
-          title: '!text-primary',
+          title: '!text-success',
           description: '!text-foreground'
         }
       })
+      form.reset()
       navigate('/login')
 
     } catch (error) {

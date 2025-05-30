@@ -1,112 +1,147 @@
 // src/lib/auth/components/auth-callback-route.tsx
 
-import { useEffect, useState } from 'react' // Importe useState
+import { applyActionCode } from 'firebase/auth'
+import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
 
-import { AuthActionCodes } from '@/lib/auth/constants' // Importe seus códigos de ação
+import { AuthActionCodes } from '@/lib/auth/constants'
+import { useAuth } from '@/lib/auth/contexts' // Importe useAuth para verificar o estado
 import { useAuthToast } from '@/lib/auth/hooks' // Importe seu hook de erro
-import { auth } from '@/lib/firebase/firebase' // Importe a instância do auth
-import { applyActionCode } from 'firebase/auth' // Importe applyActionCode do SDK
+import { auth } from '@/lib/firebase/firebase' // Importe a instância auth
 
-// Importe o spinner ou qualquer indicador de loading
 import { LoadingSpinner } from '@/components/custom'
 
 export const AuthCallbackRoute = () => {
+  const { user, loading: authLoading } = useAuth()
+  const [isLoading, setIsLoading] = useState(true)
   const [params] = useSearchParams()
-  const navigate = useNavigate()
   const { toastError } = useAuthToast()
+  const navigate = useNavigate()
 
-  // Adicione um estado de loading para esta rota de callback
-  const [isLoading, setIsLoading] = useState(true) // Começa como true pois a ação é executada imediatamente
-
-  // Captura os parâmetros importantes da URL
   const mode = params.get('mode')
   const oobCode = params.get('oobCode')
 
   useEffect(() => {
-    // *** Lógica executada ao montar o componente ou quando params/navigate/toastError mudam ***
-
-    // Se faltar mode ou oobCode, algo está errado com o link.
-    if (!mode || !oobCode) {
-      console.error("Callback URL is missing 'mode' or 'oobCode'.") // Log para debug
-      toastError(new Error("Invalid action link. Please try again or contact support.")) // Mensagem amigável
-      setIsLoading(false) // Pare o loading
-
-      // Redirecione após um pequeno delay para permitir que o usuário veja o toast
-      const redirectTimer = setTimeout(() => navigate('/login', { replace: true }), 3000) // Exemplo: redirecionar após 3 segundos
-      return () => clearTimeout(redirectTimer) // Limpa o timer se o componente desmontar antes
+    if (authLoading) {
+      setIsLoading(true)
+      return
     }
 
-    // Função assíncrona para lidar com as ações
+    // Verifica se já temos um usuário logado E verificado
+    // Isso pode acontecer se o onAuthStateChanged disparar *depois* da callback inicial falhar,
+    // mas o backend tiver processado a verificação.
+    if (user && user.emailVerified) {
+      console.log("User already verified. Redirecting to dashboard.")
+      toast.message("Email already Verified", {
+        description: "Your email address was already successfully verified!",
+        classNames: {
+          title: '!text-success',
+          description: '!text-foreground'
+        }
+      })
+      navigate('/dashboard', { replace: true })
+      setIsLoading(false)
+      return
+    }
+
+
+    // Se não houver mode ou oobCode, é um link inválido.
+    if (!mode || !oobCode) {
+      console.error("Callback URL is missing 'mode' or 'oobCode'.")
+      toastError(new Error("Invalid action link. Please try again or contact support."))
+      setIsLoading(false)
+      navigate('/login', { replace: true })
+      return
+    }
+
     const handleAction = async () => {
-      // setIsLoading(true); // Já é true por padrão, mas pode ser explicitado se o estado inicial fosse false
+      setIsLoading(true)
+
       try {
         switch (mode) {
           case AuthActionCodes.VERIFY_EMAIL:
-            // Aplica o código para verificar o email.
+            console.log(`Attempting to apply action code: ${oobCode} for mode: ${mode}`)
             await applyActionCode(auth, oobCode)
 
-            // SUCESSO NA VERIFICAÇÃO DE EMAIL
-            // console.log("Email verification successful!"); // Para depuração
-            // Opcional: Exibir um toast de sucesso específico para verificação
-            // toast.success("Email Verified", { description: "Your email address has been successfully verified!" });
+            // *** MUDANÇA CHAVE 1: Recarregar o estado do usuário ***
+            // Após aplicar o código com sucesso, force a atualização do objeto User no cliente.
+            // Isso é CRUCIAL para garantir que emailVerified seja true imediatamente.
+            if (auth.currentUser) {
+              console.log("Action code applied successfully. Reloading user state...")
+              await auth.currentUser.reload()
+              console.log("User state reloaded. emailVerified:", auth.currentUser.emailVerified)
+            } else {
+              console.warn("Action code applied, but auth.currentUser is null. Cannot reload state.")
+            }
 
-            // Redireciona para a página de login.
-            navigate('/login', { replace: true })
+            // *** MUDANÇA CHAVE 2: Verificar o estado de verificação após a aplicação/recarga ***
+            // Só mostre sucesso e navegue para o dashboard se o email estiver REALMENTE verificado agora.
+            if (auth.currentUser && auth.currentUser.emailVerified) {
+              toast.message("Email Verified", {
+                description: "Your email address has been successfully verified!",
+                classNames: {
+                  title: '!text-success',
+                  description: '!text-foreground'
+                }
+              })
+              console.log("User is verified. Redirecting to dashboard.")
+              navigate('/dashboard', { replace: true }) // Redireciona para o dashboard
+            } else {
+              // Cenário de fallback: Se applyActionCode funcionou, mas emailVerified ainda não é true (improvável após reload),
+              // ou se auth.currentUser ficou nulo por algum motivo.
+              console.warn("Email verification process finished, but user state still shows not verified or user is null.")
+              toastError(new Error("Email verification complete, but state not updated. Please try logging in."))
+              navigate('/login', { replace: true }) // Redireciona para o login
+            }
+
             break
 
           case AuthActionCodes.RESET_PASSWORD:
-            // Para reset de senha, apenas redirecionamos para o formulário de reset,
-            // passando o oobCode adiante.
+            console.log(`Redirecting for password reset with code: ${oobCode}`)
             navigate(`/reset-password?oobCode=${oobCode}`, { replace: true })
             break
 
-          // Adicione outros modos aqui se configurados (RECOVER_EMAIL, etc.)
-
           default:
-            // Modo desconhecido
-            console.warn(`Unknown action mode: ${mode}`) // Log para debug
-            toastError(new Error(`Unknown action requested: ${mode}.`)) // Mensagem amigável
-            // Redirecione após um pequeno delay
-            const redirectDefaultTimer = setTimeout(() => navigate('/login', { replace: true }), 3000) // Exemplo: redirecionar após 3 segundos
-            return () => clearTimeout(redirectDefaultTimer) // Limpa o timer
+            console.warn(`Unknown action mode: ${mode}`)
+            toastError(new Error(`Unknown action requested: ${mode}.`))
+            navigate('/login', { replace: true })
         }
       } catch (error) {
-        // ERRO ao aplicar o código (código inválido, expirado, etc.)
-        console.error('Error processing action code:', error) // Log para debug
-        toastError(error) // Usa seu hook para exibir a mensagem amigável do erro Firebase
+        // *** MUDANÇA CHAVE 3: Tratar o erro específico auth/invalid-action-code ***
+        // Se for esse erro, mostramos a mensagem genérica de link inválido.
+        // Para outros erros, podemos mostrar algo diferente se necessário, ou o erro genérico.
+        const errorMessage = (error as any).code === 'auth/invalid-action-code'
+          ? "The action link is invalid or has expired. Please try again or request a new link."
+          : "An unexpected error occurred during the action. Please try again later."
 
-        // Redirecione para a página de login após um erro.
-        const redirectErrorTimer = setTimeout(() => navigate('/login', { replace: true }), 3000) // Exemplo: redirecionar após 3 segundos
-        return () => clearTimeout(redirectErrorTimer) // Limpa o timer
+        console.error('Error processing action code:', error)
+        toastError(new Error(errorMessage)) // Usa a mensagem de erro apropriada
+
+        // *** MUDANÇA CHAVE 4: Sempre redirecionar para login em caso de erro ***
+        // Se a aplicação do código falhou, o usuário não está verificado por esta ação.
+        // Ele precisa voltar para o login ou outra tela para tentar novamente ou obter um novo link.
+        navigate('/login', { replace: true })
+
       } finally {
-        // *** IMPORTANTE: Parar o loading no finally, garantindo que sempre pare ***
-        setIsLoading(false)
+        setIsLoading(false) // Sempre desliga o spinner no final
       }
     }
 
-    // *** CHAMA A FUNÇÃO handleAction para iniciar o processo ***
-    // Só chama se mode e oobCode estiverem presentes
-    if (mode && oobCode) {
+    // Só executa handleAction se mode e oobCode estiverem presentes E
+    // se o usuário *não* estiver já logado e verificado (tratado no início do useEffect).
+    // Isso previne tentar aplicar o código de novo se o onAuthStateChanged já nos disse que está tudo ok.
+    if (mode && oobCode && (!user || !user.emailVerified)) {
       handleAction()
     }
 
-    // Cleanup para o useEffect: geralmente não é necessário limpar algo aqui
-    // a menos que você adicione listeners que precisem ser removidos.
-    // Os timers de redirecionamento já são limpos dentro dos blocos try/catch/if.
-    // Se você adicionar um timer aqui antes de handleAction, ele precisaria ser limpo.
-    // return () => {}; // Exemplo de cleanup vazio
+  }, [mode, oobCode, navigate, toastError, user, authLoading]) // Adicione user e authLoading às dependências
 
-  }, [mode, oobCode, navigate, toastError]) // Dependências: re-executa se params (mode, oobCode) ou hooks de navegação/toast mudarem
-
-  // Renderiza um spinner enquanto estiver carregando
+  // Mostra spinner enquanto isLoading é true (inicialmente, durante authLoading, e durante handleAction)
   if (isLoading) {
-    // Você pode adicionar um texto como "Processing action..."
     return <LoadingSpinner />
   }
 
-  // Retorna null ou nada após o carregamento, pois o componente já navegou
-  // Este componente existe primariamente para executar a lógica de callback e redirecionar.
-  // Não há UI para ser mostrada permanentemente nesta página.
+  // Não renderiza nada se não estiver carregando (a navegação já ocorreu ou não há modo/oobCode)
   return null
 }

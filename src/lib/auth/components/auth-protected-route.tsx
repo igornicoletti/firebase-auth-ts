@@ -4,7 +4,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 import { LoadingSpinner } from '@/components/custom'
 import { useAuth } from '@/lib/auth/contexts'
-import { canAccess } from '@/lib/auth/helpers/auth-can-access'
+import { canAccess } from '@/lib/auth/helpers'
 
 export const AuthProtectedRoute = () => {
   const { user, loading } = useAuth() // Obtém o estado de autenticação do Contexto
