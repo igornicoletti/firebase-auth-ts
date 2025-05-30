@@ -1,6 +1,7 @@
 // src/lib/auth/services/auth-service.ts
 
 import {
+  applyActionCode,
   confirmPasswordReset,
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -47,6 +48,10 @@ export const signInWithGoogle = async (): Promise<void> => {
 
 export const signOutUser = async (): Promise<void> => {
   await signOut(auth)
+}
+
+export const confirmUserEmail = async (oobCode: string): Promise<void> => {
+  await applyActionCode(auth, oobCode)
 }
 
 export const confirmUserPasswordReset = async (oobCode: string, newPassword: string): Promise<void> => {

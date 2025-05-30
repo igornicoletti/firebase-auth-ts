@@ -30,5 +30,26 @@ export const useAuthToast = () => {
     })
   }, [])
 
-  return { toastError }
+  const toastSuccess = useCallback((success: unknown) => {
+    let code = 'unknown'
+
+    if (typeof success === 'string') {
+      code = success
+    } else if (success && typeof success === 'object' && 'code' in success) {
+      code = String((success as any).code)
+    }
+
+    const { title, description } = authFormatCodes(code)
+
+    toast.dismiss()
+    toast.message(title, {
+      description,
+      classNames: {
+        title: '!text-primary',
+        description: '!text-foreground'
+      }
+    })
+  }, [])
+
+  return { toastError, toastSuccess }
 }

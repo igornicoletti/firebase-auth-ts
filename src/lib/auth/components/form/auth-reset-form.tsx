@@ -24,7 +24,6 @@ export const AuthResetForm = () => {
   const { toastError } = useAuthToast()
   const navigate = useNavigate()
 
-  // Extrai o oobCode da URL quando o componente monta
   const oobCode = searchParams.get('oobCode')
 
   const form = useForm<ResetFormData>({
