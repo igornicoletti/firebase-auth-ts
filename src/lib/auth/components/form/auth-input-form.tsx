@@ -1,8 +1,9 @@
 // src/lib/auth/components/form/auth-input-form.tsx
 
-import { Eye, EyeClosed } from '@phosphor-icons/react'
 import { useState } from 'react'
 import type { Control, FieldValues, Path } from 'react-hook-form'
+
+import { Eye, EyeClosed } from '@phosphor-icons/react'
 
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
@@ -17,7 +18,7 @@ type AuthInputFormProps<T extends FieldValues> = {
 }
 
 export const AuthInputForm = <T extends FieldValues>({ name, control, type, placeholder, disabled }: AuthInputFormProps<T>) => {
-  const [visible, setVisible] = useState<boolean>(false)
+  const [visible, setVisible] = useState(false)
 
   const isPassword = type === 'password'
   const inputType = isPassword && visible ? 'text' : type

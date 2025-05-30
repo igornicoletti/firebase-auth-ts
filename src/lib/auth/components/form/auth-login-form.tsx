@@ -20,7 +20,7 @@ import { signInWithEmail, signInWithGoogle } from '@/lib/auth/services'
 type LoginFormData = z.infer<typeof authLoginSchema>
 
 export const AuthLoginForm = () => {
-  const [loading, setIsLoading] = useState<boolean>(false)
+  const [loading, setIsLoading] = useState(false)
   const { toastError } = useAuthToast()
   const navigate = useNavigate()
 
@@ -32,10 +32,6 @@ export const AuthLoginForm = () => {
     },
   })
 
-  // CHAMA O MÉTODO FIREBASE AUTH DE LOGIN COM EMAIL E SENHA
-  // Exibir mensagem de sucesso
-  // Redirecionar (ex: para a dashboard)
-  // O hook useAuthState no AuthProvider cuidará de atualizar o estado global do usuário.
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true)
 
@@ -44,10 +40,11 @@ export const AuthLoginForm = () => {
       toast.message('Login Successful', {
         description: 'Welcome back!.',
         classNames: {
-          title: '!text-success',
+          title: '!text-primary',
           description: '!text-foreground'
         }
       })
+      form.reset()
       navigate('/dashboard')
 
     } catch (error) {
@@ -66,10 +63,11 @@ export const AuthLoginForm = () => {
       toast.message('Login Successful', {
         description: 'Welcome back!.',
         classNames: {
-          title: '!text-success',
+          title: '!text-primary',
           description: '!text-foreground'
         }
       })
+      form.reset()
       navigate('/dashboard')
 
     } catch (error) {

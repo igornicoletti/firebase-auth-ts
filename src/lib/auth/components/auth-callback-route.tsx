@@ -32,7 +32,7 @@ export const AuthCallbackRoute = () => {
       toast.message("Email already Verified", {
         description: "Your email address was already successfully verified!",
         classNames: {
-          title: '!text-success',
+          title: '!text-primary',
           description: '!text-foreground'
         }
       })
@@ -63,7 +63,7 @@ export const AuthCallbackRoute = () => {
               toast.message("Email Verified", {
                 description: "Your email address has been successfully verified!",
                 classNames: {
-                  title: '!text-success',
+                  title: '!text-primary',
                   description: '!text-foreground'
                 }
               })

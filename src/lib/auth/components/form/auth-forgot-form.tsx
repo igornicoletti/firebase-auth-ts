@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -18,8 +19,9 @@ import { sendPasswordReset } from '@/lib/auth/services'
 type ForgotFormData = z.infer<typeof authForgotSchema>
 
 export const AuthForgotForm = () => {
-  const [loading, setIsLoading] = useState<boolean>(false)
+  const [loading, setIsLoading] = useState(false)
   const { toastError } = useAuthToast()
+  const navigate = useNavigate()
 
   const form = useForm<ForgotFormData>({
     resolver: zodResolver(authForgotSchema),
@@ -36,11 +38,12 @@ export const AuthForgotForm = () => {
       toast.message('Password Reset Email Sent', {
         description: 'If an account exists with that email, a reset link has been sent.',
         classNames: {
-          title: '!text-success',
+          title: '!text-primary',
           description: '!text-foreground'
         }
       })
       form.reset()
+      navigate('/login')
 
     } catch (error) {
       toastError(error)

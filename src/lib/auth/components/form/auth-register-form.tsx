@@ -19,7 +19,7 @@ import { signUpWithEmail } from '@/lib/auth/services'
 type RegisterFormData = z.infer<typeof authRegisterSchema>
 
 export const AuthRegisterForm = () => {
-  const [loading, setIsLoading] = useState<boolean>(false)
+  const [loading, setIsLoading] = useState(false)
   const { toastError } = useAuthToast()
   const navigate = useNavigate()
 
@@ -33,11 +33,6 @@ export const AuthRegisterForm = () => {
     },
   })
 
-  // CHAMA O MÉTODO FIREBASE AUTH DE CRIAÇÃO DE USUÁRIO
-  // Opcional: Setar o display name imediatamente após a criação
-  // CHAMA O MÉTODO FIREBASE AUTH PARA ENVIAR EMAIL DE VERIFICAÇÃO
-  // É importante enviar após a criação, pois auth.currentUser estará disponível
-  // Checa se o usuário está logado (deve estar após signupWithEmail)
   const onSubmit = async (data: RegisterFormData) => {
     setIsLoading(true)
 
@@ -46,7 +41,7 @@ export const AuthRegisterForm = () => {
       toast.message('Registration Successful', {
         description: 'Please check your email to verify your account.',
         classNames: {
-          title: '!text-success',
+          title: '!text-primary',
           description: '!text-foreground'
         }
       })

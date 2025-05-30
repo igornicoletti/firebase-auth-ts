@@ -19,7 +19,7 @@ import { confirmUserPasswordReset } from '@/lib/auth/services'
 type ResetFormData = z.infer<typeof authResetSchema>
 
 export const AuthResetForm = () => {
-  const [loading, setIsLoading] = useState<boolean>(false)
+  const [loading, setIsLoading] = useState(false)
   const [searchParams] = useSearchParams()
   const { toastError } = useAuthToast()
   const navigate = useNavigate()
@@ -37,31 +37,23 @@ export const AuthResetForm = () => {
   const onSubmit = async (data: ResetFormData) => {
     setIsLoading(true)
 
-    // VERIFICAÇÃO IMPORTANTE: O oobCode precisa existir!
-    // Não deveria acontecer se o usuário veio pelo link, mas é bom verificar
-    // Use seu toastError para um erro customizado
-    // Opcional: Redirecionar para a página de forgot password ou uma página de erro
-    // Para a execução se o código não existir
     if (!oobCode) {
-      toastError(new Error("Missing password reset code."))
       setIsLoading(false)
+      toastError(new Error("Missing password reset code."))
       navigate('/forgot-password')
       return
     }
 
-    // CHAMA O MÉTODO FIREBASE AUTH PARA CONFIRMAR O RESET DA SENHA
-    // Passa o oobCode e a nova senha
-    // Senha resetada com sucesso!
-    // Redirecionar para a página de login
     try {
       await confirmUserPasswordReset(oobCode, data.newPassword)
       toast.message("Password Reset Successful", {
         description: "Your password has been updated. Please login with your new password.",
         classNames: {
-          title: '!text-success',
+          title: '!text-primary',
           description: '!text-foreground'
         }
       })
+      form.reset()
       navigate('/login')
 
     } catch (error) {
