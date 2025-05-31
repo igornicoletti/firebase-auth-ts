@@ -5,8 +5,8 @@
  * Estes códigos são usados para determinar o tipo de operação a ser realizada (verificar e-mail, resetar senha, etc.).
  */
 export const AuthActionCodes = {
-  VERIFY_EMAIL: 'verify-email', // Código para links de verificação de e-mail.
-  RESET_PASSWORD: 'reset-password', // Código para links de redefinição de senha.
+  VERIFY_EMAIL: 'verifyEmail', // Código para links de verificação de e-mail.
+  RESET_PASSWORD: 'resetPassword', // Código para links de redefinição de senha.
   // Adicionar outros códigos de ação aqui se necessário (ex: recoverEmail, signIn).
   // RECOVER_EMAIL: 'recover-email',
   // SIGN_IN: 'sign-in',
