@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -21,7 +20,7 @@ type ResetFormData = z.infer<typeof authResetSchema>
 export const AuthResetForm = () => {
   const [loading, setIsLoading] = useState(false)
   const [searchParams] = useSearchParams()
-  const { toastError } = useAuthToast()
+  const { toastError, toastSuccess } = useAuthToast()
   const navigate = useNavigate()
 
   const oobCode = searchParams.get('oobCode')
@@ -46,13 +45,7 @@ export const AuthResetForm = () => {
 
     try {
       await confirmUserPasswordReset(oobCode, data.newPassword)
-      toast.message("Password Reset Successful", {
-        description: "Your password has been updated. Please login with your new password.",
-        classNames: {
-          title: '!text-primary',
-          description: '!text-foreground'
-        }
-      })
+      toastSuccess('auth/password-reset-success')
       form.reset()
       navigate('/login')
 

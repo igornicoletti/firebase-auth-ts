@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -20,7 +19,7 @@ type RegisterFormData = z.infer<typeof authRegisterSchema>
 
 export const AuthRegisterForm = () => {
   const [loading, setIsLoading] = useState(false)
-  const { toastError } = useAuthToast()
+  const { toastError, toastSuccess } = useAuthToast()
   const navigate = useNavigate()
 
   const form = useForm<RegisterFormData>({
@@ -38,13 +37,7 @@ export const AuthRegisterForm = () => {
 
     try {
       await signUpWithEmail(data.email, data.password, data.username)
-      toast.message('Registration Successful', {
-        description: 'Please check your email to verify your account.',
-        classNames: {
-          title: '!text-primary',
-          description: '!text-foreground'
-        }
-      })
+      toastSuccess('auth/register-success')
       form.reset()
       navigate('/login')
 

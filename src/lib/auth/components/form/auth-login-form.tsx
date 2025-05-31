@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -21,7 +20,7 @@ type LoginFormData = z.infer<typeof authLoginSchema>
 
 export const AuthLoginForm = () => {
   const [loading, setIsLoading] = useState(false)
-  const { toastError } = useAuthToast()
+  const { toastError, toastSuccess } = useAuthToast()
   const navigate = useNavigate()
 
   const form = useForm<LoginFormData>({
@@ -37,13 +36,7 @@ export const AuthLoginForm = () => {
 
     try {
       await signInWithEmail(data.email, data.password)
-      toast.message('Login Successful', {
-        description: 'Welcome back!.',
-        classNames: {
-          title: '!text-primary',
-          description: '!text-foreground'
-        }
-      })
+      toastSuccess('auth/login-success')
       form.reset()
       navigate('/dashboard')
 
@@ -60,13 +53,7 @@ export const AuthLoginForm = () => {
 
     try {
       await signInWithGoogle()
-      toast.message('Login Successful', {
-        description: 'Welcome back!.',
-        classNames: {
-          title: '!text-primary',
-          description: '!text-foreground'
-        }
-      })
+      toastSuccess('auth/login-success')
       form.reset()
       navigate('/dashboard')
 

@@ -1,8 +1,16 @@
 // src/lib/auth/context/auth-context.tsx
 
 import { type User } from 'firebase/auth'
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react'
 
+import { LoadingSpinner } from '@/components/custom'
 import { auth } from '@/lib/firebase'
 
 interface AuthContextType {
@@ -10,7 +18,7 @@ interface AuthContextType {
   loading: boolean
 }
 
-const AuthContext = createContext({} as AuthContextType)
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
@@ -22,24 +30,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false)
     })
 
-    return () => unsubscribe()
+    return unsubscribe
   }, [])
 
-  if (loading) {
-    return <div>Carregando autenticação...</div>
-  }
+  const value = useMemo(() => ({ user, loading }), [user, loading])
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
-      {!loading && children}
-      {loading && <div>Carregando...</div>}
+    <AuthContext.Provider value={value}>
+      {loading ? <LoadingSpinner /> : children}
     </AuthContext.Provider>
   )
 }
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext)
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAuth must be used within an AuthProvider')
   }
   return context

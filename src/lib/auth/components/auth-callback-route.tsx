@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { toast } from 'sonner'
 
 import { AuthActionCodes } from '@/lib/auth/constants'
 import { useAuth } from '@/lib/auth/contexts'
@@ -16,7 +15,7 @@ export const AuthCallbackRoute = () => {
   const { user, loading: authLoading } = useAuth()
   const [isLoading, setIsLoading] = useState(true)
   const [params] = useSearchParams()
-  const { toastError } = useAuthToast()
+  const { toastError, toastSuccess } = useAuthToast()
   const navigate = useNavigate()
 
   const mode = params.get('mode')
@@ -28,22 +27,8 @@ export const AuthCallbackRoute = () => {
       return
     }
 
-    if (user && user.emailVerified) {
-      toast.message("Email already Verified", {
-        description: "Your email address was already successfully verified!",
-        classNames: {
-          title: '!text-primary',
-          description: '!text-foreground'
-        }
-      })
-      navigate('/dashboard', { replace: true })
-      setIsLoading(false)
-      return
-    }
-
-
     if (!mode || !oobCode) {
-      toastError(new Error("Invalid action link. Please try again or contact support."))
+      toastError('auth/expired-action-code')
       navigate('/login', { replace: true })
       setIsLoading(false)
       return
@@ -56,24 +41,16 @@ export const AuthCallbackRoute = () => {
         switch (mode) {
           case AuthActionCodes.VERIFY_EMAIL:
             await confirmUserEmail(oobCode)
-            if (auth.currentUser) {
-              await auth.currentUser.reload()
-            }
+            await auth.currentUser?.reload()
+
             if (auth.currentUser && auth.currentUser.emailVerified) {
-              toast.message("Email Verified", {
-                description: "Your email address has been successfully verified!",
-                classNames: {
-                  title: '!text-primary',
-                  description: '!text-foreground'
-                }
-              })
+              toastSuccess('auth/email-verified-success')
               navigate('/dashboard', { replace: true })
 
             } else {
-              toastError(new Error("Email verification complete, but state not updated. Please try logging in."))
+              toastError('auth/invalid-action-code')
               navigate('/login', { replace: true })
             }
-
             break
 
           case AuthActionCodes.RESET_PASSWORD:
@@ -81,7 +58,7 @@ export const AuthCallbackRoute = () => {
             break
 
           default:
-            toastError(new Error(`Unknown action requested: ${mode}.`))
+            toastError('auth/internal-error')
             navigate('/login', { replace: true })
         }
       } catch (error) {
@@ -93,10 +70,8 @@ export const AuthCallbackRoute = () => {
       }
     }
 
-    if (mode && oobCode && (!user || !user.emailVerified)) {
-      handleAction()
-    }
-  }, [mode, oobCode, navigate, toastError, user, authLoading])
+    handleAction()
+  }, [mode, oobCode, navigate, toastError, toastSuccess, user, authLoading])
 
   if (isLoading) {
     return <LoadingSpinner />

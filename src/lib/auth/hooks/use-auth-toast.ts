@@ -1,24 +1,22 @@
-// src/lib/auth/hooks/use-auth-error-toast.ts
+// src/lib/auth/hooks/use-auth-toast.ts
 
 import { FirebaseError } from 'firebase/app'
 import { useCallback } from 'react'
 import { toast } from 'sonner'
 
-import { authFormatCodes } from '@/lib/auth/helpers'
+import { authFormatCodes } from '@/lib/auth/helpers/auth-format-codes'
 
 export const useAuthToast = () => {
+  const extractCode = (input: unknown) => {
+    if (typeof input === 'string') return input
+    if (input instanceof FirebaseError) return input.code
+    if (input && typeof input === 'object' && 'code' in input) return String((input as any).code)
+    return 'unknown'
+  }
+
   const toastError = useCallback((error: unknown) => {
-    let code = 'unknown'
-
-    if (typeof error === 'string') {
-      code = error
-    } else if (error instanceof FirebaseError) {
-      code = error.code
-    } else if (error && typeof error === 'object' && 'code' in error) {
-      code = String((error as any).code)
-    }
-
-    const { title, description } = authFormatCodes(code)
+    const code = extractCode(error)
+    const { title, description } = authFormatCodes.error(code)
 
     toast.dismiss()
     toast.message(title, {
@@ -31,15 +29,8 @@ export const useAuthToast = () => {
   }, [])
 
   const toastSuccess = useCallback((success: unknown) => {
-    let code = 'unknown'
-
-    if (typeof success === 'string') {
-      code = success
-    } else if (success && typeof success === 'object' && 'code' in success) {
-      code = String((success as any).code)
-    }
-
-    const { title, description } = authFormatCodes(code)
+    const code = extractCode(success)
+    const { title, description } = authFormatCodes.success(code)
 
     toast.dismiss()
     toast.message(title, {
