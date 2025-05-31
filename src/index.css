@@ -1,182 +1,116 @@
-/*
-  Arquivo de Estilos Globais e Definição de Tema (Claro/Escuro)
-
-  Este arquivo configura estilos base para a aplicação, define variáveis CSS
-  para um sistema de design baseado em tokens de cor e gerencia o tema escuro.
-  Ele utiliza diretivas do Tailwind CSS (@import, @apply, @layer, @custom-variant, @theme).
-  As cores são definidas usando o espaço de cor OKLCH, que é uma abordagem moderna
-  para cores CSS que oferece boa previsibilidade e manipulação.
-*/
-
-/* Importa as diretivas base do Tailwind CSS. Essencial para que o Tailwind funcione. */
 @import 'tailwindcss';
-
-/*
-  Define uma variante CSS personalizada chamada 'dark'.
-  Esta regra @custom-variant cria uma nova variante que pode ser usada no @apply
-  para estilizar elementos somente quando eles (ou um ancestral) tiverem a classe 'dark'.
-  O seletor '&:is(.dark *)' significa "o elemento que tem a classe 'dark' OU qualquer descendente
-  de um elemento que tem a classe 'dark'".
-*/
 @custom-variant dark (&:is(.dark *));
 
-/*
-  Primeira camada base (@layer base).
-  Aqui, definimos variáveis CSS (custom properties) sob o seletor :root
-  que representam os tokens de design para o tema CLARO (que é o tema padrão).
-*/
 @layer base {
   :root {
-    /* Variável para o raio de borda padrão, usada em vários componentes. */
     --radius: 0.5rem;
 
-    /* Cores base do tema CLARO: Fundo e cor principal do texto. */
     --background: oklch(1 0 0); /* white */
     --foreground: oklch(0.141 0.005 285.823); /* graphite */
 
-    /* Cores para cartões e superfícies elevadas no tema CLARO. */
     --card: oklch(0.985 0 0); /* very light */
     --card-foreground: oklch(0.141 0.005 285.823); /* graphite */
 
-    /* Cores para popovers, tooltips e menus de contexto no tema CLARO. */
     --popover: oklch(0.985 0 0); /* very light */
     --popover-foreground: oklch(0.141 0.005 285.823); /* graphite */
 
-    /* Cores primárias: usadas para ações principais, botões de destaque, etc. (tema CLARO). */
     --primary: oklch(0.606 0.25 292.717); /* violet */
     --primary-foreground: oklch(0.969 0.016 293.756); /* pale violet */
 
-    /* Cores secundárias: usadas para ações secundárias ou elementos menos proeminentes (tema CLARO). */
     --secondary: oklch(0.985 0 0); /* very light */
     --secondary-foreground: oklch(0.21 0.006 285.885); /* dark gray */
 
-    /* Cores para elementos mutados/menos proeminentes (tema CLARO). */
     --muted: oklch(0.967 0.001 286.375); /* light gray */
     --muted-foreground: oklch(0.552 0.016 285.938); /* medium gray */
 
-    /* Cores de destaque: usadas para elementos que precisam se destacar, mas não são primários (tema CLARO). */
     --accent: oklch(0.967 0.001 286.375); /* light gray */
     --accent-foreground: oklch(0.21 0.006 285.885); /* dark gray */
 
-    /* Cor destrutiva: usada para ações de erro ou perigo (tema CLARO). */
     --destructive: oklch(0.577 0.245 27.325); /* red-orange */
 
-    /* Cores para bordas, inputs e anel de foco (tema CLARO). */
     --border: oklch(0.92 0.004 286.32); /* light gray */
     --input: oklch(0.92 0.004 286.32); /* light gray */
     --ring: oklch(0.606 0.25 292.717); /* violet */
 
-    /* Cores para visualização de dados ou gráficos (tema CLARO). */
     --chart-1: oklch(0.646 0.222 41.116); /* orange-yellow */
     --chart-2: oklch(0.6 0.118 184.704); /* teal */
     --chart-3: oklch(0.398 0.07 227.392); /* blue */
     --chart-4: oklch(0.828 0.189 84.429); /* lime */
     --chart-5: oklch(0.769 0.188 70.08); /* yellow-green */
 
-    /* Cores específicas para um componente de barra lateral (tema CLARO). */
     --sidebar: oklch(0.985 0 0); /* very light */
     --sidebar-foreground: oklch(0.141 0.005 285.823); /* graphite */
+
     --sidebar-primary: oklch(0.606 0.25 292.717); /* violet */
     --sidebar-primary-foreground: oklch(0.969 0.016 293.756); /* pale violet */
+
     --sidebar-accent: oklch(0.967 0.001 286.375); /* light gray */
     --sidebar-accent-foreground: oklch(0.21 0.006 285.885); /* dark gray */
+
     --sidebar-border: oklch(0.92 0.004 286.32); /* light gray */
     --sidebar-ring: oklch(0.606 0.25 292.717); /* violet */
   }
 
-  /*
-    Define variáveis CSS (custom properties) sob o seletor '.dark'.
-    Estas variáveis contêm os tokens de design para o tema ESCURO.
-    Quando um elemento com a classe '.dark' (geralmente no <html> ou <body>)
-    é aplicado, estas variáveis sobrescrevem as definidas em :root.
-  */
   .dark {
-    /* Cores base do tema ESCURO */
     --background: oklch(0.141 0.005 285.823); /* graphite */
     --foreground: oklch(0.985 0 0); /* white */
 
-    /* Cores para cartões/superfícies elevadas (tema ESCURO) */
     --card: oklch(0.21 0.006 285.885); /* dark gray */
     --card-foreground: oklch(0.985 0 0); /* white */
 
-    /* Cores para popovers/tooltips (tema ESCURO) */
     --popover: oklch(0.21 0.006 285.885); /* dark gray */
     --popover-foreground: oklch(0.985 0 0); /* white */
 
-    /* Cores primárias (tema ESCURO) */
     --primary: oklch(0.541 0.281 293.009); /* rich violet */
     --primary-foreground: oklch(0.969 0.016 293.756); /* pale violet */
 
-    /* Cores secundárias (tema ESCURO) */
     --secondary: oklch(0.21 0.006 285.885); /* dark gray */
     --secondary-foreground: oklch(0.969 0.016 293.756); /* pale violet */
 
-    /* Cores para elementos mutados/menos proeminentes (tema ESCURO) */
     --muted: oklch(0.274 0.006 286.033); /* gray */
     --muted-foreground: oklch(0.705 0.015 286.067); /* medium gray */
 
-    /* Cores de destaque/ênfase (tema ESCURO) */
     --accent: oklch(0.274 0.006 286.033); /* gray */
     --accent-foreground: oklch(0.985 0 0); /* white */
 
-    /* Cor destrutiva/de erro (tema ESCURO) */
     --destructive: oklch(0.704 0.191 22.216); /* red */
 
-    /* Cores para bordas, inputs e anel de foco (tema ESCURO). */
     --border: oklch(1 0 0 / 10%); /* semi-transparent white */
     --input: oklch(1 0 0 / 15%); /* slightly more opaque white */
     --ring: oklch(0.541 0.281 293.009); /* rich violet */
 
-    /* Cores para visualização de dados ou gráficos (tema ESCURO). */
     --chart-1: oklch(0.488 0.243 264.376); /* magenta */
     --chart-2: oklch(0.696 0.17 162.48); /* green */
     --chart-3: oklch(0.769 0.188 70.08); /* yellow-green */
     --chart-4: oklch(0.627 0.265 303.9); /* purple */
     --chart-5: oklch(0.645 0.246 16.439); /* orange */
 
-    /* Cores específicas para um componente de barra lateral (tema ESCURO). */
     --sidebar: oklch(0.21 0.006 285.885); /* dark gray */
     --sidebar-foreground: oklch(0.985 0 0); /* white */
+
     --sidebar-primary: oklch(0.541 0.281 293.009); /* rich violet */
     --sidebar-primary-foreground: oklch(0.969 0.016 293.756); /* pale violet */
+
     --sidebar-accent: oklch(0.274 0.006 286.033); /* gray */
     --sidebar-accent-foreground: oklch(0.985 0 0); /* white */
+
     --sidebar-border: oklch(1 0 0 / 10%); /* semi-transparent white */
     --sidebar-ring: oklch(0.541 0.281 293.009); /* rich violet */
   }
 }
 
-/*
-  Regra @font-face para importar a fonte customizada Manrope.
-  Utiliza o formato woff2-variations, indicando que é uma fonte variável.
-*/
 @font-face {
   font-family: 'Manrope';
-  src: url('/src/assets/fonts/Manrope[wght].woff2') format('woff2-variations'); /* Caminho e formato do arquivo da fonte. */
-  font-weight: 100 900; /* Define a faixa de pesos de fonte que esta fonte variável suporta. */
+  src: url('/src/assets/fonts/Manrope[wght].woff2') format('woff2-variations');
+  font-weight: 100 900;
   font-style: normal;
-  font-display: swap; /* Estratégia de exibição da fonte: texto visível usando fallback enquanto a fonte customizada carrega. */
+  font-display: swap;
 }
 
-/*
-  Segunda camada base (@layer base).
-  Define estilos globais para elementos HTML base usando as variáveis CSS definidas acima.
-*/
 @layer base {
-  /*
-    Aplica estilos a todos os elementos (*).
-    @apply border-border: Define a cor da borda padrão usando a variável --border.
-    @apply outline-ring/50: Define um outline padrão usando a variável --ring com 50% de opacidade.
-  */
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
-  /*
-    Aplica estilos ao corpo do documento (body).
-    @apply bg-background text-foreground: Define a cor de fundo e a cor do texto padrão usando as variáveis.
-    font-family: Define a família de fontes principal da aplicação.
-    font-weight: Define o peso da fonte padrão para o texto do corpo.
-  */
   body {
     @apply bg-background text-foreground;
     font-family: 'Manrope', sans-serif;
@@ -184,13 +118,6 @@
   }
 }
 
-/*
-  Bloco @theme inline.
-  Este bloco parece ser específico para uma biblioteca de componentes ou sistema de UI (como shadcn/ui)
-  que permite mapear as variáveis CSS customizadas que você definiu (--cor-nome)
-  para tokens internos da biblioteca ou para um tema "inline" que a biblioteca reconhece (--color-cor-nome).
-  Isso garante que os componentes da biblioteca usem as cores e tokens definidos no seu sistema de design.
-*/
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -210,12 +137,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1); /* Mapeamento das variáveis de gráfico */
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar); /* Mapeamento das variáveis da barra lateral */
+  --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
@@ -223,4 +145,13 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
