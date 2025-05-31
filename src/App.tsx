@@ -35,7 +35,7 @@ export const App = () => {
           <RouterProvider router={router} />
           {/* Toaster: O componente que renderiza os toasts. Posicionado no nível superior
               para que as mensagens disparadas por toast() apareçam corretamente. */}
-          <Toaster />
+          <Toaster position='top-right' />
         </DialogProvider>
       </ThemeProvider>
     </AuthProvider>

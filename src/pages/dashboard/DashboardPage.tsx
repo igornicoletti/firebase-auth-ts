@@ -4,19 +4,19 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Button, ButtonHighlight } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { AuthSuccessCodes } from '@/lib/auth/constants'
 import { useAuth } from '@/lib/auth/contexts/auth-context'
 import { useAuthToast } from '@/lib/auth/hooks'
-import { auth } from '@/lib/firebase'
-import { signOut } from 'firebase/auth'
+import { signOutUser } from '@/lib/auth/services'
 
 export const DashboardPage = () => {
-  const { user } = useAuth() // Consome o estado do contexto
-  const { toastError } = useAuthToast()
+  const { user } = useAuth()
+  const { toastError, toastSuccess } = useAuthToast()
 
   const handleLogout = async () => {
     try {
-      await signOut(auth) // Chama a função de logout do Firebase
-      // O useAuthState no AuthProvider vai detectar o logout e atualizar o 'user' para null
+      await signOutUser()
+      toastSuccess(AuthSuccessCodes.SIGNOUT_SUCCESS)
     } catch (error) {
       toastError(error)
     }

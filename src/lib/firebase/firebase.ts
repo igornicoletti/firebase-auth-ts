@@ -1,36 +1,30 @@
-// src/lib/firebase/firebase.ts
+// src/lib/firebase/firebase-init.ts
 
-// Importa a função para inicializar um aplicativo Firebase
 import { initializeApp } from 'firebase/app'
-// Importa a função para obter a instância do serviço de Autenticação
 import { getAuth } from 'firebase/auth'
-// Importa funções para outros serviços (comentados, mas incluídos para referência)
-// import { getFirestore } from 'firebase/firestore'; // Para Cloud Firestore
-// import { getStorage } from 'firebase/storage'; // Para Cloud Storage
-
-// Importa o objeto de configuração do Firebase do seu arquivo de configuração
-import { firebaseConfig } from '@/lib/firebase/firebase.config'
 
 /**
- * Inicializa o aplicativo Firebase com a configuração fornecida.
- * Esta é a primeira etapa para usar qualquer serviço Firebase.
- * Cria uma instância do aplicativo Firebase.
+ * Configuration object for Firebase.
+ * These values are sourced from environment variables.
+ */
+export const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+}
+
+/**
+ * Initializes the Firebase application using the configuration defined in `firebaseConfig`.
  */
 const app = initializeApp(firebaseConfig)
 
 /**
- * Obtém a instância do serviço Firebase Authentication associada ao aplicativo inicializado.
- * Usando a abordagem modular (SDK v9+).
+ * Gets the Firebase Authentication instance associated with the initialized app.
  */
 const auth = getAuth(app)
 
-// Obtém instâncias de outros serviços Firebase, se estiverem sendo usados.
-// Eles estão comentados no seu código atual, mas a estrutura é mostrada.
-// const db = getFirestore(app); // Instância do Cloud Firestore
-// const storage = getStorage(getApp()); // Instância do Cloud Storage (usando getApp() ou a instância 'app' local)
-
-/**
- * Exporta as instâncias inicializadas do aplicativo Firebase e dos serviços utilizados.
- * Outros arquivos da sua aplicação importarão estas instâncias para interagir com o Firebase.
- */
-export { app, auth /*, db, storage */ }
+export { app, auth }

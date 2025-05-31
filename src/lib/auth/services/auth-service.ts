@@ -1,138 +1,90 @@
 // src/lib/auth/services/auth-service.ts
 
-// Importa as funções e tipos necessários do SDK do Firebase Authentication
 import {
-  applyActionCode, // Função para aplicar códigos de ação fora de banda (ex: verificação de email)
-  confirmPasswordReset, // Função para finalizar o reset de senha com o código e nova senha
-  createUserWithEmailAndPassword, // Função para criar um novo usuário com email e senha
-  GoogleAuthProvider, // Provedor de autenticação Google
-  sendEmailVerification, // Função para enviar o email de verificação para o usuário atual
-  sendPasswordResetEmail, // Função para enviar o email de redefinição de senha
-  signInWithEmailAndPassword, // Função para logar um usuário com email e senha
-  signInWithPopup, // Função para logar com um provedor usando um popup (ex: Google, Facebook)
-  signOut, // Função para fazer logout do usuário atual
-  updateProfile, // Função para atualizar o perfil do usuário (ex: nome de exibição)
-  type User, // Tipo que representa um usuário autenticado no Firebase
+  applyActionCode,
+  confirmPasswordReset,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
+  type User,
 } from 'firebase/auth'
 
-// Importa a instância do Firebase Auth inicializada no seu projeto
 import { auth } from '@/lib/firebase'
 
 /**
- * Inicia o fluxo de login com o Google usando um popup.
- * Redireciona para o fluxo de autorização do Google e, em caso de sucesso, autentica o usuário.
- * A Promise se resolve com o resultado da autenticação (incluindo o usuário e credenciais),
- * ou rejeita em caso de erro (popup bloqueado, usuário fechou, erro do Google, etc.).
- *
- * @returns {Promise<void>} Uma Promise que se resolve quando o login com Google for bem-sucedido.
- *                          Rejeita em caso de erro.
+ * Signs in a user with Google using a popup.
  */
 export const signInWithGoogle = async (): Promise<void> => {
-  // Cria uma nova instância do provedor de autenticação Google.
   const provider = new GoogleAuthProvider()
-  // Inicia o fluxo de login usando um popup.
-  // Await para garantir que a operação seja concluída antes que a função retorne.
   await signInWithPopup(auth, provider)
-  // Nota: O resultado da Promise (UserCredential) não está sendo usado aqui,
-  // a função apenas espera que a operação termine com sucesso ou falhe.
 }
 
 /**
- * Tenta logar um usuário existente com email e senha.
- *
- * @param {string} email - O email do usuário.
- * @param {string} password - A senha do usuário.
- * @returns {Promise<void>} Uma Promise que se resolve quando o login for bem-sucedido.
- *                          Rejeita em caso de credenciais inválidas, usuário desabilitado, etc.
+ * Signs in a user with their email and password.
+ * @param {string} email The user's email address.
+ * @param {string} password The user's password.
  */
 export const signInWithEmail = async (email: string, password: string): Promise<void> => {
-  // Chama a função de login com email e senha do Firebase Auth.
-  // Await para esperar a conclusão da operação.
   await signInWithEmailAndPassword(auth, email, password)
-  // Nota: O resultado da Promise (UserCredential) não está sendo usado aqui.
 }
 
 /**
- * Cria um novo usuário com email e senha e, opcionalmente, define um nome de exibição.
- * Após a criação bem-sucedida, envia um email de verificação para o usuário.
- *
- * @param {string} email - O email para o novo usuário.
- * @param {string} password - A senha para o novo usuário.
- * @param {string} [displayName] - Opcional. O nome de exibição a ser definido para o usuário.
- * @returns {Promise<User>} Uma Promise que se resolve com o objeto User do usuário recém-criado e logado.
- *                         Rejeita em caso de email já em uso, senha fraca, email inválido, etc.
+ * Creates a new user with the provided email and password, and optionally sets their display name.
+ * It also sends an email verification to the newly created user.
+ * @param {string} email The new user's email address.
+ * @param {string} password The new user's password.
+ * @param {string} [displayName] Optional display name for the new user.
+ * @returns {Promise<User>} The Firebase User object of the newly created user.
  */
-export const createUserWithEmail = async (email: string, password: string, displayName?: string): Promise<User> => {
-  // Cria o usuário com email e senha. A Promise resolve com UserCredential, que contém o objeto user.
+export const createUserWithEmail = async (
+  email: string,
+  password: string,
+  displayName?: string
+): Promise<User> => {
   const { user } = await createUserWithEmailAndPassword(auth, email, password)
 
-  // Se um nome de exibição foi fornecido, tenta atualizar o perfil do usuário.
   if (displayName) {
-    // Chama a função updateProfile com o objeto user e os dados a serem atualizados.
     await updateProfile(user, { displayName })
   }
 
-  // Envia o email de verificação para o usuário recém-criado.
-  // Nota: sendEmailVerification usa o usuário atualmente logado, que é o usuário recém-criado neste ponto.
   await sendEmailVerification(user)
 
-  // Retorna o objeto User do usuário recém-criado e (agora) logado.
   return user
 }
 
 /**
- * Envia um email de redefinição de senha para o endereço de email fornecido.
- *
- * @param {string} email - O email para o qual enviar o link de redefinição de senha.
- * @returns {Promise<void>} Uma Promise que se resolve quando o email for enviado com sucesso.
- *                          Rejeita em caso de email inválido, problemas de envio, etc.
- *                          (Nota: Não rejeita por email não encontrado se Email Enumeration Protection estiver ativo).
+ * Sends a password reset email to the given email address.
+ * @param {string} email The email address to send the reset link to.
  */
 export const sendPasswordReset = async (email: string): Promise<void> => {
-  // Chama a função sendPasswordResetEmail do Firebase Auth.
-  // Passamos a instância auth e o email.
   await sendPasswordResetEmail(auth, email)
 }
 
 /**
- * Conclui o processo de redefinição de senha usando o código fora de banda (oobCode) recebido no email.
- *
- * @param {string} oobCode - O código de ação fora de banda da URL de redefinição de senha.
- * @param {string} newPassword - A nova senha a ser definida para o usuário.
- * @returns {Promise<void>} Uma Promise que se resolve quando a senha for redefinida com sucesso.
- *                          Rejeita em caso de código inválido/expirado, senha fraca, etc.
+ * Confirms a password reset using the oobCode and the new password.
+ * @param {string} oobCode The out-of-band code from the reset link.
+ * @param {string} newPassword The new password to set for the user.
  */
 export const confirmUserPasswordReset = async (oobCode: string, newPassword: string): Promise<void> => {
-  // Chama a função confirmPasswordReset do Firebase Auth.
-  // Passamos a instância auth, o código e a nova senha.
   await confirmPasswordReset(auth, oobCode, newPassword)
 }
 
 /**
- * Aplica um código de ação fora de banda (oobCode).
- * Usado para verificar e-mail, recuperar e-mail, ou fazer login com link.
- *
- * @param {string} oobCode - O código de ação fora de banda da URL (email link).
- * @returns {Promise<void>} Uma Promise que se resolve quando o código de ação for aplicado com sucesso.
- *                          Rejeita em caso de código inválido/expirado, ou outro erro.
+ * Applies an action code (e.g., for email verification) using the oobCode.
+ * @param {string} oobCode The out-of-band code from the action link.
  */
 export const applyUserActionCode = async (oobCode: string): Promise<void> => {
-  // Chama a função applyActionCode do Firebase Auth.
-  // Passamos a instância auth e o código.
   await applyActionCode(auth, oobCode)
-  // Nota: Dependendo do 'mode' (verificar email vs login com link), a API Firebase
-  // pode ou não logar o usuário automaticamente após applyActionCode.
-  // Para verificação de email, você geralmente precisa chamar user.reload() depois.
 }
 
 /**
- * Faz logout do usuário atualmente autenticado.
- *
- * @returns {Promise<void>} Uma Promise que se resolve quando o logout for concluído com sucesso.
- *                          Pode rejeitar em caso de erro (raro, ex: problema no keychain).
+ * Signs out the current user.
  */
 export const signOutUser = async (): Promise<void> => {
-  // Chama a função signOut do Firebase Auth.
-  // Passamos a instância auth.
   await signOut(auth)
 }
