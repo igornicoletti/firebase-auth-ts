@@ -5,11 +5,11 @@ import { useCallback } from 'react'
 import { toast } from 'sonner'
 
 import { AuthSuccessCodes, type AuthSuccessCode } from '@/lib/auth/constants'
-import { authFormatCodes } from '@/lib/auth/helpers'
+import { authFormat } from '@/lib/auth/helpers'
 
 /**
  * A custom hook to display styled success and error toasts for authentication related events.
- * It uses the 'sonner' library for toast notifications and the `authFormatCodes` utility
+ * It uses the 'sonner' library for toast notifications and the `authFormat` utility
  * to get user-friendly messages based on authentication codes.
  * @returns {{ toastError: (error: unknown) => void; toastSuccess: (successKey?: AuthSuccessCode) => void }}
  * An object containing functions to display error and success toasts.
@@ -22,7 +22,7 @@ export const useAuthToast = () => {
    */
   const toastError = useCallback((error: unknown) => {
     const code = extractCode(error)
-    const { title, description } = authFormatCodes.error(code)
+    const { title, description } = authFormat.error(code)
 
     toast.dismiss()
     toast.message(title, {
@@ -40,7 +40,7 @@ export const useAuthToast = () => {
    * @param {AuthSuccessCode} [successKey=AuthSuccessCodes.GENERIC_SUCCESS] - The authentication success code.
    */
   const toastSuccess = useCallback((successKey: AuthSuccessCode = AuthSuccessCodes.GENERIC_SUCCESS) => {
-    const { title, description } = authFormatCodes.success(successKey)
+    const { title, description } = authFormat.success(successKey)
 
     toast.dismiss()
     toast.message(title, {

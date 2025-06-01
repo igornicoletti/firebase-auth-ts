@@ -97,9 +97,9 @@ export const AuthLoginForm = () => {
           disabled={isLoading}
           type='button'
           variant='secondary'>
-          <ButtonHighlight />
           <GoogleLogo />
           {isLoading ? 'Logging..' : 'Login with Google'}
+          <ButtonHighlight />
         </Button>
         <p className='flex items-center gap-x-3 text-sm text-muted-foreground
         before:h-px before:flex-1 before:bg-gradient-to-r before:from-transparent before:via-border before:to-border

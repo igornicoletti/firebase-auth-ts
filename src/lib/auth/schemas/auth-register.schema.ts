@@ -9,7 +9,7 @@ import { z } from 'zod'
  */
 export const authRegisterSchema = z
   .object({
-    username: z.string().trim().min(1, 'Username is required'),
+    username: z.string().trim(),
 
     email: z
       .string()

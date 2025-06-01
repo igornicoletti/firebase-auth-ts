@@ -1,3 +1,3 @@
 // src/lib/auth/constants/index.ts
 
-export * from './auth-constant'
+export * from './auth-codes.constant'

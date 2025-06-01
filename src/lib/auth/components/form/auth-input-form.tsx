@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import type { Control, FieldValues, Path } from 'react-hook-form'
 
-import { Eye, EyeClosed } from '@phosphor-icons/react'
+import { Eye, EyeSlash } from '@phosphor-icons/react'
 
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
@@ -60,7 +60,7 @@ export const AuthInputForm = <T extends FieldValues>({
                   onClick={() => setVisible((prev) => !prev)}
                   aria-label={visible ? 'Hide password' : 'Show password'}
                   className='absolute top-0 right-0 text-muted-foreground hover:bg-transparent'>
-                  {visible ? <EyeClosed /> : <Eye />}
+                  {visible ? <EyeSlash /> : <Eye />}
                 </Button>
               )}
             </div>

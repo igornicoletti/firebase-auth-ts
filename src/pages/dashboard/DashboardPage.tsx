@@ -5,7 +5,7 @@ import { Button, ButtonHighlight } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { AuthSuccessCodes } from '@/lib/auth/constants'
-import { useAuth } from '@/lib/auth/contexts/auth-context'
+import { useAuth } from '@/lib/auth/contexts/auth-provider.context'
 import { useAuthToast } from '@/lib/auth/hooks'
 import { signOutUser } from '@/lib/auth/services'
 

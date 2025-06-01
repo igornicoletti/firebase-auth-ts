@@ -1,1 +1,1 @@
-export * from './auth-loader'
+export * from './auth.loader'

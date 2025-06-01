@@ -1,4 +1,4 @@
-// src/lib/auth/helpers/auth-format-codes.ts
+// src/lib/auth/helpers/auth-format.helper.ts
 
 import { authErrorMap, authSuccessMap } from '@/lib/auth/config'
 import type { AuthSuccessCode } from '@/lib/auth/constants'
@@ -6,14 +6,14 @@ import type { AuthSuccessCode } from '@/lib/auth/constants'
 /**
  * Formats authentication codes (both errors and successes) into user-friendly messages.
  */
-const authFormatCodes = {
+export const authFormat = {
   /**
    * Formats an authentication error code into a user-friendly error object.
    * If the error code is not found in the `authErrorMap`, it returns a generic fallback.
    * @param {string} code - The Firebase Authentication error code.
    * @returns {{ title: string; description: string }} An object containing the formatted error title and description.
    */
-  error: (code: string) => {
+  error: (code: string): { title: string; description: string } => {
     const fallback = {
       title: prettifyCode(code),
       description
@@ -28,7 +28,7 @@ const authFormatCodes = {
    * @param {AuthSuccessCode} successKey - The authentication success code.
    * @returns {{ title: string; description: string }} An object containing the formatted success title and description.
    */
-  success: (successKey: AuthSuccessCode) => {
+  success: (successKey: AuthSuccessCode): { title: string; description: string } => {
     const fallback = {
       title: prettifyCode(successKey),
       description: 'Operation completed successfully.',
@@ -49,5 +49,3 @@ const prettifyCode = (code: string): string =>
     .replace(/^auth\//, '')
     .replace(/-/g, ' ')
     .replace(/\b\w/g, (char) => char.toUpperCase())
-
-export { authFormatCodes }

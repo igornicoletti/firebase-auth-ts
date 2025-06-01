@@ -1,4 +1,4 @@
-// src/lib/auth/constants/auth-constant.ts
+// src/lib/auth/constants/auth-codes.constant.ts
 
 /**
  * Defines the possible action codes received in authentication callbacks.

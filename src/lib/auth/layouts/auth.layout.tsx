@@ -11,11 +11,9 @@ import type { AuthData } from '@/lib/auth/config'
  * It renders the title, description, the nested authentication form (`Outlet`), and a link to the alternative authentication page.
  */
 export const AuthLayout = () => {
-  // Find the route match that has associated data. This data is expected to be the AuthData object.
   const match = [...useMatches()].find((m) => m.data)
   if (!match) return null
 
-  // Extract the authentication page details from the route data.
   const { title, description, ask, source, pathname } = match.data as AuthData
 
   return (
@@ -26,7 +24,6 @@ export const AuthLayout = () => {
             <h2 className='font-bold text-xl'>{title}</h2>
             <p className='text-sm text-muted-foreground'>{description}</p>
           </div>
-          {/* Render the nested route content (e.g., the login form). */}
           <Outlet />
           <p className='text-sm text-muted-foreground text-center'>
             {ask}{' '}

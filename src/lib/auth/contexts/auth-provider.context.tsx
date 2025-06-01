@@ -1,4 +1,4 @@
-// src/lib/auth/context/auth-context.tsx
+// src/lib/auth/context/auth-provider.context.tsx
 
 import { type User } from 'firebase/auth'
 import {
@@ -10,8 +10,8 @@ import {
   type ReactNode,
 } from 'react'
 
-import { LoadingSpinner } from '@/components/custom'
 import { auth } from '@/lib/firebase'
+import { LoadingDots } from '@/lib/routes'
 
 type AuthContextValue = {
   user: User | null
@@ -28,24 +28,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
-  // Subscribe to Firebase's authentication state changes.
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       setUser(currentUser)
       setLoading(false)
     })
 
-    // Unsubscribe from the listener when the component unmounts.
     return unsubscribe
   }, [])
 
-  // Memoize the context value to avoid unnecessary re-renders.
   const value = useMemo(() => ({ user, loading }), [user, loading])
 
   return (
     <AuthContext.Provider value={value}>
-      {/* Display a loading spinner while the authentication state is being determined. */}
-      {loading ? <LoadingSpinner /> : children}
+      {loading ? <LoadingDots /> : children}
     </AuthContext.Provider>
   )
 }
