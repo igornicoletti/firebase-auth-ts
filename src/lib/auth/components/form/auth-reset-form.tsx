@@ -36,15 +36,6 @@ export const AuthResetForm = () => {
     },
   })
 
-  /**
-   * Handles the form submission for resetting the user's password.
-   * Retrieves the `oobCode` from the URL parameters.
-   * If the code is missing, displays an error and navigates to the forgot password page.
-   * Otherwise, calls the `confirmUserPasswordReset` service, displays success/error toasts,
-   * resets the form on success, and navigates to the login page.
-   * Finally, sets the loading state.
-   * @param data - The form data containing the new password and its confirmation.
-   */
   const onSubmit = async (data: AuthReset) => {
     setIsLoading(true)
 
@@ -80,13 +71,15 @@ export const AuthResetForm = () => {
           disabled={isLoading}
           type='password'
           name='newPassword'
-          placeholder='New password' />
+          placeholder='New password'
+          autoComplete='new-password' />
         <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='password'
           name='confirmNewPassword'
-          placeholder='Confirm new password' />
+          placeholder='Confirm new password'
+          autoComplete='new-password' />
         <Button disabled={isLoading} type='submit'>
           {isLoading ? 'Resetting...' : 'Reset password'}
         </Button>

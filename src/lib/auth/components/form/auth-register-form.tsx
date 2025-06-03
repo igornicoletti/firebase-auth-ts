@@ -34,13 +34,6 @@ export const AuthRegisterForm = () => {
     },
   })
 
-  /**
-   * Handles the form submission for user registration.
-   * Calls the createUserWithEmail service, displays success/error toasts,
-   * resets the form on success, and navigates to the login page.
-   * Finally, sets the loading state.
-   * @param data - The form data containing username, email, password, and password confirmation.
-   */
   const onSubmit = async (data: AuthRegister) => {
     setIsLoading(true)
 
@@ -69,25 +62,29 @@ export const AuthRegisterForm = () => {
           disabled={isLoading}
           type='text'
           name='username'
-          placeholder='Username' />
+          placeholder='Username'
+          autoComplete='username' />
         <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='email'
           name='email'
-          placeholder='Email address' />
+          placeholder='Email address'
+          autoComplete='email' />
         <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='password'
           name='password'
-          placeholder='Password' />
+          placeholder='Password'
+          autoComplete='new-password' />
         <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='password'
           name='confirmPassword'
-          placeholder='Confirm password' />
+          placeholder='Confirm password'
+          autoComplete='new-password' />
         <Button disabled={isLoading} type='submit'>
           {isLoading ? 'Creating...' : 'Create account'}
         </Button>

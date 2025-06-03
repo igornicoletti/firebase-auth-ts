@@ -7,11 +7,6 @@ type AuthError = {
   description: string
 }
 
-/**
- * A mapping of Firebase Authentication error codes to user-friendly error messages.
- * Each key corresponds to an `AuthErrorCodes` value, and the value is an object
- * containing a human-readable title and description for the error.
- */
 export const authErrorMap: Record<string, AuthError> = {
   [AuthErrorCodes.INVALID_EMAIL]: {
     title: 'Invalid Email',

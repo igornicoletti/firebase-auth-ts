@@ -2,10 +2,6 @@
 
 import { z } from 'zod'
 
-/**
- * Zod schema for the login form.
- * Defines validation rules for the email and password input fields.
- */
 export const authLoginSchema = z.object({
   email: z
     .string()

@@ -1,8 +1,10 @@
 // src/lib/routes/error-boundary.route.ts
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Terminal } from 'lucide-react'
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
+
+import { Terminal } from '@phosphor-icons/react'
+
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 export const ErrorBoundary = () => {
   const error = useRouteError()

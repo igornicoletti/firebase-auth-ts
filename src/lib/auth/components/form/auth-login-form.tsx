@@ -37,14 +37,6 @@ export const AuthLoginForm = () => {
     },
   })
 
-  /**
-   * Handles the form submission for email/password login.
-   * It attempts to sign in the user with the provided credentials.
-   * On success, it displays a success message, resets the form, and navigates to the dashboard.
-   * On error, it displays an error message.
-   * Finally, it sets the loading state to false.
-   * @param data - The form data containing the email and password.
-   */
   const onSubmit = async (data: AuthLogin) => {
     setIsLoading(true)
 
@@ -62,13 +54,6 @@ export const AuthLoginForm = () => {
     }
   }
 
-  /**
-   * Handles the Google login functionality.
-   * It attempts to sign in the user with their Google account.
-   * On success, it displays a success message, resets the form, and navigates to the dashboard.
-   * On error, it displays an error message.
-   * Finally, it sets the loading state to false.
-   */
   const handleGoogleLogin = async () => {
     setIsLoading(true)
 
@@ -111,7 +96,8 @@ export const AuthLoginForm = () => {
           disabled={isLoading}
           type='email'
           name='email'
-          placeholder='Email address' />
+          placeholder='Email address'
+          autoComplete='email' />
         <Button
           asChild
           variant='link'
@@ -123,7 +109,8 @@ export const AuthLoginForm = () => {
           disabled={isLoading}
           type='password'
           name='password'
-          placeholder='Password' />
+          placeholder='Password'
+          autoComplete='current-password' />
         <Button disabled={isLoading} type='submit'>
           {isLoading ? 'Logging...' : 'Login'}
         </Button>

@@ -8,6 +8,7 @@ import { AuthSuccessCodes } from '@/lib/auth/constants'
 import { useAuth } from '@/lib/auth/contexts/auth-provider.context'
 import { useAuthToast } from '@/lib/auth/hooks'
 import { signOutUser } from '@/lib/auth/services'
+import { SignOut } from '@phosphor-icons/react'
 
 export const DashboardPage = () => {
   const { user } = useAuth()
@@ -58,8 +59,9 @@ export const DashboardPage = () => {
             onClick={handleLogout}
             className='w-full max-w-xs'
             aria-label='Logout and end session'>
-            <ButtonHighlight />
+            <SignOut />
             Logout
+            <ButtonHighlight />
           </Button>
         </div>
       </SidebarInset>

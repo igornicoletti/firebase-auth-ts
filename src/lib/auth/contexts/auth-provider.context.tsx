@@ -11,7 +11,7 @@ import {
 } from 'react'
 
 import { auth } from '@/lib/firebase'
-import { LoadingDots } from '@/lib/routes'
+import { Loading } from '@/lib/routes'
 
 type AuthContextValue = {
   user: User | null
@@ -41,16 +41,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {loading ? <LoadingDots /> : children}
+      {loading ? <Loading /> : children}
     </AuthContext.Provider>
   )
 }
 
-/**
- * A custom hook to access the authentication context values (user and loading state).
- * @returns {AuthContextValue} - An object containing the current user and the loading state.
- * @throws {Error} If used outside of an AuthProvider.
- */
 export const useAuth = (): AuthContextValue => {
   const context = useContext(AuthContext)
 

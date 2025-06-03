@@ -2,11 +2,6 @@
 
 import { z } from 'zod'
 
-/**
- * Zod schema for the reset password form.
- * Defines validation rules for the new password and confirm new password fields.
- * Includes a refinement to ensure that the new password and its confirmation match.
- */
 export const authResetSchema = z
   .object({
     newPassword: z

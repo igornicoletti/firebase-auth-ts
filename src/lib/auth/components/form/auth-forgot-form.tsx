@@ -56,15 +56,14 @@ export const AuthForgotForm = () => {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         autoComplete='on'
-        className='grid gap-4'
-      >
+        className='grid gap-4'>
         <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='email'
           name='email'
           placeholder='Email address'
-        />
+          autoComplete='email' />
         <Button disabled={isLoading} type='submit'>
           {isLoading ? 'Sending...' : 'Send reset email'}
         </Button>

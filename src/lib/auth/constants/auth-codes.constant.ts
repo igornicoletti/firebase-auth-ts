@@ -1,16 +1,10 @@
 // src/lib/auth/constants/auth-codes.constant.ts
 
-/**
- * Defines the possible action codes received in authentication callbacks.
- */
 export const AuthActionCodes = {
   VERIFY_EMAIL: 'verifyEmail',
   RESET_PASSWORD: 'resetPassword',
 } as const
 
-/**
- * Defines codes for different authentication data configurations (e.g., login, register).
- */
 export const AuthDataCodes = {
   LOGIN: 'login',
   REGISTER: 'register',
@@ -18,14 +12,8 @@ export const AuthDataCodes = {
   RESET_PASSWORD: 'reset-password',
 } as const
 
-/**
- * Type for the authentication data codes.
- */
 export type AuthDataCode = typeof AuthDataCodes[keyof typeof AuthDataCodes]
 
-/**
- * Defines codes for various successful authentication operations.
- */
 export const AuthSuccessCodes = {
   SIGNIN_SUCCESS: 'signin-success',
   SIGNUP_SUCCESS: 'signup-success',
@@ -43,7 +31,4 @@ export const AuthSuccessCodes = {
   GENERIC_SUCCESS: 'generic-success',
 } as const
 
-/**
- * Type for the authentication success codes.
- */
 export type AuthSuccessCode = typeof AuthSuccessCodes[keyof typeof AuthSuccessCodes]

@@ -7,11 +7,6 @@ type AuthSuccess = {
   description: string
 }
 
-/**
- * A mapping of authentication success codes to user-friendly success messages.
- * Each key corresponds to an `AuthSuccessCodes` value, and the value is an object
- * containing a title and a description of the successful operation.
- */
 export const authSuccessMap: Record<AuthSuccessCode, AuthSuccess> = {
   [AuthSuccessCodes.SIGNIN_SUCCESS]: {
     title: 'Welcome!',

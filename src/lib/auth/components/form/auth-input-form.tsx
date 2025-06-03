@@ -15,6 +15,7 @@ type AuthInput<T extends FieldValues> = {
   type: string
   placeholder?: string
   disabled?: boolean
+  autoComplete?: string
 }
 
 /**
@@ -26,6 +27,7 @@ type AuthInput<T extends FieldValues> = {
  * @param {string} props.type - The type of the input field (e.g., 'text', 'email', 'password').
  * @param {string} [props.placeholder] - The placeholder text for the input field.
  * @param {boolean} [props.disabled] - Whether the input field is disabled.
+ * @param {string} [props.autoComplete] - The HTML autoComplete value for the input field.
  */
 export const AuthInputForm = <T extends FieldValues>({
   name,
@@ -33,6 +35,7 @@ export const AuthInputForm = <T extends FieldValues>({
   type,
   placeholder,
   disabled,
+  autoComplete
 }: AuthInput<T>) => {
   const [visible, setVisible] = useState(false)
 
@@ -51,7 +54,8 @@ export const AuthInputForm = <T extends FieldValues>({
                 {...field}
                 type={inputType}
                 disabled={disabled}
-                placeholder={placeholder} />
+                placeholder={placeholder}
+                autoComplete={autoComplete} />
               {isPassword && (
                 <Button
                   type='button'

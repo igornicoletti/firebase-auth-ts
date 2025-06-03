@@ -2,11 +2,6 @@
 
 import { z } from 'zod'
 
-/**
- * Zod schema for the registration form.
- * Defines validation rules for username, email, password, and confirm password fields.
- * Includes a refinement to ensure that the password and confirm password fields match.
- */
 export const authRegisterSchema = z
   .object({
     username: z.string().trim(),

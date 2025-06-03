@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
-export const LoadingDots = () => {
-  const [dots, setDots] = useState('')
+export const Loading = () => {
+  const [dots, setDots] = useState<string>('')
 
   useEffect(() => {
     const interval = setInterval(() => {

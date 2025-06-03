@@ -10,11 +10,6 @@ export type AuthData = {
   pathname: string
 }
 
-/**
- * Configuration mapping for different authentication pages.
- * Each entry provides the title, description, a question to prompt the user,
- * the text for the link to the alternative authentication page, and the pathname of that page.
- */
 export const authDataMap: Record<AuthDataCode, AuthData> = {
   [AuthDataCodes.LOGIN]: {
     title: 'Sign in to your account',

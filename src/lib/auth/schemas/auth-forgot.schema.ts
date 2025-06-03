@@ -2,10 +2,6 @@
 
 import { z } from 'zod'
 
-/**
- * Zod schema for the forgot password form.
- * Defines validation rules for the email input field.
- */
 export const authForgotSchema = z.object({
   email: z
     .string()
