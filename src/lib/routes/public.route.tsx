@@ -4,6 +4,7 @@ import { useEffect, type JSX } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '@/lib/auth/contexts'
+import { authAccess } from '@/lib/auth/helpers'
 import { Loading } from '@/lib/routes'
 
 type Public = {
@@ -12,14 +13,11 @@ type Public = {
 
 export const Public = ({ redirectTo = '/dashboard' }: Public): JSX.Element => {
   const { user, loading } = useAuth()
-
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!loading) {
-      if (user) {
-        navigate(redirectTo, { replace: true })
-      }
+    if (!loading && authAccess(user, { requireEmailVerified: true })) {
+      navigate(redirectTo, { replace: true })
     }
   }, [loading, user, navigate, redirectTo])
 

@@ -86,7 +86,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    element: <Protected />,
+    element: <Protected requireEmailVerified={true} />,
     errorElement: <ErrorBoundary />,
     children: privateRoutes,
   },
