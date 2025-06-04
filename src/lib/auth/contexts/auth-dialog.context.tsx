@@ -1,30 +1,38 @@
 import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react'
+
+import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { createContext, useContext, useEffect, useRef, useState } from 'react'
 
 type DialogProps = {
   title: string
   description: string
-  content?: React.ReactNode
+  content?: ReactNode
   onClose?: () => void
 }
 
-type DialogContextType = {
+type DialogContextValue = {
   openDialog: (data: DialogProps) => void
   closeDialog: (triggerOnClose?: boolean) => void
 }
 
-const DialogContext = createContext<DialogContextType | undefined>(undefined)
+const DialogContext = createContext<DialogContextValue | undefined>(undefined)
 
-export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
+export const DialogProvider = ({ children }: { children: ReactNode }) => {
   const [dialog, setDialog] = useState<DialogProps | null>(null)
-  const triggerOnCloseRef = useRef(false)
   const lastDialogRef = useRef<DialogProps | null>(null)
+  const triggerOnCloseRef = useRef(false)
 
   const openDialog = (data: DialogProps) => {
     setDialog(data)
@@ -46,23 +54,31 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <DialogContext.Provider value={{ openDialog, closeDialog }}>
       {children}
-      <Dialog open={!!dialog} onOpenChange={(open) => !open && closeDialog(true)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{dialog?.title}</DialogTitle>
-            <DialogDescription>{dialog?.description}</DialogDescription>
-          </DialogHeader>
-          {dialog?.content}
-        </DialogContent>
-      </Dialog>
+      {dialog && (
+        <Dialog
+          open={true}
+          onOpenChange={(open) => {
+            if (!open) closeDialog(true)
+          }}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className='text-center'>{dialog.title}</DialogTitle>
+              <DialogDescription className='text-center'>{dialog.description}</DialogDescription>
+            </DialogHeader>
+            {dialog.content}
+          </DialogContent>
+        </Dialog>
+      )}
     </DialogContext.Provider>
   )
 }
 
-export const useDialog = () => {
+export const useDialog = (): DialogContextValue => {
   const context = useContext(DialogContext)
+
   if (!context) {
-    throw new Error('useDialog must be used within DialogProvider')
+    throw new Error('useDialog must be used within an DialogProvider')
   }
+
   return context
 }

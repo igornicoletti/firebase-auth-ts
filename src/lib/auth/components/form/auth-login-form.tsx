@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -13,21 +13,22 @@ import { Form } from '@/components/ui/form'
 
 import { AuthInputForm } from '@/lib/auth/components/form'
 import { AuthSuccessCodes } from '@/lib/auth/constants'
+import { useDialog } from '@/lib/auth/contexts'
 import { useAuthToast } from '@/lib/auth/hooks'
 import { authLoginSchema } from '@/lib/auth/schemas'
-import { signInWithEmail, signInWithGoogle } from '@/lib/auth/services'
+import { sendEmailVerificationToCurrentUser, signInWithEmail, signInWithGoogle } from '@/lib/auth/services'
+import { auth } from '@/lib/firebase'
 
 type AuthLogin = z.infer<typeof authLoginSchema>
 
-/**
- * A form component for user login, handling both email/password and Google authentication.
- * It uses `react-hook-form` for form management and validation, and integrates with Firebase
- * for authentication services. Upon successful login, it navigates the user to the dashboard.
- */
 export const AuthLoginForm = () => {
-  const navigate = useNavigate()
   const { toastError, toastSuccess } = useAuthToast()
+  const { openDialog, closeDialog } = useDialog()
   const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const from = location.state?.from || '/dashboard'
 
   const form = useForm<AuthLogin>({
     resolver: zodResolver(authLoginSchema),
@@ -37,14 +38,44 @@ export const AuthLoginForm = () => {
     },
   })
 
+  const handleResendVerificationEmail = async () => {
+    try {
+      await sendEmailVerificationToCurrentUser()
+      toastSuccess(AuthSuccessCodes.EMAIL_RESEND_SUCCESS)
+      closeDialog()
+    } catch (error) {
+      toastError(error)
+    }
+  }
+
   const onSubmit = async (data: AuthLogin) => {
     setIsLoading(true)
 
     try {
       await signInWithEmail(data.email, data.password)
-      toastSuccess(AuthSuccessCodes.SIGNIN_SUCCESS)
+
+      if (!auth.currentUser?.emailVerified) {
+        openDialog({
+          title: 'Hold up! Verify your email',
+          description: 'You’ll need to confirm your email before jumping in. Didn’t get the message? Check your spam folder — or just resend it.',
+          content: (
+            <div className='grid grid-cols-2 gap-4'>
+              <Button variant='secondary' onClick={handleResendVerificationEmail}>
+                Resend email
+                <ButtonHighlight />
+              </Button>
+              <Button variant='default' onClick={() => closeDialog()}>
+                Okay
+              </Button>
+            </div>
+          )
+        })
+        return
+      }
+
       form.reset()
-      navigate('/dashboard')
+      toastSuccess(AuthSuccessCodes.EMAIL_SIGNIN_SUCCESS)
+      navigate(from, { replace: true })
 
     } catch (error) {
       toastError(error)
@@ -59,9 +90,9 @@ export const AuthLoginForm = () => {
 
     try {
       await signInWithGoogle()
-      toastSuccess(AuthSuccessCodes.SIGNIN_SUCCESS)
+      toastSuccess(AuthSuccessCodes.GOOGLE_SIGNIN_SUCCESS)
       form.reset()
-      navigate('/dashboard')
+      navigate(from, { replace: true })
 
     } catch (error) {
       toastError(error)

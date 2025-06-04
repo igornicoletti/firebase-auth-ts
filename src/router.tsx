@@ -1,5 +1,3 @@
-// src/router.tsx
-
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import {
@@ -27,7 +25,7 @@ const RootRedirect = () => {
 
   if (loading) return <Loading />
 
-  return user ? (
+  return user?.emailVerified ? (
     <Navigate to="/dashboard" replace />
   ) : (
     <Navigate to="/login" replace />

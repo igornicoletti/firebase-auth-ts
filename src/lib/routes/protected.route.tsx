@@ -1,35 +1,38 @@
 // src/lib/routes/protected.route.tsx
 
 import { useEffect, type JSX } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '@/lib/auth/contexts'
 import { authAccess } from '@/lib/auth/helpers'
 import { Loading } from '@/lib/routes'
 
-type Protected = {
+type ProtectedValue = {
   requireEmailVerified?: boolean
   redirectTo?: string
 }
 
-export const Protected = ({ requireEmailVerified = true, redirectTo = '/login' }: Protected): JSX.Element => {
+export const Protected = ({
+  requireEmailVerified = true,
+  redirectTo = '/login'
+}: ProtectedValue): JSX.Element => {
   const { user, loading } = useAuth()
-  const isAllowed = authAccess(user, { requireEmailVerified })
-
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const isAllowed = authAccess(user, { requireEmailVerified })
 
   useEffect(() => {
     if (!loading) {
       if (!isAllowed) {
-        navigate(redirectTo, { replace: true })
+        navigate(redirectTo, { replace: true, state: { from: location.pathname } })
       }
     }
-
-  }, [loading, isAllowed, navigate, redirectTo])
+  }, [loading, isAllowed, navigate, location.pathname, redirectTo])
 
   if (loading) {
     return <Loading />
   }
 
-  return <Outlet />
+  return isAllowed ? <Outlet /> : <></>
 }

@@ -34,14 +34,14 @@ export const Callback = () => {
       try {
         switch (mode) {
           case AuthActionCodes.VERIFY_EMAIL: {
-            await applyUserActionCode(oobCode) // Use your service function
-            await auth.currentUser?.reload() // Reload user data
+            await applyUserActionCode(oobCode)
+            await auth.currentUser?.reload()
 
             if (auth.currentUser?.emailVerified) {
               toastSuccess(AuthSuccessCodes.EMAIL_VERIFIED_SUCCESS)
-              navigate('/dashboard', { replace: true }) // Navigate to dashboard on success
+              navigate('/dashboard', { replace: true })
             } else {
-              toastError(AuthErrorCodes.INVALID_OOB_CODE) // Or a more specific error?
+              toastError(AuthErrorCodes.INVALID_OOB_CODE)
               navigate('/login', { replace: true })
             }
             break
