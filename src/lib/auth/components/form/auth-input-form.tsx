@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-type AuthInput<T extends FieldValues> = {
+type AuthInputValeus<T extends FieldValues> = {
   name: Path<T>
   control: Control<T>
   type: string
@@ -19,13 +19,8 @@ type AuthInput<T extends FieldValues> = {
 }
 
 export const AuthInputForm = <T extends FieldValues>({
-  name,
-  control,
-  type,
-  placeholder,
-  disabled,
-  autoComplete
-}: AuthInput<T>) => {
+  name, control, type, placeholder, disabled, autoComplete
+}: AuthInputValeus<T>) => {
   const [visible, setVisible] = useState(false)
 
   const isPassword = type === 'password'
@@ -44,7 +39,8 @@ export const AuthInputForm = <T extends FieldValues>({
                 type={inputType}
                 disabled={disabled}
                 placeholder={placeholder}
-                autoComplete={autoComplete} />
+                autoComplete={autoComplete}
+              />
               {isPassword && (
                 <Button
                   size='icon'

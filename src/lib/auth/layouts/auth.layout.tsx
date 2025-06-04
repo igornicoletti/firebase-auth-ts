@@ -5,11 +5,6 @@ import { Link, Outlet, useMatches } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import type { AuthData } from '@/lib/auth/config'
 
-/**
- * Layout component for authentication pages (login, register, forgot password, reset password).
- * It retrieves authentication-specific data (title, description, etc.) based on the current route's data.
- * It renders the title, description, the nested authentication form (`Outlet`), and a link to the alternative authentication page.
- */
 export const AuthLayout = () => {
   const match = [...useMatches()].find((m) => m.data)
   if (!match) return null

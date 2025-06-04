@@ -72,14 +72,16 @@ export const AuthResetForm = () => {
           type='password'
           name='newPassword'
           placeholder='New password'
-          autoComplete='new-password' />
+          autoComplete='new-password'
+        />
         <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='password'
           name='confirmNewPassword'
           placeholder='Confirm new password'
-          autoComplete='new-password' />
+          autoComplete='new-password'
+        />
         <Button disabled={isLoading} type='submit'>
           {isLoading ? 'Resetting...' : 'Reset password'}
         </Button>

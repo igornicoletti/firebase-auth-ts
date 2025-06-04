@@ -16,7 +16,7 @@ import { useAuthToast } from '@/lib/auth/hooks'
 import { authRegisterSchema } from '@/lib/auth/schemas'
 import { createUserWithEmail } from '@/lib/auth/services'
 
-type AuthRegister = z.infer<typeof authRegisterSchema>
+type AuthRegisterValues = z.infer<typeof authRegisterSchema>
 
 export const AuthRegisterForm = () => {
   const navigate = useNavigate()
@@ -24,7 +24,7 @@ export const AuthRegisterForm = () => {
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const form = useForm<AuthRegister>({
+  const form = useForm<AuthRegisterValues>({
     resolver: zodResolver(authRegisterSchema),
     defaultValues: {
       username: '',
@@ -34,7 +34,7 @@ export const AuthRegisterForm = () => {
     },
   })
 
-  const handleCreateUserWithEmail = async (data: AuthRegister) => {
+  const handleCreateUserWithEmail = async (data: AuthRegisterValues) => {
     setIsLoading(true)
 
     try {
@@ -63,28 +63,32 @@ export const AuthRegisterForm = () => {
           type='text'
           name='username'
           placeholder='Username'
-          autoComplete='username' />
+          autoComplete='username'
+        />
         <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='email'
           name='email'
           placeholder='Email address'
-          autoComplete='email' />
+          autoComplete='email'
+        />
         <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='password'
           name='password'
           placeholder='Password'
-          autoComplete='new-password' />
+          autoComplete='new-password'
+        />
         <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='password'
           name='confirmPassword'
           placeholder='Confirm password'
-          autoComplete='new-password' />
+          autoComplete='new-password'
+        />
         <Button disabled={isLoading} type='submit'>
           {isLoading ? 'Creating...' : 'Create account'}
         </Button>

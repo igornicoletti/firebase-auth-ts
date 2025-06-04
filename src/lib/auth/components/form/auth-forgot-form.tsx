@@ -16,19 +16,22 @@ import { useAuthToast } from '@/lib/auth/hooks'
 import { authForgotSchema } from '@/lib/auth/schemas'
 import { sendPasswordReset } from '@/lib/auth/services'
 
-type AuthForgot = z.infer<typeof authForgotSchema>
+type AuthForgotValeus = z.infer<typeof authForgotSchema>
 
 export const AuthForgotForm = () => {
   const navigate = useNavigate()
   const { toastError, toastSuccess } = useAuthToast()
+
   const [isLoading, setIsLoading] = useState(false)
 
-  const form = useForm<AuthForgot>({
+  const form = useForm<AuthForgotValeus>({
     resolver: zodResolver(authForgotSchema),
-    defaultValues: { email: '' },
+    defaultValues: {
+      email: ''
+    }
   })
 
-  const handleSendPasswordReset = async (data: AuthForgot) => {
+  const handleSendPasswordReset = async (data: AuthForgotValeus) => {
     setIsLoading(true)
 
     try {
@@ -57,7 +60,8 @@ export const AuthForgotForm = () => {
           type='email'
           name='email'
           placeholder='Email address'
-          autoComplete='email' />
+          autoComplete='email'
+        />
         <Button disabled={isLoading} type='submit'>
           {isLoading ? 'Sending...' : 'Send reset email'}
         </Button>

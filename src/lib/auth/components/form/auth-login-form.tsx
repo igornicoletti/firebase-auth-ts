@@ -24,18 +24,19 @@ import {
 } from '@/lib/auth/services'
 import { auth } from '@/lib/firebase'
 
-type AuthLogin = z.infer<typeof authLoginSchema>
+type AuthLoginValues = z.infer<typeof authLoginSchema>
 
 export const AuthLoginForm = () => {
-  const { toastError, toastSuccess } = useAuthToast()
-  const { openDialog, closeDialog } = useDialog()
-  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
+  const { openDialog, closeDialog } = useDialog()
+  const { toastError, toastSuccess } = useAuthToast()
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const from = location.state?.from || '/dashboard'
 
-  const form = useForm<AuthLogin>({
+  const form = useForm<AuthLoginValues>({
     resolver: zodResolver(authLoginSchema),
     defaultValues: {
       email: '',
@@ -43,26 +44,28 @@ export const AuthLoginForm = () => {
     },
   })
 
+  const handleSignOutUser = async () => {
+    try {
+      await signOutUser()
+      closeDialog()
+
+    } catch (error) {
+      toastError(error)
+    }
+  }
+
   const handleSendEmailVerification = async () => {
     try {
       await sendEmailVerificationToCurrentUser()
       toastSuccess(AuthSuccessCodes.EMAIL_RESEND_SUCCESS)
       closeDialog()
+
     } catch (error) {
       toastError(error)
     }
   }
 
-  const handleSignOutUser = async () => {
-    try {
-      await signOutUser()
-      closeDialog()
-    } catch (error) {
-      toastError(error)
-    }
-  }
-
-  const handoSignInWithEmail = async (data: AuthLogin) => {
+  const handoSignInWithEmail = async (data: AuthLoginValues) => {
     setIsLoading(true)
 
     try {
@@ -73,11 +76,11 @@ export const AuthLoginForm = () => {
           description: 'You’ll need to confirm your email before jumping in. Didn’t get the message? Check your spam folder — or just resend it.',
           content: (
             <div className='grid grid-cols-2 gap-4'>
-              <Button variant='secondary' onClick={handleSendEmailVerification}>
+              <Button type='button' variant='secondary' onClick={handleSendEmailVerification}>
                 Send again
                 <ButtonHighlight />
               </Button>
-              <Button variant='default' onClick={handleSignOutUser}>
+              <Button type='button' variant='default' onClick={handleSignOutUser}>
                 Okay
               </Button>
             </div>
@@ -140,7 +143,8 @@ export const AuthLoginForm = () => {
           type='email'
           name='email'
           placeholder='Email address'
-          autoComplete='email' />
+          autoComplete='email'
+        />
         <Button
           asChild
           variant='link'
@@ -153,7 +157,8 @@ export const AuthLoginForm = () => {
           type='password'
           name='password'
           placeholder='Password'
-          autoComplete='current-password' />
+          autoComplete='current-password'
+        />
         <Button disabled={isLoading} type='submit'>
           {isLoading ? 'Logging...' : 'Login'}
         </Button>
