@@ -18,17 +18,6 @@ type AuthInput<T extends FieldValues> = {
   autoComplete?: string
 }
 
-/**
- * A custom input component for authentication forms, leveraging `react-hook-form`.
- * Supports password visibility toggling.
- * @param {AuthInput<T>} props - The component props.
- * @param {Path<T>} props.name - The name of the input field, used by `react-hook-form`.
- * @param {Control<T>} props.control - The control object from `react-hook-form`.
- * @param {string} props.type - The type of the input field (e.g., 'text', 'email', 'password').
- * @param {string} [props.placeholder] - The placeholder text for the input field.
- * @param {boolean} [props.disabled] - Whether the input field is disabled.
- * @param {string} [props.autoComplete] - The HTML autoComplete value for the input field.
- */
 export const AuthInputForm = <T extends FieldValues>({
   name,
   control,
@@ -58,8 +47,8 @@ export const AuthInputForm = <T extends FieldValues>({
                 autoComplete={autoComplete} />
               {isPassword && (
                 <Button
-                  type='button'
                   size='icon'
+                  type='button'
                   variant='ghost'
                   onClick={() => setVisible((prev) => !prev)}
                   aria-label={visible ? 'Hide password' : 'Show password'}

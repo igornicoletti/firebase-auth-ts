@@ -36,7 +36,7 @@ export const AuthResetForm = () => {
     },
   })
 
-  const onSubmit = async (data: AuthReset) => {
+  const handleConfirmUserPasswordReset = async (data: AuthReset) => {
     setIsLoading(true)
 
     if (!oobCode) {
@@ -48,9 +48,9 @@ export const AuthResetForm = () => {
 
     try {
       await confirmUserPasswordReset(oobCode, data.newPassword)
-      toastSuccess(AuthSuccessCodes.PASSWORD_RESET_SUCCESS)
       form.reset()
       navigate('/login')
+      toastSuccess(AuthSuccessCodes.PASSWORD_RESET_SUCCESS)
 
     } catch (error) {
       toastError(error)
@@ -63,7 +63,7 @@ export const AuthResetForm = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleConfirmUserPasswordReset)}
         autoComplete='off'
         className='grid gap-4'>
         <AuthInputForm

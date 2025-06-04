@@ -25,41 +25,20 @@ const RootRedirect = () => {
 
   if (loading) return <Loading />
 
-  return user?.emailVerified ? (
-    <Navigate to="/dashboard" replace />
-  ) : (
-    <Navigate to="/login" replace />
-  )
+  return user?.emailVerified
+    ? <Navigate to="/dashboard" replace />
+    : <Navigate to="/login" replace />
 }
 
 const publicRoutes = [
-  {
-    path: '/login',
-    element: <AuthLoginForm />,
-    loader: authLoader,
-  },
-  {
-    path: '/register',
-    element: <AuthRegisterForm />,
-    loader: authLoader,
-  },
-  {
-    path: '/forgot-password',
-    element: <AuthForgotForm />,
-    loader: authLoader,
-  },
-  {
-    path: '/reset-password',
-    element: <AuthResetForm />,
-    loader: authLoader,
-  },
+  { path: '/login', element: <AuthLoginForm />, loader: authLoader },
+  { path: '/register', element: <AuthRegisterForm />, loader: authLoader },
+  { path: '/forgot-password', element: <AuthForgotForm />, loader: authLoader },
+  { path: '/reset-password', element: <AuthResetForm />, loader: authLoader },
 ]
 
 const privateRoutes = [
-  {
-    path: '/dashboard',
-    element: <DashboardPage />,
-  },
+  { path: '/dashboard', element: <DashboardPage /> },
 ]
 
 export const router = createBrowserRouter([

@@ -16,7 +16,12 @@ import { AuthSuccessCodes } from '@/lib/auth/constants'
 import { useDialog } from '@/lib/auth/contexts'
 import { useAuthToast } from '@/lib/auth/hooks'
 import { authLoginSchema } from '@/lib/auth/schemas'
-import { sendEmailVerificationToCurrentUser, signInWithEmail, signInWithGoogle } from '@/lib/auth/services'
+import {
+  sendEmailVerificationToCurrentUser,
+  signInWithEmail,
+  signInWithGoogle,
+  signOutUser
+} from '@/lib/auth/services'
 import { auth } from '@/lib/firebase'
 
 type AuthLogin = z.infer<typeof authLoginSchema>
@@ -38,7 +43,7 @@ export const AuthLoginForm = () => {
     },
   })
 
-  const handleResendVerificationEmail = async () => {
+  const handleSendEmailVerification = async () => {
     try {
       await sendEmailVerificationToCurrentUser()
       toastSuccess(AuthSuccessCodes.EMAIL_RESEND_SUCCESS)
@@ -48,23 +53,31 @@ export const AuthLoginForm = () => {
     }
   }
 
-  const onSubmit = async (data: AuthLogin) => {
+  const handleSignOutUser = async () => {
+    try {
+      await signOutUser()
+      closeDialog()
+    } catch (error) {
+      toastError(error)
+    }
+  }
+
+  const handoSignInWithEmail = async (data: AuthLogin) => {
     setIsLoading(true)
 
     try {
       await signInWithEmail(data.email, data.password)
-
       if (!auth.currentUser?.emailVerified) {
         openDialog({
           title: 'Hold up! Verify your email',
           description: 'You’ll need to confirm your email before jumping in. Didn’t get the message? Check your spam folder — or just resend it.',
           content: (
             <div className='grid grid-cols-2 gap-4'>
-              <Button variant='secondary' onClick={handleResendVerificationEmail}>
-                Resend email
+              <Button variant='secondary' onClick={handleSendEmailVerification}>
+                Send again
                 <ButtonHighlight />
               </Button>
-              <Button variant='default' onClick={() => closeDialog()}>
+              <Button variant='default' onClick={handleSignOutUser}>
                 Okay
               </Button>
             </div>
@@ -72,10 +85,9 @@ export const AuthLoginForm = () => {
         })
         return
       }
-
       form.reset()
-      toastSuccess(AuthSuccessCodes.EMAIL_SIGNIN_SUCCESS)
       navigate(from, { replace: true })
+      toastSuccess(AuthSuccessCodes.EMAIL_SIGNIN_SUCCESS)
 
     } catch (error) {
       toastError(error)
@@ -85,14 +97,14 @@ export const AuthLoginForm = () => {
     }
   }
 
-  const handleGoogleLogin = async () => {
+  const handleSignInWithGoogle = async () => {
     setIsLoading(true)
 
     try {
       await signInWithGoogle()
-      toastSuccess(AuthSuccessCodes.GOOGLE_SIGNIN_SUCCESS)
       form.reset()
       navigate(from, { replace: true })
+      toastSuccess(AuthSuccessCodes.GOOGLE_SIGNIN_SUCCESS)
 
     } catch (error) {
       toastError(error)
@@ -105,11 +117,11 @@ export const AuthLoginForm = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handoSignInWithEmail)}
         autoComplete='on'
         className='grid gap-4'>
         <Button
-          onClick={handleGoogleLogin}
+          onClick={handleSignInWithGoogle}
           disabled={isLoading}
           type='button'
           variant='secondary'>

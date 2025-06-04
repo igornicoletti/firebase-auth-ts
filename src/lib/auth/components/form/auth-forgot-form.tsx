@@ -28,24 +28,18 @@ export const AuthForgotForm = () => {
     defaultValues: { email: '' },
   })
 
-  /**
-   * Handles the form submission for the forgot password functionality.
-   * Sends a password reset email to the provided email address.
-   * On success, displays a success message, resets the form, and navigates to the login page.
-   * On error, displays an error message.
-   * Finally, sets the loading state to false.
-   * @param data - The form data containing the email address.
-   */
-  const onSubmit = async (data: AuthForgot) => {
+  const handleSendPasswordReset = async (data: AuthForgot) => {
     setIsLoading(true)
 
     try {
       await sendPasswordReset(data.email)
-      toastSuccess(AuthSuccessCodes.PASSWORD_RESET_EMAIL_SENT)
       form.reset()
       navigate('/login')
+      toastSuccess(AuthSuccessCodes.PASSWORD_RESET_EMAIL_SENT)
+
     } catch (error) {
       toastError(error)
+
     } finally {
       setIsLoading(false)
     }
@@ -54,7 +48,7 @@ export const AuthForgotForm = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleSendPasswordReset)}
         autoComplete='on'
         className='grid gap-4'>
         <AuthInputForm

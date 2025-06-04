@@ -34,14 +34,14 @@ export const AuthRegisterForm = () => {
     },
   })
 
-  const onSubmit = async (data: AuthRegister) => {
+  const handleCreateUserWithEmail = async (data: AuthRegister) => {
     setIsLoading(true)
 
     try {
       await createUserWithEmail(data.email, data.password, data.username)
-      toastSuccess(AuthSuccessCodes.SIGNUP_SUCCESS)
       form.reset()
       navigate('/login')
+      toastSuccess(AuthSuccessCodes.SIGNUP_SUCCESS)
 
     } catch (error) {
       toastError(error)
@@ -54,7 +54,7 @@ export const AuthRegisterForm = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleCreateUserWithEmail)}
         autoComplete='on'
         className='grid gap-4'>
         <AuthInputForm

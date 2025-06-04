@@ -14,7 +14,7 @@ export const DashboardPage = () => {
   const { user } = useAuth()
   const { toastError, toastSuccess } = useAuthToast()
 
-  const handleLogout = async () => {
+  const handleSignOutUser = async () => {
     try {
       await signOutUser()
       toastSuccess(AuthSuccessCodes.SIGNOUT_SUCCESS)
@@ -56,7 +56,7 @@ export const DashboardPage = () => {
           <Button
             type='button'
             variant='secondary'
-            onClick={handleLogout}
+            onClick={handleSignOutUser}
             className='w-full max-w-xs'
             aria-label='Logout and end session'>
             <SignOut />
