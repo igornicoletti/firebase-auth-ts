@@ -17,6 +17,7 @@ import {
   Protected,
   Public
 } from '@/lib/routes'
+import { SidebarLayout } from '@/lib/sidebar/layouts'
 
 import { DashboardPage } from '@/pages/dashboard'
 
@@ -38,7 +39,11 @@ const publicRoutes = [
 ]
 
 const privateRoutes = [
-  { path: '/dashboard', element: <DashboardPage /> },
+  {
+    path: '/dashboard',
+    element: <DashboardPage />,
+    handle: { crumb: 'Dashboard' }
+  },
 ]
 
 export const router = createBrowserRouter([
@@ -65,7 +70,12 @@ export const router = createBrowserRouter([
   {
     element: <Protected requireEmailVerified={true} />,
     errorElement: <ErrorBoundary />,
-    children: privateRoutes,
+    children: [
+      {
+        element: <SidebarLayout />,
+        children: privateRoutes,
+      }
+    ],
   },
   {
     path: '*',

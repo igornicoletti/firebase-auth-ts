@@ -1,70 +1,15 @@
-import { AppSidebar } from '@/components/sidebar'
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
-import { Button, ButtonHighlight } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { ModeToggle } from '@/lib/app/components'
-import { AuthSuccessCodes } from '@/lib/auth/constants'
 import { useAuth } from '@/lib/auth/contexts'
-import { useAuthToast } from '@/lib/auth/hooks'
-import { signOutUser } from '@/lib/auth/services'
-import { SignOut } from '@phosphor-icons/react'
 
 export const DashboardPage = () => {
   const { user } = useAuth()
-  const { toastError, toastSuccess } = useAuthToast()
-
-  const handleSignOutUser = async () => {
-    try {
-      await signOutUser()
-      toastSuccess(AuthSuccessCodes.SIGNOUT_SUCCESS)
-    } catch (error) {
-      toastError(error)
-    }
-  }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className='flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12'>
-          <div className='flex items-center gap-2 px-4'>
-            <SidebarTrigger className='-ml-1' />
-            <Separator orientation='vertical' className='mr-2 h-4' />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className='hidden md:block'>
-                  <BreadcrumbLink href='#'>
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className='hidden md:block' />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </header>
-        <div className='flex flex-1 flex-col gap-4 p-4 pt-0'>
-          {user && (
-            <p className='text-lg font-semibold'>
-              Welcome, {user.displayName || user.email}!
-            </p>
-          )}
-          <ModeToggle />
-          <Button
-            type='button'
-            variant='secondary'
-            onClick={handleSignOutUser}
-            className='w-full max-w-xs'
-            aria-label='Logout and end session'>
-            <SignOut />
-            Logout
-            <ButtonHighlight />
-          </Button>
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
+    <div className='flex flex-1 flex-col gap-4 p-4 pt-0'>
+      {user && (
+        <p className='text-lg font-semibold'>
+          Welcome, {user.displayName || user.email}!
+        </p>
+      )}
+    </div>
   )
 }

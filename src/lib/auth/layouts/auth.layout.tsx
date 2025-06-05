@@ -1,4 +1,4 @@
-// src/lib/auth/layouts/auth-layout.tsx
+// src/lib/auth/layouts/auth.layout.tsx
 
 import { Link, Outlet, useMatches, useNavigation } from 'react-router-dom'
 
@@ -8,11 +8,11 @@ import { Loading } from '@/lib/routes'
 
 export const AuthLayout = () => {
   const navigation = useNavigation()
+  const matches = [...useMatches()].find((match) => match.data)
 
-  const match = [...useMatches()].find((m) => m.data)
-  if (!match || !match.data) return null
+  if (!matches || !matches.data) return null
 
-  const { title, description, ask, source, pathname } = match.data as AuthData
+  const { title, description, ask, source, pathname } = matches.data as AuthData
 
   return navigation.state === 'loading' ? (
     <Loading />
@@ -28,9 +28,7 @@ export const AuthLayout = () => {
           <p className='text-sm text-muted-foreground text-center'>
             {ask}{' '}
             <Button asChild variant='link' className='p-0 font-semibold'>
-              <Link to={pathname}>
-                {source}
-              </Link>
+              <Link to={pathname}>{source}</Link>
             </Button>
           </p>
         </div>

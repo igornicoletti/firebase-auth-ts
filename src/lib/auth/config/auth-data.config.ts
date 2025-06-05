@@ -29,14 +29,14 @@ export const authDataMap: Record<AuthDataCode, AuthData> = {
     title: 'Forgot your password?',
     description: 'We’ll send you a link to reset it.',
     ask: 'Back to',
-    source: 'Login',
+    source: 'Sign in',
     pathname: '/login',
   },
   [AuthDataCodes.RESET_PASSWORD]: {
     title: 'Reset your password',
     description: 'Set a new password for your account.',
     ask: 'Back to',
-    source: 'Login',
+    source: 'Sign in',
     pathname: '/login',
   },
 }

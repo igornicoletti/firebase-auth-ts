@@ -11,12 +11,12 @@ import { router } from '@/router'
 export const App = () => {
   return (
     <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
-      <DialogProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <DialogProvider>
           <RouterProvider router={router} />
-          <Toaster position='top-right' />
-        </AuthProvider>
-      </DialogProvider>
+          <Toaster />
+        </DialogProvider>
+      </AuthProvider>
     </ThemeProvider>
   )
 }
