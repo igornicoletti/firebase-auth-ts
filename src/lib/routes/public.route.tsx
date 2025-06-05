@@ -18,11 +18,10 @@ export const Public = ({ redirectTo = '/' }: PublicValue): JSX.Element => {
     if (!loading && user?.emailVerified) {
       navigate(redirectTo, { replace: true })
     }
-
   }, [loading, user, navigate, redirectTo])
 
   if (loading) {
-    return <Loading />
+    return <Loading message='Verifying your session...' />
   }
 
   return <Outlet />

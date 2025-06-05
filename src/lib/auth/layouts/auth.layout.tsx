@@ -1,17 +1,22 @@
 // src/lib/auth/layouts/auth-layout.tsx
 
-import { Link, Outlet, useMatches } from 'react-router-dom'
+import { Link, Outlet, useMatches, useNavigation } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
 import type { AuthData } from '@/lib/auth/config'
+import { Loading } from '@/lib/routes'
 
 export const AuthLayout = () => {
+  const navigation = useNavigation()
+
   const match = [...useMatches()].find((m) => m.data)
-  if (!match) return null
+  if (!match || !match.data) return null
 
   const { title, description, ask, source, pathname } = match.data as AuthData
 
-  return (
+  return navigation.state === 'loading' ? (
+    <Loading />
+  ) : (
     <div className='min-h-screen grid place-items-center px-4 py-6'>
       <div className='w-full max-w-sm'>
         <div className='grid gap-6'>

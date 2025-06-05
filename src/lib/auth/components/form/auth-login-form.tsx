@@ -11,9 +11,9 @@ import { GoogleLogo } from '@phosphor-icons/react'
 import { Button, ButtonHighlight } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 
+import { useDialog } from '@/lib/app/providers'
 import { AuthInputForm } from '@/lib/auth/components/form'
 import { AuthSuccessCodes } from '@/lib/auth/constants'
-import { useDialog } from '@/lib/auth/contexts'
 import { useAuthToast } from '@/lib/auth/hooks'
 import { authLoginSchema } from '@/lib/auth/schemas'
 import {
@@ -29,62 +29,43 @@ type AuthLoginValues = z.infer<typeof authLoginSchema>
 export const AuthLoginForm = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const { openDialog, closeDialog } = useDialog()
-  const { toastError, toastSuccess } = useAuthToast()
-
-  const [isLoading, setIsLoading] = useState(false)
-
-  const from = location.state?.from || '/dashboard'
-
   const form = useForm<AuthLoginValues>({
     resolver: zodResolver(authLoginSchema),
     defaultValues: {
       email: '',
       password: '',
-    },
+    }
   })
+  const { openDialog } = useDialog()
+  const { toastError, toastSuccess } = useAuthToast()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSignOutUser = async () => {
-    try {
-      await signOutUser()
-      closeDialog()
-
-    } catch (error) {
-      toastError(error)
-    }
-  }
-
-  const handleSendEmailVerification = async () => {
-    try {
-      await sendEmailVerificationToCurrentUser()
-      toastSuccess(AuthSuccessCodes.EMAIL_RESEND_SUCCESS)
-      closeDialog()
-
-    } catch (error) {
-      toastError(error)
-    }
-  }
+  const from = location.state?.from || '/dashboard'
 
   const handoSignInWithEmail = async (data: AuthLoginValues) => {
     setIsLoading(true)
 
     try {
       await signInWithEmail(data.email, data.password)
-      if (!auth.currentUser?.emailVerified) {
+      if (!auth.currentUser || !auth.currentUser.emailVerified) {
         openDialog({
-          title: 'Hold up! Verify your email',
+          title: 'Verify your email',
           description: 'You’ll need to confirm your email before jumping in. Didn’t get the message? Check your spam folder — or just resend it.',
-          content: (
-            <div className='grid grid-cols-2 gap-4'>
-              <Button type='button' variant='secondary' onClick={handleSendEmailVerification}>
-                Send again
-                <ButtonHighlight />
-              </Button>
-              <Button type='button' variant='default' onClick={handleSignOutUser}>
-                Okay
-              </Button>
-            </div>
-          )
+          onConfirm: async () => {
+            try {
+              await sendEmailVerificationToCurrentUser()
+              toastSuccess(AuthSuccessCodes.EMAIL_RESEND_SUCCESS)
+            } catch (error) {
+              toastError(error)
+            }
+          },
+          onCancel: async () => { await signOutUser() },
+          footer: ({ confirm }) => (
+            <Button onClick={confirm} variant='secondary' className='w-full'>
+              {isLoading ? 'Resending...' : 'Resend email'}
+              <ButtonHighlight />
+            </Button>
+          ),
         })
         return
       }
@@ -92,10 +73,12 @@ export const AuthLoginForm = () => {
       navigate(from, { replace: true })
       toastSuccess(AuthSuccessCodes.EMAIL_SIGNIN_SUCCESS)
 
-    } catch (error) {
+    }
+    catch (error) {
       toastError(error)
 
-    } finally {
+    }
+    finally {
       setIsLoading(false)
     }
   }

@@ -4,19 +4,19 @@ import { RouterProvider } from 'react-router-dom'
 
 import { Toaster } from '@/components/ui/sonner'
 
-import { ThemeProvider } from '@/contexts/theme'
-import { AuthProvider, DialogProvider } from '@/lib/auth/contexts'
+import { DialogProvider, ThemeProvider } from '@/lib/app/providers'
+import { AuthProvider } from '@/lib/auth/contexts'
 import { router } from '@/router'
 
 export const App = () => {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <DialogProvider>
+    <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+      <DialogProvider>
+        <AuthProvider>
           <RouterProvider router={router} />
           <Toaster position='top-right' />
-        </DialogProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </DialogProvider>
     </ThemeProvider>
   )
 }

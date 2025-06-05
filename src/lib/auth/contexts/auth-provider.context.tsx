@@ -13,12 +13,12 @@ import {
 import { auth } from '@/lib/firebase'
 import { Loading } from '@/lib/routes'
 
-type AuthContextValue = {
+type AuthProviderProps = {
   user: User | null
   loading: boolean
 }
 
-const AuthContext = createContext<AuthContextValue | undefined>(undefined)
+const AuthProviderContext = createContext<AuthProviderProps | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
@@ -36,18 +36,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const value = useMemo(() => ({ user, loading }), [user, loading])
 
   return (
-    <AuthContext.Provider value={value}>
-      {loading ? <Loading /> : children}
-    </AuthContext.Provider>
+    <AuthProviderContext.Provider value={value}>
+      {loading && <Loading message="Initializing authentication..." />}
+      {!loading && children}
+    </AuthProviderContext.Provider>
   )
 }
 
-export const useAuth = (): AuthContextValue => {
-  const context = useContext(AuthContext)
+export const useAuth = () => {
+  const context = useContext(AuthProviderContext)
 
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  }
+  if (context === undefined)
+    throw new Error('useAuth must be used within a AuthProvider')
 
   return context
 }

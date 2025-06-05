@@ -40,9 +40,11 @@ export const Callback = () => {
             if (auth.currentUser?.emailVerified) {
               toastSuccess(AuthSuccessCodes.EMAIL_VERIFIED_SUCCESS)
               navigate('/dashboard', { replace: true })
+
             } else {
               toastError(AuthErrorCodes.INVALID_OOB_CODE)
               navigate('/login', { replace: true })
+
             }
             break
           }

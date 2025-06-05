@@ -30,7 +30,7 @@ export const useAuthToast = () => {
     toast.message(title, {
       description,
       classNames: {
-        title: '!text-green-500',
+        title: '!text-primary',
         description: '!text-foreground',
       },
     })

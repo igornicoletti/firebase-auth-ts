@@ -15,14 +15,14 @@ export const authDataMap: Record<AuthDataCode, AuthData> = {
     title: 'Sign in to your account',
     description: 'Welcome back! Please sign in to continue',
     ask: 'Don’t have an account?',
-    source: 'Register',
+    source: 'Sign up',
     pathname: '/register',
   },
   [AuthDataCodes.REGISTER]: {
     title: 'Create your account',
-    description: 'Please fill in the details to get started',
+    description: 'Welcome! Please fill in the details to get started',
     ask: 'Already have an account?',
-    source: 'Login',
+    source: 'Sign in',
     pathname: '/login',
   },
   [AuthDataCodes.FORGOT_PASSWORD]: {

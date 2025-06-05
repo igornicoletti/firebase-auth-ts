@@ -1,11 +1,11 @@
 import { AppSidebar } from '@/components/sidebar'
-import { ThemeToggle } from '@/components/theme'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
 import { Button, ButtonHighlight } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { ModeToggle } from '@/lib/app/components'
 import { AuthSuccessCodes } from '@/lib/auth/constants'
-import { useAuth } from '@/lib/auth/contexts/auth-provider.context'
+import { useAuth } from '@/lib/auth/contexts'
 import { useAuthToast } from '@/lib/auth/hooks'
 import { signOutUser } from '@/lib/auth/services'
 import { SignOut } from '@phosphor-icons/react'
@@ -52,7 +52,7 @@ export const DashboardPage = () => {
               Welcome, {user.displayName || user.email}!
             </p>
           )}
-          <ThemeToggle />
+          <ModeToggle />
           <Button
             type='button'
             variant='secondary'
