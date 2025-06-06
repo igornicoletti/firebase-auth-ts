@@ -1,14 +1,16 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
+import { AppLayout } from '@/app/layouts'
 import {
   AuthForgotForm,
   AuthLoginForm,
   AuthRegisterForm,
   AuthResetForm,
-} from '@/lib/auth/components/form'
-import { useAuth } from '@/lib/auth/contexts'
-import { AuthLayout } from '@/lib/auth/layouts'
-import { authLoader } from '@/lib/auth/loaders'
+} from '@/auth/components/form'
+import { useAuth } from '@/auth/contexts'
+import { AuthLayout } from '@/auth/layouts'
+import { authLoader } from '@/auth/loaders'
+import { DashboardLayout } from '@/dashboard/layouts'
 import {
   Callback,
   ErrorBoundary,
@@ -16,10 +18,8 @@ import {
   NotFound,
   Protected,
   Public
-} from '@/lib/routes'
-import { SidebarLayout } from '@/lib/sidebar/layouts'
+} from '@/routes'
 
-import { DashboardPage } from '@/pages/dashboard'
 
 const RootRedirect = () => {
   const { user, loading } = useAuth()
@@ -41,7 +41,7 @@ const publicRoutes = [
 const privateRoutes = [
   {
     path: '/dashboard',
-    element: <DashboardPage />,
+    element: <DashboardLayout />,
     handle: { crumb: 'Dashboard' }
   },
 ]
@@ -72,7 +72,7 @@ export const router = createBrowserRouter([
     errorElement: <ErrorBoundary />,
     children: [
       {
-        element: <SidebarLayout />,
+        element: <AppLayout />,
         children: privateRoutes,
       }
     ],

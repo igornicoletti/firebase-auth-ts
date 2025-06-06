@@ -1,5 +1,0 @@
-export { AppSidebar } from './AppSidebar'
-export { AvatarProfile } from './AvatarProfile'
-export { NavCollapsibleMenu } from './NavCollapsibleMenu'
-export { TeamSwitcher } from './TeamSwitcher'
-export { UserDropdownMenu } from './UserDropdownMenu'
