@@ -1,14 +1,5 @@
 import {
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  Settings2,
-  SquareTerminal,
+  Command
 } from 'lucide-react'
 import * as React from 'react'
 
@@ -22,7 +13,7 @@ import {
   SidebarMenuItem,
 } from '@/shadcn/ui/sidebar'
 
-const data = {
+/* const data = {
   user: {
     name: 'shadcn',
     email: 'm@example.com',
@@ -144,7 +135,7 @@ const data = {
       icon: Map,
     },
   ],
-}
+} */
 
 export const SidebarLayout = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   return (
