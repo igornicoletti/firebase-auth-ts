@@ -4,7 +4,9 @@ import {
   applyActionCode,
   confirmPasswordReset,
   createUserWithEmailAndPassword,
+  EmailAuthProvider,
   GoogleAuthProvider,
+  reauthenticateWithCredential,
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
@@ -62,4 +64,11 @@ export const applyUserActionCode = async (oobCode: string): Promise<void> => {
 
 export const signOutUser = async (): Promise<void> => {
   await signOut(auth)
+}
+
+export const reauthenticateWithPassword = async (password: string): Promise<void> => {
+  if (auth.currentUser && auth.currentUser.email) {
+    const credential = EmailAuthProvider.credential(auth.currentUser.email, password)
+    await reauthenticateWithCredential(auth.currentUser, credential)
+  }
 }

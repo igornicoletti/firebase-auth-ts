@@ -6,6 +6,7 @@ import { z } from 'zod'
 // Componentes Shadcn/UI
 import { AuthInputForm } from '@/auth/components/form'
 import { Avatar, AvatarFallback, AvatarImage } from '@/shadcn/ui/avatar'
+import { Button, ButtonHighlight } from '@/shadcn/ui/button'
 import {
   Form
 } from '@/shadcn/ui/form'
@@ -26,7 +27,7 @@ const screenLockSchema = z.object({
 
 type ScreenLock = z.infer<typeof screenLockSchema>
 
-export const ProtectionScreen = ({ onUnlock, isLoading, avatarSrc, userName = "Usuário" }: ProtectionScreenValues) => {
+export const ProtectionScreen = ({ onUnlock, isLoading, avatarSrc, userName }: ProtectionScreenValues) => {
   // 2. Inicializar o React Hook Form com o resolver Zod
   const form = useForm<ScreenLock>({
     resolver: zodResolver(screenLockSchema),
@@ -41,7 +42,7 @@ export const ProtectionScreen = ({ onUnlock, isLoading, avatarSrc, userName = "U
   }
 
   return (
-    <div className="fixed grid place-items-center inset-0 bg-background/50 backdrop-blur-sm z-[9999]">
+    <div className="fixed grid place-items-center inset-0 bg-background/25 backdrop-blur z-[9999]">
       <div className='w-full max-w-sm'>
         <div className='grid text-center gap-6'>
 
@@ -65,6 +66,13 @@ export const ProtectionScreen = ({ onUnlock, isLoading, avatarSrc, userName = "U
                 placeholder='Password'
                 autoComplete='current-password'
               />
+              <Button
+                disabled={isLoading}
+                type='submit'
+                variant='secondary'>
+                {isLoading ? 'Unlocking..' : 'Unlock'}
+                <ButtonHighlight />
+              </Button>
             </form>
           </Form>
         </div>

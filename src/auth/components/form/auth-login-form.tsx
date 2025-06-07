@@ -33,7 +33,7 @@ export const AuthLoginForm = () => {
     resolver: zodResolver(authLoginSchema),
     defaultValues: {
       email: '',
-      password: '',
+      password: ''
     }
   })
   const { openDialog } = useDialog()

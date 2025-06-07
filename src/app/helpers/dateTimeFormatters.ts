@@ -6,9 +6,9 @@ export const WEEKDAY_FORMAT_OPTIONS_PT_BR: Intl.DateTimeFormatOptions = {
 }
 
 export const MONTH_DAY_YEAR_FORMAT_OPTIONS_PT_BR: Intl.DateTimeFormatOptions = {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
+  weekday: 'long',
+  month: 'short',
+  day: '2-digit',
 }
 
 export const TIME_FORMAT_OPTIONS_PT_BR: Intl.DateTimeFormatOptions = {
@@ -23,7 +23,7 @@ export const TIME_FORMAT_OPTIONS_PT_BR: Intl.DateTimeFormatOptions = {
  * @returns O dia da semana formatado (ex: "Quinta-feira").
  */
 export const formatWeekday = (date: Date): string => {
-  return new Intl.DateTimeFormat('pt-BR', WEEKDAY_FORMAT_OPTIONS_PT_BR).format(date)
+  return new Intl.DateTimeFormat('en-US', WEEKDAY_FORMAT_OPTIONS_PT_BR).format(date)
 }
 
 /**
@@ -33,7 +33,7 @@ export const formatWeekday = (date: Date): string => {
  * @returns Mês, dia e ano formatados (ex: "5 junho 2025").
  */
 export const formatMonthDayYear = (date: Date): string => {
-  const formatted = new Intl.DateTimeFormat('pt-BR', MONTH_DAY_YEAR_FORMAT_OPTIONS_PT_BR).format(date)
+  const formatted = new Intl.DateTimeFormat('en-US', MONTH_DAY_YEAR_FORMAT_OPTIONS_PT_BR).format(date)
   return formatted.replace(/\sde\s/g, ' ')
 }
 
@@ -43,5 +43,5 @@ export const formatMonthDayYear = (date: Date): string => {
  * @returns Hora e minuto formatados (ex: "17:51").
  */
 export const formatTime = (date: Date): string => {
-  return new Intl.DateTimeFormat('pt-BR', TIME_FORMAT_OPTIONS_PT_BR).format(date)
+  return new Intl.DateTimeFormat('en-US', TIME_FORMAT_OPTIONS_PT_BR).format(date)
 }

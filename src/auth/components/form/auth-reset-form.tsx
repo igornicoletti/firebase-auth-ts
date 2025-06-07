@@ -20,21 +20,18 @@ import { confirmUserPasswordReset } from '@/auth/services'
 type AuthReset = z.infer<typeof authResetSchema>
 
 export const AuthResetForm = () => {
-  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const { toastError, toastSuccess } = useAuthToast()
-
-  const [isLoading, setIsLoading] = useState(false)
-
+  const [searchParams] = useSearchParams()
   const oobCode = searchParams.get('oobCode')
-
   const form = useForm<AuthReset>({
     resolver: zodResolver(authResetSchema),
     defaultValues: {
       newPassword: '',
-      confirmNewPassword: '',
-    },
+      confirmNewPassword: ''
+    }
   })
+  const { toastError, toastSuccess } = useAuthToast()
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleConfirmUserPasswordReset = async (data: AuthReset) => {
     setIsLoading(true)
