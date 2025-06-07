@@ -1,4 +1,4 @@
-// src/lib/auth/components/form/index.ts
+// src/auth/components/form/index.ts
 
 export * from './auth-forgot-form'
 export * from './auth-input-form'

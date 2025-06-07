@@ -1,4 +1,4 @@
-// src/lib/auth/config/auth-error.config.ts
+// src/auth/config/auth-error.config.ts
 
 import { AuthErrorCodes } from 'firebase/auth'
 

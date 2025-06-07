@@ -1,7 +1,11 @@
-// src/lib/firebase/firebase.ts
+// src/firebase/firebase.ts
 
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
+// import { getFirestore } from 'firebase/firestore'
+// import { getStorage } from 'firebase/storage'
+// import { getAnalytics } from 'firebase/analytics'
+// import { getRemoteConfig } from 'firebase/remote-config'
 
 export const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -15,5 +19,9 @@ export const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
+// const db = getFirestore(app)
+// const storage = getStorage(app)
+// const analytics = getAnalytics(app)
+// const remoteConfig = getRemoteConfig(app)
 
 export { app, auth }

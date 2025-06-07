@@ -1,4 +1,4 @@
-// src/lib/app/contexts/app-provider.context.tsx
+// src/app/contexts/app-provider.context.tsx
 
 import type { ReactNode } from 'react'
 

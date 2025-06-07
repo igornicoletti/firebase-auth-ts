@@ -1,4 +1,4 @@
-// src/lib/auth/components/form/auth-input-form.tsx
+// src/auth/components/form/auth-input-form.tsx
 
 import { useState } from 'react'
 import type { Control, FieldValues, Path } from 'react-hook-form'

@@ -1,4 +1,4 @@
-// src/lib/auth/components/form/auth-login-form.tsx
+// src/auth/components/form/auth-login-form.tsx
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -42,7 +42,7 @@ export const AuthLoginForm = () => {
 
   const from = location.state?.from || '/dashboard'
 
-  const handoSignInWithEmail = async (data: AuthLoginValues) => {
+  const handleSignInWithEmail = async (data: AuthLoginValues) => {
     setIsLoading(true)
 
     try {
@@ -69,7 +69,6 @@ export const AuthLoginForm = () => {
         })
         return
       }
-      form.reset()
       navigate(from, { replace: true })
       toastSuccess(AuthSuccessCodes.EMAIL_SIGNIN_SUCCESS)
 
@@ -88,7 +87,6 @@ export const AuthLoginForm = () => {
 
     try {
       await signInWithGoogle()
-      form.reset()
       navigate(from, { replace: true })
       toastSuccess(AuthSuccessCodes.GOOGLE_SIGNIN_SUCCESS)
 
@@ -103,7 +101,7 @@ export const AuthLoginForm = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handoSignInWithEmail)}
+        onSubmit={form.handleSubmit(handleSignInWithEmail)}
         autoComplete='on'
         className='grid gap-4'>
         <Button
@@ -116,8 +114,8 @@ export const AuthLoginForm = () => {
           <ButtonHighlight />
         </Button>
         <p className='flex items-center gap-x-3 text-sm text-muted-foreground
-        before:h-px before:flex-1 before:bg-gradient-to-r before:from-transparent before:via-border before:to-border
-        after:h-px after:flex-1 after:bg-gradient-to-r after:from-border after:via-border after:to-transparent'>
+          before:h-px before:flex-1 before:bg-gradient-to-r before:from-transparent before:via-border before:to-border
+          after:h-px after:flex-1 after:bg-gradient-to-r after:from-border after:via-border after:to-transparent'>
           or
         </p>
         <AuthInputForm

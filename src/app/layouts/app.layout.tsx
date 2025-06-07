@@ -1,4 +1,4 @@
-// src/lib/app/layouts/app.layout.tsx
+// src/app/layouts/app.layout.tsx
 
 import { Outlet } from 'react-router-dom'
 

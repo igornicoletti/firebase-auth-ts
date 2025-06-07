@@ -1,3 +1,3 @@
-// src/lib/firebase/index.ts
+// src/firebase/index.ts
 
-export * from './firebase'
+export * from './firebase';

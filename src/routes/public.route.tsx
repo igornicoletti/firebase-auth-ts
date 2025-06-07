@@ -1,4 +1,4 @@
-// src/lib/routes/public.route.tsx
+// src/routes/public.route.tsx
 
 import { useEffect, type JSX } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'

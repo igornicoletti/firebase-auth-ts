@@ -1,4 +1,4 @@
-// src/lib/auth/services/auth-service.ts
+// src/auth/services/auth-service.ts
 
 import {
   applyActionCode,

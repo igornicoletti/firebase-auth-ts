@@ -1,4 +1,4 @@
-// src/lib/auth/layouts/auth.layout.tsx
+// src/auth/layouts/auth.layout.tsx
 
 import { Link, Outlet, useMatches, useNavigation } from 'react-router-dom'
 

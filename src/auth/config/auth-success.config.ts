@@ -1,4 +1,4 @@
-// src/lib/auth/config/auth-success.config.ts
+// src/auth/config/auth-success.config.ts
 
 import { AuthSuccessCodes, type AuthSuccessCode } from '@/auth/constants'
 

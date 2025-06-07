@@ -1,4 +1,4 @@
-// src/lib/auth/schemas/auth-register.schema.ts
+// src/auth/schemas/auth-register.schema.ts
 
 import { z } from 'zod'
 

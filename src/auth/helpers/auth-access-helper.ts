@@ -1,4 +1,4 @@
-// src/lib/auth/helpers/auth-access.helper.ts
+// src/auth/helpers/auth-access.helper.ts
 
 import { type User } from 'firebase/auth'
 

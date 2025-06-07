@@ -1,4 +1,4 @@
-// src/lib/auth/context/auth-provider.context.tsx
+// src/auth/context/auth-provider.context.tsx
 
 import { type User } from 'firebase/auth'
 import {

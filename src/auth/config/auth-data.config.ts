@@ -1,4 +1,4 @@
-// src/lib/auth/config/auth-data.config.ts
+// src/auth/config/auth-data.config.ts
 
 import { AuthDataCodes, type AuthDataCode } from '@/auth/constants'
 

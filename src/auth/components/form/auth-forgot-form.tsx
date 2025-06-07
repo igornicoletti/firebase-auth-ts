@@ -1,4 +1,4 @@
-// src/lib/auth/components/form/auth-forgot-form.tsx
+// src/auth/components/form/auth-forgot-form.tsx
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'

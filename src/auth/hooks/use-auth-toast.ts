@@ -1,4 +1,4 @@
-// src/lib/auth/hooks/use-auth-toast.ts
+// src/auth/hooks/use-auth-toast.ts
 
 import { FirebaseError } from 'firebase/app'
 import { useCallback } from 'react'

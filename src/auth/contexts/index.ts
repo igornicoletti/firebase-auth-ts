@@ -1,3 +1,3 @@
-// src/lib/auth/contexts/index.ts
+// src/auth/contexts/index.ts
 
-export * from './auth-provider.context'
+export * from './auth-provider.context';

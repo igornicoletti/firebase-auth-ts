@@ -1,4 +1,4 @@
-// src/lib/auth/schemas/auth-reset.schema.ts
+// src/auth/schemas/auth-reset.schema.ts
 
 import { z } from 'zod'
 

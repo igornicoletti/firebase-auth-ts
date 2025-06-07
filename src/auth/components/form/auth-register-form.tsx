@@ -1,4 +1,4 @@
-// src/lib/auth/components/form/auth-register-form.tsx
+// src/auth/components/form/auth-register-form.tsx
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'

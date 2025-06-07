@@ -1,4 +1,4 @@
-// src/lib/auth/components/form/auth-reset-form.tsx
+// src/auth/components/form/auth-reset-form.tsx
 
 import { AuthErrorCodes } from 'firebase/auth'
 import { useState } from 'react'

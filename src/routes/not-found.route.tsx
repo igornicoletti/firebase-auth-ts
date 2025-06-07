@@ -1,4 +1,4 @@
-// src/lib/routes/not-found.route.ts
+// src/routes/not-found.route.ts
 
 import { useLocation, useNavigate } from 'react-router-dom'
 

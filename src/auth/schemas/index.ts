@@ -1,4 +1,4 @@
-// src/lib/auth/schemas/index.ts
+// src/auth/schemas/index.ts
 
 export * from './auth-forgot.schema'
 export * from './auth-login.schema'

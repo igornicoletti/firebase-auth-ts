@@ -1,3 +1,3 @@
-// src/lib/auth/hooks/index.ts
+// src/auth/hooks/index.ts
 
-export * from './use-auth-toast'
+export * from './use-auth-toast';

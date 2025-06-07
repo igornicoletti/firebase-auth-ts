@@ -1,4 +1,4 @@
-// src/lib/routes/loading.route.ts
+// src/routes/loading.route.ts
 
 import { useEffect, useState } from "react"
 

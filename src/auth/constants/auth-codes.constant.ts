@@ -1,4 +1,4 @@
-// src/lib/auth/constants/auth-codes.constant.ts
+// src/auth/constants/auth-codes.constant.ts
 
 export const AuthActionCodes = {
   VERIFY_EMAIL: 'verifyEmail',

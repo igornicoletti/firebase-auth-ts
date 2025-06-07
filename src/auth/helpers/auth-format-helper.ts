@@ -1,4 +1,4 @@
-// src/lib/auth/helpers/auth-format.helper.ts
+// src/auth/helpers/auth-format.helper.ts
 
 import { authErrorMap, authSuccessMap } from '@/auth/config'
 import type { AuthSuccessCode } from '@/auth/constants'

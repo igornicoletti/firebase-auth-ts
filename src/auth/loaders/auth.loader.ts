@@ -1,4 +1,4 @@
-// src/lib/auth/loaders/auth-loader.ts
+// src/auth/loaders/auth-loader.ts
 
 import type { LoaderFunctionArgs } from 'react-router-dom'
 
