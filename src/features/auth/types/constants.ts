@@ -1,0 +1,37 @@
+// src/features/auth/types/constants.ts
+
+export const AuthActionCodes = {
+  VERIFY_EMAIL: 'verifyEmail',
+  RESET_PASSWORD: 'resetPassword',
+} as const
+
+export const AuthDataCodes = {
+  LOGIN: 'login',
+  REGISTER: 'register',
+  FORGOT_PASSWORD: 'forgot-password',
+  RESET_PASSWORD: 'reset-password',
+} as const
+
+export const AuthSuccessCodes = {
+  EMAIL_RESEND_SUCCESS: 'email-resend-success',
+  EMAIL_SIGNIN_SUCCESS: 'email-signin-success',
+  EMAIL_UPDATE_SUCCESS: 'email-update-success',
+  EMAIL_VERIFICATION_LINK_SENT: 'email-verification-link-sent',
+  EMAIL_VERIFICATION_SENT: 'email-verification-sent',
+  EMAIL_VERIFIED_SUCCESS: 'email-verified-success',
+  GENERIC_SUCCESS: 'generic-success',
+  GOOGLE_SIGNIN_SUCCESS: 'google-signin-success',
+  LINK_SUCCESS: 'link-success',
+  PASSWORD_RESET_EMAIL_SENT: 'password-reset-email-sent',
+  PASSWORD_RESET_SUCCESS: 'password-reset-success',
+  PASSWORD_UPDATE_SUCCESS: 'password-update-success',
+  PROFILE_UPDATE_SUCCESS: 'profile-update-success',
+  REAUTH_SUCCESS: 'reauth-success',
+  SIGNIN_SUCCESS: 'signin-success',
+  SIGNOUT_SUCCESS: 'signout-success',
+  SIGNUP_SUCCESS: 'signup-success',
+  UNLINK_SUCCESS: 'unlink-success',
+} as const
+
+export type AuthDataCode = typeof AuthDataCodes[keyof typeof AuthDataCodes]
+export type AuthSuccessCode = typeof AuthSuccessCodes[keyof typeof AuthSuccessCodes]

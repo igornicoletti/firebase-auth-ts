@@ -1,6 +1,0 @@
-export * from './callback.route'
-export * from './error-boundary.route'
-export * from './loading.route'
-export * from './not-found.route'
-export * from './protected.route'
-export * from './public.route'

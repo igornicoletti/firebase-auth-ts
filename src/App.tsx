@@ -2,16 +2,13 @@
 
 import { RouterProvider } from 'react-router-dom'
 
-import { AppProvider } from '@/app/contexts'
-import { AuthProvider } from '@/auth/contexts'
+import { AppProvider } from '@/common/contexts'
 import { router } from '@/router'
 
 export const App = () => {
   return (
     <AppProvider>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <RouterProvider router={router} />
     </AppProvider>
   )
 }

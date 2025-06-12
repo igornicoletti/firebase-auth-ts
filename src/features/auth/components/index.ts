@@ -1,0 +1,7 @@
+// src/features/auth/components/index.ts
+
+export { ForgotPasswordForm } from './ForgotPasswordForm'
+export { LoginForm } from './LoginForm'
+export { RegisterForm } from './RegisterForm'
+export { ResetPasswordForm } from './ResetPasswordForm'
+export { VerifyEmail } from './VerifyEmail'
