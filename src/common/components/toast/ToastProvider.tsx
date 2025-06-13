@@ -1,13 +1,8 @@
 // src/common/components/ToastProvider.tsx
 
+import { Toaster } from '@/shadcn/ui/sonner'
 import type { ReactNode } from 'react'
-import { Toaster } from 'sonner'
-
-type ToastProviderProps = {
-  children: ReactNode
-}
-
-export const ToastProvider = ({ children }: ToastProviderProps) => {
+export const ToastProvider = ({ children }: { children: ReactNode }) => {
   return (
     <>
       {children}

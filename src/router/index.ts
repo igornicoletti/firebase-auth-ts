@@ -1,5 +1,6 @@
 // src/router/index.ts
 
+export { CallbackRoute } from './CallbackRoute'
 export { ErrorBoundaryRoute } from './ErrorBoundaryRoute'
 export { NotFoundRoute } from './NotFoundRoute'
 export { ProtectedRoute } from './ProtectedRoute'

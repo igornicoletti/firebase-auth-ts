@@ -90,11 +90,10 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
               <AlertDialogTitle className={alertProps.titleClassName}>
                 {options.title}
               </AlertDialogTitle>
-              {options.description && (
-                <AlertDialogDescription>
-                  {options.description}
-                </AlertDialogDescription>
-              )}
+              {/* CORREÇÃO AQUI para AlertDialogDescription: SEMPRE renderize, conteúdo opcional */}
+              <AlertDialogDescription>
+                {options.description || ''}
+              </AlertDialogDescription>
             </AlertDialogHeader>
             {options.content}
             <AlertDialogFooter>
@@ -124,12 +123,15 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
           if (!isOpen && !loading) closeDialog()
         }}>
         <DialogContent>
-          {options.title && (
+          {/* CORREÇÃO AQUI para DialogHeader e DialogDescription */}
+          {/* Renderiza o Header se houver título OU descrição para acessibilidade */}
+          {(options.title || options.description) && (
             <DialogHeader className='sm:text-center'>
-              <DialogTitle>{options.title}</DialogTitle>
-              {options.description && (
-                <DialogDescription>{options.description}</DialogDescription>
-              )}
+              {options.title && <DialogTitle>{options.title}</DialogTitle>}
+              {/* SEMPRE renderize DialogDescription, conteúdo opcional */}
+              <DialogDescription>
+                {options.description || ''}
+              </DialogDescription>
             </DialogHeader>
           )}
           {options.content}

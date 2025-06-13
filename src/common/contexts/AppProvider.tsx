@@ -10,7 +10,14 @@ import {
 } from '@/common/components'
 import { AuthProvider } from '@/features/auth'
 
-const providers = [HelmetProvider, ThemeProvider, AuthProvider, ToastProvider, DialogProvider]
+const providers = [
+  AuthProvider,
+  ThemeProvider,
+  DialogProvider,
+  ToastProvider,
+  HelmetProvider
+]
 
-export const AppProvider = ({ children }: { children: ReactNode }) =>
-  providers.reduceRight((acc, Provider) => <Provider>{acc}</Provider>, children)
+export const AppProvider = ({ children }: { children: ReactNode }) => {
+  return providers.reduceRight((acc, Provider) => <Provider>{acc}</Provider>, children)
+}
