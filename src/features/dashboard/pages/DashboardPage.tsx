@@ -1,16 +1,24 @@
 // src/features/dashboard/pages/DashboardPage.tsx
 
-import { HelmetWrapper } from '@/common'
+import { HelmetWrapper, useToast } from '@/common'
 import { authService } from '@/features/auth'
+import { AuthSuccessCodes } from '@/features/auth/constants'
 import type { DashboardLoaderData } from '@/features/dashboard/loaders/dashboardLoaders'
 import { Button } from '@/shadcn/ui/button'
 import { useLoaderData } from 'react-router-dom'
 
-// Importe o tipo da loader data
-
-const DashboardPage = () => {
-  // Use useLoaderData para acessar os dados retornados pelo loader
+export const DashboardPage = () => {
   const { dashboardData, seo } = useLoaderData() as DashboardLoaderData
+  const { toastSuccess, toastError } = useToast()
+
+  const handleLogout = async () => {
+    try {
+      await authService.signOut()
+      toastSuccess(AuthSuccessCodes.SIGNOUT_SUCCESS)
+    } catch (error) {
+      toastError(error)
+    }
+  }
 
   return (
     <>
@@ -30,7 +38,7 @@ const DashboardPage = () => {
             <h2 className="text-xl font-semibold">Sessões Ativas</h2>
             <p className="text-4xl font-bold text-primary">{dashboardData.activeSessions}</p>
           </div>
-          <Button onClick={authService.signOut}>
+          <Button onClick={handleLogout}>
             Sign out
           </Button>
         </div>
@@ -38,5 +46,3 @@ const DashboardPage = () => {
     </>
   )
 }
-
-export default DashboardPage

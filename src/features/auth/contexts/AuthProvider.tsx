@@ -1,8 +1,6 @@
 // src/features/auth/contexts/AuthProvider.tsx
 
-import { Loading } from '@/common/components'
-import { authService } from '@/features/auth/services'
-import type { AuthContextValue } from '@/features/auth/types'
+import type { User } from 'firebase/auth'
 import {
   createContext,
   useContext,
@@ -11,6 +9,20 @@ import {
   useState,
   type ReactNode
 } from 'react'
+
+import { Loading } from '@/common/components'
+import { authService } from '@/features/auth/services'
+
+type AuthUser = User | null
+
+type AuthState = {
+  user: AuthUser
+  loading: boolean
+}
+
+type AuthContextValue = AuthState & {
+  logout: () => Promise<void>
+}
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 

@@ -13,7 +13,7 @@ import {
 import { AuthLayout } from '@/features/auth/layouts/AuthLayout'
 import { authLoader } from '@/features/auth/loaders/authLoader'
 import { dashboardLoader } from '@/features/dashboard/loaders/dashboardLoaders'
-import DashboardPage from '@/features/dashboard/pages/DashboardPage'
+import { DashboardPage } from '@/features/dashboard/pages/DashboardPage'
 import { CallbackRoute, NotFoundRoute, ProtectedRoute, PublicRoute } from '@/router'
 
 const RootRedirect = () => {

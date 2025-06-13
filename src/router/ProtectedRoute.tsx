@@ -4,12 +4,17 @@ import { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { Loading } from '@/common'
-import { useAuth, type AuthOptions } from '@/features'
+import { useAuth } from '@/features'
+
+type ProtectedRouteOptions = {
+  requireEmailVerified?: boolean
+  redirectTo?: string
+}
 
 export const ProtectedRoute = ({
   requireEmailVerified = true,
   redirectTo = '/login'
-}: AuthOptions = {}) => {
+}: ProtectedRouteOptions = {}) => {
   const { user, loading } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()

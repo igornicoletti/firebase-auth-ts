@@ -9,6 +9,7 @@ import { GoogleLogo } from '@phosphor-icons/react'
 import { Button, ButtonHighlight } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
 
+import { useToast } from '@/common'
 import { InputForm } from '@/common/components/form'
 import { AuthSuccessCodes } from '@/features/auth/constants'
 import { useAuthRedirect, useFormSubmit } from '@/features/auth/hooks'
@@ -17,6 +18,7 @@ import { authService } from '@/features/auth/services'
 
 export const LoginForm = () => {
   const { isRedirecting } = useAuthRedirect()
+  const { toastError } = useToast()
   const navigate = useNavigate()
 
   const form = useForm<LoginFormData>({
@@ -33,14 +35,14 @@ export const LoginForm = () => {
     },
     successMessage: AuthSuccessCodes.SIGNIN_SUCCESS,
     onSuccess: () => navigate('/dashboard', { replace: true }),
-    onError: (error) => console.error('Login error:', error)
+    onError: (error) => toastError(error)
   })
 
   const handleSocialLogin = async () => {
     try {
       await authService.signInWithGoogle()
     } catch (error) {
-      console.error('Social login error:', error)
+      toastError(error)
     }
   }
 
