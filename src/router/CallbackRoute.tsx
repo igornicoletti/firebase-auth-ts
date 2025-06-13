@@ -13,58 +13,57 @@ import { AuthActionCodes, AuthSuccessCodes } from '@/features/auth/types' // Imp
 export const CallbackRoute = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const { loading } = useAuth()
+  const { user, loading } = useAuth()
   const { toastError, toastSuccess } = useAuthToast()
-
   const mode = searchParams.get('mode')
   const oobCode = searchParams.get('oobCode')
 
   useEffect(() => {
-    if (loading) return
-
-    const redirectToLoginWithError = (errorMessage: string) => {
-      toastError(errorMessage)
-      navigate('/login', { replace: true })
-    }
-
-    if (!mode || !oobCode) {
-      redirectToLoginWithError(AuthErrorCodes.EXPIRED_OOB_CODE)
+    if (loading) {
       return
     }
 
-    const handleAction = async () => {
+    if (!mode || !oobCode) {
+      toastError(AuthErrorCodes.EXPIRED_OOB_CODE)
+      navigate('/login', { replace: true })
+      return
+    }
+
+    const handleAuthAction = async () => {
       try {
         switch (mode) {
           case AuthActionCodes.VERIFY_EMAIL: {
             await authService.applyUserActionCode(oobCode)
             await auth.currentUser?.reload()
+
             if (auth.currentUser?.emailVerified) {
               toastSuccess(AuthSuccessCodes.EMAIL_VERIFIED_SUCCESS)
               navigate('/dashboard', { replace: true })
             } else {
-              redirectToLoginWithError(AuthErrorCodes.INVALID_OOB_CODE)
+              toastError(AuthErrorCodes.INVALID_OOB_CODE)
+              navigate('/login', { replace: true })
             }
             break
           }
 
           case AuthActionCodes.RESET_PASSWORD: {
-            navigate(`/reset-password?oobCode=${oobCode}`, { replace: true }) // Passar o oobCode como query param, como na primeira versão
+            navigate(`/reset-password?oobCode=${oobCode}`, { replace: true })
             break
           }
 
           default: {
-            redirectToLoginWithError(AuthErrorCodes.INTERNAL_ERROR) // Usar um código de erro genérico para ações desconhecidas
-            break
+            toastError(AuthErrorCodes.INTERNAL_ERROR)
+            navigate('/login', { replace: true })
           }
         }
-      } catch (err: any) {
-        console.error(err)
-        redirectToLoginWithError(err.message || AuthErrorCodes.INTERNAL_ERROR)
+      } catch (error) {
+        toastError(error)
+        navigate('/login', { replace: true })
       }
     }
 
-    handleAction()
-  }, [loading, mode, oobCode, navigate, toastError, toastSuccess])
+    handleAuthAction()
+  }, [loading, mode, oobCode, navigate, toastError, toastSuccess, user])
 
   return null
 }

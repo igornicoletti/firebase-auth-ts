@@ -2,14 +2,13 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
 
-import { useConfirmDialog } from '@/common/components/dialog'
 import { InputForm } from '@/common/components/form'
 import { useFormSubmit } from '@/common/hooks'
-import { EmailVerificationModalContent } from '@/features/auth/components/EmailVerificationModalContent'
 import { useAuthRedirect } from '@/features/auth/hooks'
 import { registerSchema, type RegisterFormData } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
@@ -17,7 +16,7 @@ import { AuthSuccessCodes } from '@/features/auth/types'
 
 export const RegisterForm = () => {
   const { isRedirecting } = useAuthRedirect({ requireEmailVerified: false })
-  const { openCustomDialog } = useConfirmDialog()
+  const navigate = useNavigate()
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -34,14 +33,7 @@ export const RegisterForm = () => {
       await authService.createUserWithEmail(data.email, data.password, data.displayName)
     },
     successMessage: AuthSuccessCodes.SIGNUP_SUCCESS,
-    onSuccess: () => {
-      form.reset()
-      openCustomDialog({
-        title: 'Verifique seu E-mail',
-        description: 'Um e-mail de verificação foi enviado. Por favor, siga as instruções.',
-        content: <EmailVerificationModalContent />,
-      })
-    },
+    onSuccess: () => navigate('/login', { replace: true }),
     onError: (error) => console.error(error)
   })
 

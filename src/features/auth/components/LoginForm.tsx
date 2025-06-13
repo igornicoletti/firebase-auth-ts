@@ -1,8 +1,7 @@
-// src/features/auth/components/LoginForm.tsx
+// src/features/auth/components/LoginForm.tsx (ou mantenha Login.tsx se preferir)
 
-import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useLocation, useNavigate } from 'react-router-dom' // Import useLocation
+import { Link, useNavigate } from 'react-router-dom'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { GoogleLogo } from '@phosphor-icons/react'
@@ -10,24 +9,16 @@ import { GoogleLogo } from '@phosphor-icons/react'
 import { Button, ButtonHighlight } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
 
-import { useConfirmDialog, useFormSubmit } from '@/common'
 import { InputForm } from '@/common/components/form'
-import { useAuth } from '@/features/auth/contexts'
-import { useAuthRedirect, useAuthToast } from '@/features/auth/hooks'
+import { useFormSubmit } from '@/common/hooks'
+import { useAuthRedirect } from '@/features/auth/hooks'
 import { loginSchema, type LoginFormData } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
 import { AuthSuccessCodes } from '@/features/auth/types'
-import { EmailVerificationModalContent } from './EmailVerificationModalContent'
-interface LocationState {
-  from?: { pathname: string }
-}
+
 export const LoginForm = () => {
   const { isRedirecting } = useAuthRedirect()
   const navigate = useNavigate()
-  const location = useLocation()
-  const { user, loading: authLoading } = useAuth()
-  const { openCustomDialog } = useConfirmDialog()
-  const { toastError, toastSuccess } = useAuthToast()
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -37,10 +28,13 @@ export const LoginForm = () => {
     }
   })
 
-  const { isLoading: formLoading, handleSubmit } = useFormSubmit<LoginFormData>({
+  const { isLoading, handleSubmit } = useFormSubmit<LoginFormData>({
     onSubmit: async (data) => {
       await authService.signInWithEmail(data.email, data.password)
-    }
+    },
+    successMessage: AuthSuccessCodes.SIGNIN_SUCCESS,
+    onSuccess: () => navigate('/dashboard', { replace: true }),
+    onError: (error) => console.error('Login error:', error)
   })
 
   const handleSocialLogin = async () => {
@@ -48,25 +42,8 @@ export const LoginForm = () => {
       await authService.signInWithGoogle()
     } catch (error) {
       console.error('Social login error:', error)
-      toastError("Falha ao logar com o Google. Tente novamente." as any)
     }
   }
-
-  React.useEffect(() => {
-    if (!authLoading && user && !formLoading) {
-      if (!user.emailVerified) {
-        openCustomDialog({
-          title: 'Verifique seu E-mail',
-          content: <EmailVerificationModalContent />,
-        })
-      } else {
-        const state = location.state as LocationState
-        const from = state?.from?.pathname || '/dashboard'
-        navigate(from, { replace: true })
-        toastSuccess(AuthSuccessCodes.SIGNIN_SUCCESS)
-      }
-    }
-  }, [user, authLoading, formLoading, navigate, location.state])
 
   if (isRedirecting) return null
 
@@ -74,25 +51,25 @@ export const LoginForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        autoComplete='on'
+        noValidate
         className='grid gap-4'>
         <Button
           onClick={handleSocialLogin}
-          disabled={formLoading}
+          disabled={isLoading}
           type='button'
           variant='secondary'>
           <GoogleLogo />
-          {formLoading ? 'Logging..' : 'Login with Google'}
+          {isLoading ? 'Logging in..' : 'Login with Google'}
           <ButtonHighlight />
         </Button>
         <p className='flex items-center gap-x-3 text-sm text-muted-foreground
-            before:h-px before:flex-1 before:bg-gradient-to-r before:from-transparent before:via-border before:to-border
-            after:h-px after:flex-1 after:bg-gradient-to-r after:from-border after:via-border after:to-transparent'>
+          before:h-px before:flex-1 before:bg-gradient-to-r before:from-transparent before:via-border before:to-border
+          after:h-px after:flex-1 after:bg-gradient-to-r after:from-border after:via-border after:to-transparent'>
           or
         </p>
         <InputForm
           control={form.control}
-          disabled={formLoading}
+          disabled={isLoading}
           type='email'
           name='email'
           placeholder='Email'
@@ -106,14 +83,14 @@ export const LoginForm = () => {
         </Button>
         <InputForm
           control={form.control}
-          disabled={formLoading}
+          disabled={isLoading}
           type='password'
           name='password'
           placeholder='Password'
           autoComplete='current-password'
         />
-        <Button disabled={formLoading} type='submit'>
-          {formLoading ? 'Logging...' : 'Login'}
+        <Button disabled={isLoading} type='submit'>
+          {isLoading ? 'Logging in...' : 'Login'}
         </Button>
       </form>
     </Form>
