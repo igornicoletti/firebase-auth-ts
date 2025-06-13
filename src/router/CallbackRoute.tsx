@@ -34,7 +34,7 @@ export const CallbackRoute = () => {
     const handleAuthAction = async () => {
       try {
         switch (mode) {
-          case 'verify-email': {
+          case 'verifyEmail': {
             await authService.applyUserActionCode(oobCode)
             await auth.currentUser?.reload()
 
@@ -48,7 +48,7 @@ export const CallbackRoute = () => {
             break
           }
 
-          case 'reset-password': {
+          case 'resetPassword': {
             navigate(`/reset-password?oobCode=${oobCode}`, { replace: true })
             break
           }
