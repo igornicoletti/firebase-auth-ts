@@ -12,12 +12,11 @@ import { Form } from '@/shadcn/ui/form'
 import { useToast } from '@/common'
 import { InputForm } from '@/common/components/form'
 import { AuthSuccessCodes } from '@/features/auth/constants'
-import { useAuthRedirect, useFormSubmit } from '@/features/auth/hooks'
+import { useFormSubmit } from '@/features/auth/hooks'
 import { loginSchema, type LoginFormData } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
 
 export const LoginForm = () => {
-  const { isRedirecting } = useAuthRedirect()
   const { toastError } = useToast()
   const navigate = useNavigate()
 
@@ -45,8 +44,6 @@ export const LoginForm = () => {
       toastError(error)
     }
   }
-
-  if (isRedirecting) return null
 
   return (
     <Form {...form}>

@@ -14,7 +14,7 @@ export const CallbackRoute = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
-  const { user, loading } = useAuth()
+  const { loading } = useAuth()
   const { toastError, toastSuccess } = useToast()
 
   const mode = searchParams.get('mode')
@@ -65,7 +65,7 @@ export const CallbackRoute = () => {
     }
 
     handleAuthAction()
-  }, [loading, mode, oobCode, navigate, toastError, toastSuccess, user])
+  }, [loading, mode, oobCode, navigate, toastError, toastSuccess])
 
   return null
 }

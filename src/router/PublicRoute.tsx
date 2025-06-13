@@ -19,16 +19,13 @@ export const PublicRoute = ({
   const navigate = useNavigate()
 
   useEffect(() => {
-    // Se o usuário estiver logado
     if (!loading && user) {
       if (user.emailVerified) {
         navigate(redirectTo, { replace: true })
       } else {
-        // Se logado, mas e-mail não verificado, redireciona para a página de verificação
         navigate(redirectToEmailVerification, { replace: true })
       }
     }
-    // Se não estiver carregando e não houver usuário, o Outlet será renderizado, permitindo o acesso às rotas públicas (como /login).
   }, [loading, user, navigate, redirectTo, redirectToEmailVerification])
 
   if (loading) {

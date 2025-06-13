@@ -30,7 +30,7 @@ const publicRoutes = [
   { path: '/login', element: <LoginForm />, loader: authLoader },
   { path: '/register', element: <RegisterForm />, loader: authLoader },
   { path: '/forgot-password', element: <ForgotPasswordForm />, loader: authLoader },
-  { path: '/reset-password/:oobCode', element: <ResetPasswordForm />, loader: authLoader },
+  { path: '/reset-password', element: <ResetPasswordForm />, loader: authLoader },
 ]
 
 export const router = createBrowserRouter([
@@ -63,6 +63,6 @@ export const router = createBrowserRouter([
   },
   {
     path: '*',
-    element: <NotFoundRoute />, // Rota para páginas não encontradas
+    element: <NotFoundRoute />,
   },
 ])

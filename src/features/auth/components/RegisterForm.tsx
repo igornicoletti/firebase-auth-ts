@@ -10,12 +10,11 @@ import { Form } from '@/shadcn/ui/form'
 import { useToast } from '@/common'
 import { InputForm } from '@/common/components/form'
 import { AuthSuccessCodes } from '@/features/auth/constants'
-import { useAuthRedirect, useFormSubmit } from '@/features/auth/hooks'
+import { useFormSubmit } from '@/features/auth/hooks'
 import { registerSchema, type RegisterFormData } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
 
 export const RegisterForm = () => {
-  const { isRedirecting } = useAuthRedirect({ requireEmailVerified: false })
   const navigate = useNavigate()
   const { toastError } = useToast()
 
@@ -37,8 +36,6 @@ export const RegisterForm = () => {
     onSuccess: () => navigate('/login', { replace: true }),
     onError: (error) => toastError(error)
   })
-
-  if (isRedirecting) return null
 
   return (
     <Form {...form}>

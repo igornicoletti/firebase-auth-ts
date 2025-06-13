@@ -11,12 +11,11 @@ import { Form } from '@/shadcn/ui/form'
 import { useToast } from '@/common'
 import { InputForm } from '@/common/components/form'
 import { AuthSuccessCodes } from '@/features/auth/constants'
-import { useAuthRedirect, useFormSubmit } from '@/features/auth/hooks'
+import { useFormSubmit } from '@/features/auth/hooks'
 import { type ForgotPasswordFormData, forgotPasswordSchema } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
 
 export const ForgotPasswordForm = () => {
-  const { isRedirecting } = useAuthRedirect()
   const navigate = useNavigate()
   const { toastError } = useToast()
 
@@ -35,8 +34,6 @@ export const ForgotPasswordForm = () => {
     onSuccess: () => navigate('/login', { replace: true }),
     onError: (error) => toastError(error)
   })
-
-  if (isRedirecting) return null
 
   return (
     <Form {...form}>

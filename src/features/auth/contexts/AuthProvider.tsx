@@ -13,21 +13,15 @@ import {
 import { Loading } from '@/common/components'
 import { authService } from '@/features/auth/services'
 
-type AuthUser = User | null
-
 type AuthState = {
-  user: AuthUser
+  user: User | null
   loading: boolean
 }
 
-type AuthContextValue = AuthState & {
-  logout: () => Promise<void>
-}
-
-const AuthContext = createContext<AuthContextValue | undefined>(undefined)
+const AuthContext = createContext<AuthState | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState(authService.getCurrentUser())
+  const [user, setUser] = useState<User | null>(authService.getCurrentUser())
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -39,11 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return unsubscribe
   }, [])
 
-  const value = useMemo(() => ({
-    user,
-    loading,
-    logout: () => authService.signOut().then(() => setUser(null)),
-  }), [user, loading])
+  const value = useMemo(() => ({ user, loading }), [user, loading])
 
   if (loading) {
     return <Loading />
@@ -51,7 +41,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {children}
+      {loading && <Loading message="Initializing authentication..." />}
+      {!loading && children}
     </AuthContext.Provider>
   )
 }
