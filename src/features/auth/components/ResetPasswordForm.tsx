@@ -1,6 +1,6 @@
 
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -13,10 +13,14 @@ import { AuthSuccessCodes } from '@/features/auth/constants'
 import { useFormSubmit } from '@/features/auth/hooks'
 import { resetPasswordSchema, type ResetPasswordFormData } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
+import { AuthErrorCodes } from 'firebase/auth'
 
 export const ResetPasswordForm = () => {
   const navigate = useNavigate()
   const { toastError } = useToast()
+  const [searchParams] = useSearchParams()
+
+  const oobCode = searchParams.get('oobCode')
 
   const form = useForm<ResetPasswordFormData>({
     resolver: zodResolver(resetPasswordSchema),
@@ -28,7 +32,12 @@ export const ResetPasswordForm = () => {
 
   const { isLoading, handleSubmit } = useFormSubmit<ResetPasswordFormData>({
     onSubmit: async (data) => {
-      await authService.confirmUserPasswordReset(data.password, data.confirmPassword)
+      if (!oobCode) {
+        toastError(AuthErrorCodes.MISSING_CODE)
+        navigate('/forgot-password', { replace: true })
+        return
+      }
+      await authService.confirmUserPasswordReset(oobCode, data.password)
     },
     successMessage: AuthSuccessCodes.PASSWORD_UPDATE_SUCCESS,
     onSuccess: () => navigate('/login', { replace: true }),

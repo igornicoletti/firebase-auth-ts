@@ -11,8 +11,8 @@ import {
 import { AuthProvider } from '@/features/auth'
 
 const providers = [
-  AuthProvider,
   ThemeProvider,
+  AuthProvider,
   DialogProvider,
   ToastProvider,
   HelmetProvider
