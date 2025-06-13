@@ -3,9 +3,9 @@
 import { SEO_METADATA_EN } from '@/locales/en/seo'
 
 // Exemplo de um loader para a página do Dashboard
-export const dashboardLoader = async () => {
+export const dashboardLoader = () => {
   // Simulação de carregamento de dados específicos do dashboard
-  await new Promise(resolve => setTimeout(resolve, 300)) // Simula delay de rede
+  /* await new Promise(resolve => setTimeout(resolve, 300))  */
 
   // Aqui você pode buscar dados do usuário, contagens, etc.
   const dashboardData = {
