@@ -30,29 +30,29 @@ const publicRoutes = [
   { path: '/login', element: <LoginForm />, loader: authLoader },
   { path: '/register', element: <RegisterForm />, loader: authLoader },
   { path: '/forgot-password', element: <ForgotPasswordForm />, loader: authLoader },
-  { path: '/reset-password', element: <ResetPasswordForm />, loader: authLoader },
+  { path: '/reset-password/:oobCode', element: <ResetPasswordForm />, loader: authLoader },
 ]
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <RootRedirect />, // Rota inicial para determinar o redirecionamento
+    element: <RootRedirect />,
   },
   {
     path: '/callback',
     element: <CallbackRoute />,
   },
   {
-    element: <PublicRoute />, // Protege rotas públicas (usuários logados são redirecionados)
+    element: <PublicRoute />,
     children: [
       {
-        element: <AuthLayout />, // Layout comum para páginas de autenticação
+        element: <AuthLayout />,
         children: publicRoutes,
       },
     ],
   },
   {
-    element: <ProtectedRoute requireEmailVerified={true} />, // Protege rotas que exigem e-mail verificado
+    element: <ProtectedRoute requireEmailVerified={true} />,
     children: [
       {
         path: '/dashboard',

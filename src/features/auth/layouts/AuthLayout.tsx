@@ -2,13 +2,13 @@
 
 import { Link, Outlet, useMatches } from 'react-router-dom'
 
-import type { AuthPageData } from '@/features/auth/constants'
+import type { AuthDataValues } from '@/features/auth/constants'
 import { Button } from '@/shadcn/ui/button'
 
 export const AuthLayout = () => {
   const matches = [...useMatches()].find((match) => match.data)
   if (!matches || !matches.data) return null
-  const { formSubtitle, ask, formTitle, linkTo, source } = matches.data as AuthPageData
+  const { formSubtitle, ask, formTitle, linkTo, source } = matches.data as AuthDataValues
 
   return (
     <div className='min-h-screen grid place-items-center px-4 py-6'>
