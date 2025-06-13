@@ -2,9 +2,11 @@
 
 import { Helmet } from 'react-helmet-async'
 
-import { SEO_METADATA_EN } from '@/common/components/helmet/constants'
-import type { HelmetWrapperProps } from '@/common/components/helmet/types'
-import { mergeMeta } from '@/common/components/helmet/utils'
+import {
+  mergeMeta,
+  SEO_METADATA_EN,
+  type HelmetWrapperProps
+} from '@/common/components/helmet'
 
 export const HelmetWrapper = ({ pageKey, customMeta }: HelmetWrapperProps) => {
   const defaultMeta = pageKey ? SEO_METADATA_EN[pageKey] : undefined

@@ -1,8 +1,8 @@
 // src/features/profile/components/ProfileSettings.tsx
 // Demonstra como os mesmos componentes são reutilizados em features diferentes
 
-import { useFormSubmit } from '@/common/hooks'
 import { useAuth } from '@/features/auth'
+import { useFormSubmit } from '@/features/auth/hooks'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shadcn/ui/card'
 import { Form } from '@/shadcn/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'

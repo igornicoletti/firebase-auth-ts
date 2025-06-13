@@ -6,7 +6,7 @@ import { Spinner } from '@phosphor-icons/react'
 
 import { Progress } from '@/shadcn/ui/progress'
 
-import type { LoadingScreenProps } from '@/common/components/loading/types'
+import type { LoadingScreenProps } from '@/common/components/loading'
 
 export const Loading = ({ progress: externalProgress, message }: LoadingScreenProps) => {
   const [progress, setProgress] = useState(0)

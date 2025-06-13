@@ -1,6 +1,6 @@
 // src/common/components/helmet/constants.ts
 
-import type { SeoMeta, SeoPageKey } from '@/common/components/helmet/types'
+import type { SeoMeta, SeoPageKey } from '@/common/components/helmet'
 
 export const SEO_METADATA_EN: Record<SeoPageKey, SeoMeta> = {
   home: {

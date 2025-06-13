@@ -1,7 +1,10 @@
 // src/common/components/toast/helpers.ts
 
-import { AUTH_ERROR_MAP } from '@/features/auth/constants/authErrorMap'
-import { AUTH_SUCCESS_MAP, AuthSuccessCodes } from '@/features/auth/constants/authSuccessMap'
+import {
+  AUTH_ERROR_MAP,
+  AUTH_SUCCESS_MAP,
+  AuthSuccessCodes
+} from '@/features/auth/constants'
 
 const prettifyCode = (code: string): string =>
   code

@@ -1,6 +1,6 @@
 // src/common/components/helmet/utils.ts
 
-import type { SeoMeta } from '@/common/components/helmet/types'
+import type { SeoMeta } from '@/common/components/helmet'
 
 export const mergeMeta = (
   defaultMeta?: SeoMeta,

@@ -18,6 +18,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/shadcn/ui/alert-dialog'
+
 import {
   Dialog,
   DialogContent,
@@ -27,11 +28,11 @@ import {
   DialogTitle,
 } from '@/shadcn/ui/dialog'
 
-import { getAlertProps } from '@/common/components/dialog/helpers'
-import type {
-  DialogContextValue,
-  DialogOptions
-} from '@/common/components/dialog/types'
+import {
+  getAlertProps,
+  type DialogContextValue,
+  type DialogOptions
+} from '@/common/components/dialog'
 
 export const DialogContext = createContext<DialogContextValue | undefined>(undefined)
 

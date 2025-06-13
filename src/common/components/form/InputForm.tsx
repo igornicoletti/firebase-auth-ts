@@ -6,15 +6,10 @@ import type { FieldValues } from 'react-hook-form'
 import { Eye, EyeSlash } from '@phosphor-icons/react'
 
 import { Button } from '@/shadcn/ui/button'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage
-} from '@/shadcn/ui/form'
+import { FormControl, FormField, FormItem, FormMessage } from '@/shadcn/ui/form'
 import { Input } from '@/shadcn/ui/input'
 
-import type { InputProps } from '@/common/components/form/types'
+import type { InputProps } from '@/common/components/form'
 
 export const InputForm = <T extends FieldValues>({
   name,

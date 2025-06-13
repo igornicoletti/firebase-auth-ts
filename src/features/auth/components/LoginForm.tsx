@@ -10,9 +10,8 @@ import { Button, ButtonHighlight } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
 
 import { InputForm } from '@/common/components/form'
-import { useFormSubmit } from '@/common/hooks'
 import { AuthSuccessCodes } from '@/features/auth/constants'
-import { useAuthRedirect } from '@/features/auth/hooks'
+import { useAuthRedirect, useFormSubmit } from '@/features/auth/hooks'
 import { loginSchema, type LoginFormData } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
 

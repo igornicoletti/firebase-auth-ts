@@ -4,7 +4,7 @@ import { FirebaseError } from 'firebase/app'
 import { useCallback } from 'react'
 import { toast } from 'sonner'
 
-import { authFormat } from '@/common/components/toast/helpers'
+import { authFormat } from '@/common/components/toast'
 import type { AuthSuccessCodes } from '@/features/auth/constants'
 
 export const useToast = () => {

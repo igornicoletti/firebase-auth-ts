@@ -1,6 +1,6 @@
 // src/shared/components/dialog/helpers.ts
 
-import type { AlertType } from '@/common/components/dialog/types'
+import type { AlertType } from '@/common/components/dialog'
 
 export const getAlertProps = (alertType: AlertType = 'info') => {
   switch (alertType) {
