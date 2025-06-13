@@ -11,7 +11,7 @@ import {
   useAuth,
 } from '@/features'
 import { AuthLayout } from '@/features/auth/layouts/AuthLayout'
-import { authLoader } from '@/features/auth/loaders/authLoaders'
+import { authLoader } from '@/features/auth/loaders/authLoader'
 import { dashboardLoader } from '@/features/dashboard/loaders/dashboardLoaders'
 import DashboardPage from '@/features/dashboard/pages/DashboardPage'
 import { CallbackRoute, NotFoundRoute, ProtectedRoute, PublicRoute } from '@/router'
@@ -30,7 +30,7 @@ const publicRoutes = [
   { path: '/login', element: <LoginForm />, loader: authLoader },
   { path: '/register', element: <RegisterForm />, loader: authLoader },
   { path: '/forgot-password', element: <ForgotPasswordForm />, loader: authLoader },
-  { path: '/reset-password/:oobCode', element: <ResetPasswordForm />, loader: authLoader },
+  { path: '/reset-password', element: <ResetPasswordForm />, loader: authLoader },
 ]
 
 export const router = createBrowserRouter([

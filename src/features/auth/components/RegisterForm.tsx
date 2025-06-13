@@ -9,10 +9,10 @@ import { Form } from '@/shadcn/ui/form'
 
 import { InputForm } from '@/common/components/form'
 import { useFormSubmit } from '@/common/hooks'
+import { AuthSuccessCodes } from '@/features/auth/constants'
 import { useAuthRedirect } from '@/features/auth/hooks'
 import { registerSchema, type RegisterFormData } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
-import { AuthSuccessCodes } from '@/features/auth/types'
 
 export const RegisterForm = () => {
   const { isRedirecting } = useAuthRedirect({ requireEmailVerified: false })

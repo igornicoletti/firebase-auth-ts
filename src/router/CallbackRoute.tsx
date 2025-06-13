@@ -4,17 +4,19 @@ import { AuthErrorCodes } from 'firebase/auth'
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
+import { useToast } from '@/common/components/toast'
 import { auth } from '@/configs/firebase'
 import { useAuth } from '@/features'
-import { useAuthToast } from '@/features/auth/hooks/useAuthToast'
+import { AuthSuccessCodes } from '@/features/auth/constants'
 import { authService } from '@/features/auth/services'
-import { AuthActionCodes, AuthSuccessCodes } from '@/features/auth/types' // Importe os códigos de erro tipados
 
 export const CallbackRoute = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+
   const { user, loading } = useAuth()
-  const { toastError, toastSuccess } = useAuthToast()
+  const { toastError, toastSuccess } = useToast()
+
   const mode = searchParams.get('mode')
   const oobCode = searchParams.get('oobCode')
 
@@ -32,7 +34,7 @@ export const CallbackRoute = () => {
     const handleAuthAction = async () => {
       try {
         switch (mode) {
-          case AuthActionCodes.VERIFY_EMAIL: {
+          case 'verify-email': {
             await authService.applyUserActionCode(oobCode)
             await auth.currentUser?.reload()
 
@@ -46,7 +48,7 @@ export const CallbackRoute = () => {
             break
           }
 
-          case AuthActionCodes.RESET_PASSWORD: {
+          case 'reset-password': {
             navigate(`/reset-password?oobCode=${oobCode}`, { replace: true })
             break
           }

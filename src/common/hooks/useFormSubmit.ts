@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import { useAuthToast } from '@/features/auth/hooks'
+import { useToast } from '@/common/components/toast'
 
 type UseFormSubmitOptions<T> = {
   onSubmit: (data: T) => Promise<void> | void
@@ -18,7 +18,7 @@ export const useFormSubmit = <T>({
   onError
 }: UseFormSubmitOptions<T>) => {
   const [isLoading, setIsLoading] = useState(false)
-  const { toastError, toastSuccess } = useAuthToast()
+  const { toastError, toastSuccess } = useToast()
 
   const handleSubmit = async (data: T) => {
     setIsLoading(true)

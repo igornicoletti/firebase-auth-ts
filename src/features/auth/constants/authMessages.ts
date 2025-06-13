@@ -22,7 +22,7 @@ export const AuthDataCodes = {
   RESET_PASSWORD: 'reset-password',
 } as const
 
-export const AUTH_PAGE_MESSAGES: Record<AuthDataCode, AuthPageData> = {
+export const AUTH_DATA_MAP: Record<AuthDataCode, AuthPageData> = {
   [AuthDataCodes.LOGIN]: {
     formTitle: 'Welcome Back',
     formSubtitle: 'Enter your email below to login to your account',

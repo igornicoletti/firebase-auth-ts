@@ -2,8 +2,6 @@
 
 import type { User } from 'firebase/auth'
 
-export * from './constants'
-
 export type AuthUser = User | null
 
 export type AuthState = {
