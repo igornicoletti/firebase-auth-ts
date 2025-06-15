@@ -1,18 +1,19 @@
 // src/auth/components/form/RegisterForm.tsx
 
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-import { Button } from '@/shadcn/ui/button'
-import { Form } from '@/shadcn/ui/form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { SpinnerGap, UserCirclePlus } from '@phosphor-icons/react'
 
-import { useToast } from '@/common'
-import { InputForm } from '@/common/components/form'
-import { AuthSuccessCodes } from '@/features/auth/constants'
+import { AuthInputForm } from '@/features/auth/components'
 import { useFormSubmit } from '@/features/auth/hooks'
 import { registerSchema, type RegisterFormData } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
+import { Button } from '@/shadcn/ui/button'
+import { Form } from '@/shadcn/ui/form'
+import { AuthSuccessCodes } from '@/shared/constants'
+import { useToast } from '@/shared/hooks'
 
 export const RegisterForm = () => {
   const navigate = useNavigate()
@@ -43,16 +44,16 @@ export const RegisterForm = () => {
         onSubmit={form.handleSubmit(handleSubmit)}
         noValidate
         className='grid gap-4'>
-        <InputForm
+        <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='text'
           name='displayName'
-          placeholder='Name'
+          placeholder='Username'
           autoComplete='given-name'
           autoFocus
         />
-        <InputForm
+        <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='email'
@@ -60,7 +61,7 @@ export const RegisterForm = () => {
           placeholder='Email'
           autoComplete='username'
         />
-        <InputForm
+        <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='password'
@@ -68,7 +69,7 @@ export const RegisterForm = () => {
           placeholder='Password'
           autoComplete='new-password'
         />
-        <InputForm
+        <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='password'
@@ -77,6 +78,7 @@ export const RegisterForm = () => {
           autoComplete='new-password'
         />
         <Button disabled={isLoading} type='submit'>
+          {isLoading ? <SpinnerGap className='animate-spin' /> : <UserCirclePlus />}
           {isLoading ? 'Creating...' : 'Create account'}
         </Button>
       </form>

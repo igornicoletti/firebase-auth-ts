@@ -4,16 +4,16 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { PaperPlaneTilt, SpinnerGap } from '@phosphor-icons/react'
 
-import { Button } from '@/shadcn/ui/button'
-import { Form } from '@/shadcn/ui/form'
-
-import { useToast } from '@/common'
-import { InputForm } from '@/common/components/form'
-import { AuthSuccessCodes } from '@/features/auth/constants'
+import { AuthInputForm } from '@/features/auth/components'
 import { useFormSubmit } from '@/features/auth/hooks'
 import { type ForgotPasswordFormData, forgotPasswordSchema } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
+import { Button } from '@/shadcn/ui/button'
+import { Form } from '@/shadcn/ui/form'
+import { AuthSuccessCodes } from '@/shared/constants'
+import { useToast } from '@/shared/hooks'
 
 export const ForgotPasswordForm = () => {
   const navigate = useNavigate()
@@ -41,7 +41,7 @@ export const ForgotPasswordForm = () => {
         onSubmit={form.handleSubmit(handleSubmit)}
         noValidate
         className='grid gap-4'>
-        <InputForm
+        <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='email'
@@ -51,6 +51,7 @@ export const ForgotPasswordForm = () => {
           autoFocus
         />
         <Button disabled={isLoading} type='submit'>
+          {isLoading ? <SpinnerGap className='animate-spin' /> : <PaperPlaneTilt />}
           {isLoading ? 'Sending...' : 'Send reset email'}
         </Button>
       </form>

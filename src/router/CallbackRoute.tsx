@@ -4,11 +4,11 @@ import { AuthErrorCodes } from 'firebase/auth'
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-import { useToast } from '@/common/components/toast'
 import { auth } from '@/configs/firebase'
-import { useAuth } from '@/features'
-import { AuthSuccessCodes } from '@/features/auth/constants'
+import { useAuth } from '@/features/auth/contexts'
 import { authService } from '@/features/auth/services'
+import { AuthCallbackCodes, AuthSuccessCodes } from '@/shared/constants'
+import { useToast } from '@/shared/hooks'
 
 export const CallbackRoute = () => {
   const [searchParams] = useSearchParams()
@@ -21,9 +21,7 @@ export const CallbackRoute = () => {
   const oobCode = searchParams.get('oobCode')
 
   useEffect(() => {
-    if (loading) {
-      return
-    }
+    if (loading) return
 
     if (!mode || !oobCode) {
       toastError(AuthErrorCodes.EXPIRED_OOB_CODE)
@@ -34,7 +32,7 @@ export const CallbackRoute = () => {
     const handleAuthAction = async () => {
       try {
         switch (mode) {
-          case 'verifyEmail': {
+          case AuthCallbackCodes.VERIFY_PASSWORD: {
             await authService.applyUserActionCode(oobCode)
             await auth.currentUser?.reload()
 
@@ -48,7 +46,7 @@ export const CallbackRoute = () => {
             break
           }
 
-          case 'resetPassword': {
+          case AuthCallbackCodes.RESET_PASSWORD: {
             navigate(`/reset-password?oobCode=${oobCode}`, { replace: true })
             break
           }

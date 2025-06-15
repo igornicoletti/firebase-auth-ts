@@ -3,8 +3,8 @@
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
-import { Loading } from '@/common'
 import { useAuth } from '@/features'
+import { LoadingProgress } from '@/shared/components'
 
 type PublicRouteProps = {
   redirectTo?: string
@@ -29,7 +29,7 @@ export const PublicRoute = ({
   }, [loading, user, navigate, redirectTo, redirectToEmailVerification])
 
   if (loading) {
-    return <Loading message="Verifying your session..." />
+    return <LoadingProgress message="Verifying your session..." />
   }
 
   return <Outlet />

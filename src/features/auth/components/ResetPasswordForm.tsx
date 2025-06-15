@@ -1,19 +1,19 @@
 
+import { AuthErrorCodes } from 'firebase/auth'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ShieldStar, SpinnerGap } from '@phosphor-icons/react'
 
-import { Button } from '@/shadcn/ui/button'
-import { Form } from '@/shadcn/ui/form'
-
-import { useToast } from '@/common'
-import { InputForm } from '@/common/components/form'
-import { AuthSuccessCodes } from '@/features/auth/constants'
+import { AuthInputForm } from '@/features/auth/components'
 import { useFormSubmit } from '@/features/auth/hooks'
 import { resetPasswordSchema, type ResetPasswordFormData } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
-import { AuthErrorCodes } from 'firebase/auth'
+import { Button } from '@/shadcn/ui/button'
+import { Form } from '@/shadcn/ui/form'
+import { AuthSuccessCodes } from '@/shared/constants'
+import { useToast } from '@/shared/hooks'
 
 export const ResetPasswordForm = () => {
   const navigate = useNavigate()
@@ -50,7 +50,7 @@ export const ResetPasswordForm = () => {
         onSubmit={form.handleSubmit(handleSubmit)}
         noValidate
         className='grid gap-4'>
-        <InputForm
+        <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='password'
@@ -59,7 +59,7 @@ export const ResetPasswordForm = () => {
           autoComplete='new-password'
           autoFocus
         />
-        <InputForm
+        <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='password'
@@ -68,6 +68,7 @@ export const ResetPasswordForm = () => {
           autoComplete='new-password'
         />
         <Button disabled={isLoading} type='submit'>
+          {isLoading ? <SpinnerGap className='animate-spin' /> : <ShieldStar />}
           {isLoading ? 'Resetting...' : 'Reset password'}
         </Button>
       </form>

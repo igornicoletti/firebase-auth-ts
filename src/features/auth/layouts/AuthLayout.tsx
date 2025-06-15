@@ -2,16 +2,16 @@
 
 import { Link, Outlet, useMatches } from 'react-router-dom'
 
-import type { AuthDataValues } from '@/features/auth/constants'
 import { Button } from '@/shadcn/ui/button'
+import type { AuthLoaderData } from '@/shared/loaders/authLoader'
 
 export const AuthLayout = () => {
   const matches = [...useMatches()].find((match) => match.data)
   if (!matches || !matches.data) return null
-  const { formSubtitle, ask, formTitle, linkTo, source } = matches.data as AuthDataValues
+  const { formSubtitle, ask, formTitle, linkTo, source } = matches.data as AuthLoaderData
 
   return (
-    <div className='min-h-screen grid place-items-center px-4 py-6'>
+    <div className='min-h-screen grid place-items-center p-6'>
       <div className='w-full max-w-sm'>
         <div className='grid gap-6'>
           <div className='grid gap-2 text-center'>

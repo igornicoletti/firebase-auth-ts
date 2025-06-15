@@ -1,6 +1,5 @@
 // src/features/dashboard/loaders/dashboardLoaders.ts
 
-import { SEO_METADATA_EN } from '@/locales/en/seo'
 
 // Exemplo de um loader para a página do Dashboard
 export const dashboardLoader = () => {
@@ -16,7 +15,6 @@ export const dashboardLoader = () => {
   // Retorna os metadados de SEO junto com os dados da página
   return {
     dashboardData,
-    seo: SEO_METADATA_EN.dashboard, // Passa os metadados de SEO predefinidos
     // Ou, se precisar de algo dinâmico:
     // seo: {
     //   title: `Dashboard de ${user.name}`,

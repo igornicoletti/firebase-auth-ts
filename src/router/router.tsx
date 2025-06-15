@@ -2,7 +2,6 @@
 
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
-import { Loading } from '@/common/components/loading/Loading'
 import {
   ForgotPasswordForm,
   LoginForm,
@@ -11,15 +10,16 @@ import {
   useAuth,
 } from '@/features'
 import { AuthLayout } from '@/features/auth/layouts/AuthLayout'
-import { authLoader } from '@/features/auth/loaders/authLoader'
 import { dashboardLoader } from '@/features/dashboard/loaders/dashboardLoaders'
 import { DashboardPage } from '@/features/dashboard/pages/DashboardPage'
-import { CallbackRoute, NotFoundRoute, ProtectedRoute, PublicRoute } from '@/router'
+import { CallbackRoute, ErrorBoundaryRoute, NotFoundRoute, ProtectedRoute, PublicRoute } from '@/router'
+import { LoadingProgress } from '@/shared/components'
+import { authLoader } from '@/shared/loaders'
 
 const RootRedirect = () => {
   const { user, loading } = useAuth()
 
-  if (loading) return <Loading />
+  if (loading) return <LoadingProgress />
 
   return user?.emailVerified
     ? <Navigate to="/dashboard" replace />
@@ -37,16 +37,19 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <RootRedirect />,
+    errorElement: <ErrorBoundaryRoute />,
   },
   {
     path: '/callback',
     element: <CallbackRoute />,
+    errorElement: <ErrorBoundaryRoute />,
   },
   {
     element: <PublicRoute />,
     children: [
       {
         element: <AuthLayout />,
+        errorElement: <ErrorBoundaryRoute />,
         children: publicRoutes,
       },
     ],

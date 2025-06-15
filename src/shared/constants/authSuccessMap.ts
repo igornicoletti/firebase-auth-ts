@@ -1,33 +1,8 @@
-// src/features/auth/constants/authSuccessMap.ts
+// src/shared/constants/authSuccessMap.ts
 
-export const AuthSuccessCodes = {
-  EMAIL_RESEND_SUCCESS: 'email-resend-success',
-  EMAIL_SIGNIN_SUCCESS: 'email-signin-success',
-  EMAIL_UPDATE_SUCCESS: 'email-update-success',
-  EMAIL_VERIFIED_SUCCESS: 'email-verified-success',
-  EMAIL_VERIFICATION_LINK_SENT: 'email-verification-link-sent',
-  GENERIC_SUCCESS: 'generic-success',
-  GOOGLE_SIGNIN_SUCCESS: 'google-signin-success',
-  LINK_SUCCESS: 'link-success',
-  PASSWORD_RESET_EMAIL_SENT: 'password-reset-email-sent',
-  PASSWORD_RESET_SUCCESS: 'password-reset-success',
-  PASSWORD_UPDATE_SUCCESS: 'password-update-success',
-  PROFILE_UPDATE_SUCCESS: 'profile-update-success',
-  REAUTH_SUCCESS: 'reauth-success',
-  SIGNIN_SUCCESS: 'signin-success',
-  SIGNOUT_SUCCESS: 'signout-success',
-  SIGNUP_SUCCESS: 'signup-success',
-  UNLINK_SUCCESS: 'unlink-success',
-} as const
+import { AuthSuccessCodes } from '@/shared/constants'
 
-export type AuthSuccessCodes = typeof AuthSuccessCodes[keyof typeof AuthSuccessCodes]
-
-export type AuthSuccessValues = {
-  title: string
-  description: string
-}
-
-export const AUTH_SUCCESS_MAP: Record<AuthSuccessCodes, AuthSuccessValues> = {
+export const AUTH_SUCCESS_MAP: Record<string, { title: string, description: string }> = {
   [AuthSuccessCodes.EMAIL_RESEND_SUCCESS]: {
     title: 'Verification Email Sent!',
     description: "We’ve fired off a new verification email. If it doesn't show up soon, check your spam folder.",

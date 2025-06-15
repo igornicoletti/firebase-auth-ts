@@ -4,17 +4,16 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { GoogleLogo } from '@phosphor-icons/react'
+import { GoogleLogo, SignIn, SpinnerGap } from '@phosphor-icons/react'
 
-import { Button, ButtonHighlight } from '@/shadcn/ui/button'
-import { Form } from '@/shadcn/ui/form'
-
-import { useToast } from '@/common'
-import { InputForm } from '@/common/components/form'
-import { AuthSuccessCodes } from '@/features/auth/constants'
+import { AuthInputForm } from '@/features/auth/components'
 import { useFormSubmit } from '@/features/auth/hooks'
 import { loginSchema, type LoginFormData } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
+import { Button, ButtonHighlight } from '@/shadcn/ui/button'
+import { Form } from '@/shadcn/ui/form'
+import { AuthSuccessCodes } from '@/shared/constants'
+import { useToast } from '@/shared/hooks'
 
 export const LoginForm = () => {
   const { toastError } = useToast()
@@ -56,7 +55,7 @@ export const LoginForm = () => {
           disabled={isLoading}
           type='button'
           variant='secondary'>
-          <GoogleLogo />
+          {isLoading ? <SpinnerGap className='animate-spin' /> : <GoogleLogo />}
           {isLoading ? 'Logging in..' : 'Login with Google'}
           <ButtonHighlight />
         </Button>
@@ -65,7 +64,7 @@ export const LoginForm = () => {
           after:h-px after:flex-1 after:bg-gradient-to-r after:from-border after:via-border after:to-transparent'>
           or
         </p>
-        <InputForm
+        <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='email'
@@ -79,7 +78,7 @@ export const LoginForm = () => {
           className='h-auto ml-auto -mb-2 p-0 text-xs font-medium'>
           <Link to='/forgot-password'>Forgot password?</Link>
         </Button>
-        <InputForm
+        <AuthInputForm
           control={form.control}
           disabled={isLoading}
           type='password'
@@ -88,6 +87,7 @@ export const LoginForm = () => {
           autoComplete='current-password'
         />
         <Button disabled={isLoading} type='submit'>
+          {isLoading ? <SpinnerGap className='animate-spin' /> : <SignIn />}
           {isLoading ? 'Logging in...' : 'Login'}
         </Button>
       </form>

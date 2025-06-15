@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import { useToast } from '@/common/components/toast'
+import { useToast } from '@/shared/hooks'
 
 type UseFormSubmitOptions<T> = {
   onSubmit: (data: T) => Promise<void> | void

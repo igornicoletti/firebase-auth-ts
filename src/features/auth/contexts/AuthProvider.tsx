@@ -10,8 +10,8 @@ import {
   type ReactNode
 } from 'react'
 
-import { Loading } from '@/common/components'
 import { authService } from '@/features/auth/services'
+import { LoadingProgress } from '@/shared/components'
 
 type AuthState = {
   user: User | null
@@ -36,12 +36,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const value = useMemo(() => ({ user, loading }), [user, loading])
 
   if (loading) {
-    return <Loading />
+    return <LoadingProgress />
   }
 
   return (
     <AuthContext.Provider value={value}>
-      {loading && <Loading message="Initializing authentication..." />}
+      {loading && <LoadingProgress message="Initializing authentication..." />}
       {!loading && children}
     </AuthContext.Provider>
   )

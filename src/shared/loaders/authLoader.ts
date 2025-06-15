@@ -1,4 +1,4 @@
-// src/features/auth/loaders/authLoader.ts
+// src/shared/loaders/authLoader.ts
 
 import type { LoaderFunctionArgs } from 'react-router-dom'
 
@@ -18,3 +18,5 @@ export const authLoader = ({ request }: LoaderFunctionArgs) => {
 
   return AUTH_DATA_MAP[code]
 }
+
+export type AuthLoaderData = Awaited<ReturnType<typeof authLoader>>

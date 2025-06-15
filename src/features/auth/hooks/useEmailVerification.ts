@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react'
 
-import { useToast } from '@/common/components/toast'
-import { AuthSuccessCodes } from '@/features/auth/constants'
 import { useAuth } from '@/features/auth/contexts'
 import { authService } from '@/features/auth/services'
+import { AuthSuccessCodes } from '@/shared/constants'
+import { useToast } from '@/shared/hooks'
 
 type UseEmailVerificationOptions = {
   showWarning?: boolean
@@ -18,6 +18,7 @@ export const useEmailVerification = ({
 }: UseEmailVerificationOptions = {}) => {
   const { user } = useAuth()
   const { toastError, toastSuccess } = useToast()
+
   const [isSending, setIsSending] = useState(false)
   const [lastSentAt, setLastSentAt] = useState<Date | null>(null)
 

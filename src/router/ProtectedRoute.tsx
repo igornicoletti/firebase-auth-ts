@@ -3,8 +3,8 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
-import { Loading } from '@/common'
 import { useAuth } from '@/features'
+import { LoadingProgress } from '@/shared/components'
 
 type ProtectedRouteOptions = {
   requireEmailVerified?: boolean
@@ -33,7 +33,7 @@ export const ProtectedRoute = ({
   }, [loading, isAllowed, navigate, location.pathname, redirectTo])
 
   if (loading) {
-    return <Loading message='Verifying your session...' />
+    return <LoadingProgress message='Verifying your session...' />
   }
 
   return isAllowed ? <Outlet /> : null

@@ -1,13 +1,6 @@
-// src/features/auth/constants/authDataMap.ts
+// src/shared/constants/authDataMap.ts
 
-export const AuthDataCodes = {
-  LOGIN: 'login',
-  REGISTER: 'register',
-  FORGOT_PASSWORD: 'forgot-password',
-  RESET_PASSWORD: 'reset-password',
-} as const
-
-export type AuthDataCodes = typeof AuthDataCodes[keyof typeof AuthDataCodes]
+import { AuthDataCodes } from '@/shared/constants'
 
 export type AuthDataValues = {
   formTitle: string
@@ -17,7 +10,7 @@ export type AuthDataValues = {
   linkTo: string
 }
 
-export const AUTH_DATA_MAP: Record<AuthDataCodes, AuthDataValues> = {
+export const AUTH_DATA_MAP: Record<string, AuthDataValues> = {
   [AuthDataCodes.LOGIN]: {
     formTitle: 'Sign in to your account',
     formSubtitle: 'Welcome back! Please sign in to continue',
