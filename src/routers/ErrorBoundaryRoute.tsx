@@ -25,7 +25,7 @@ export const ErrorBoundaryRoute = () => {
   }
 
   return (
-    <div className='min-h-screen grid place-items-center px-4 py-6'>
+    <div className='min-h-screen grid place-items-center p-6'>
       <div className='w-full max-w-7xl'>
         <Alert>
           <Terminal />

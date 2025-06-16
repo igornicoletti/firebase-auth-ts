@@ -10,7 +10,7 @@ export const NotFoundRoute = () => {
   const navigate = useNavigate()
 
   return (
-    <div className='min-h-screen grid place-items-center px-4 py-6'>
+    <div className='min-h-screen grid place-items-center p-6'>
       <div className='w-full max-w-sm'>
         <div className='grid gap-6'>
           <div className='grid gap-2 text-center'>

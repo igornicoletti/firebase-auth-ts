@@ -2,17 +2,17 @@
 
 import { RouterProvider } from 'react-router-dom'
 
-import { ThemeProvider } from '@/common'
-import { AuthProvider } from '@/features'
-import { router } from '@/router'
+import { AuthProvider } from '@/features/auth/contexts'
+import { router } from '@/routers'
 import { Toaster } from '@/shadcn/ui/sonner'
+import { ThemeProvider } from '@/shared/contexts'
 
 export const App = () => {
   return (
-    <ThemeProvider>
+    <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
       <AuthProvider>
         <RouterProvider router={router} />
-        <Toaster position="top-right" duration={5000} />
+        <Toaster position='top-right' duration={5000} />
       </AuthProvider>
     </ThemeProvider>
   )

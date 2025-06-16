@@ -75,7 +75,7 @@ export const LoginForm = () => {
         <Button
           asChild
           variant='link'
-          className='h-auto ml-auto -mb-2 p-0 text-xs font-medium'>
+          className='h-auto ml-auto -mb-2 p-0 text-xs font-semibold'>
           <Link to='/forgot-password'>Forgot password?</Link>
         </Button>
         <AuthInputForm

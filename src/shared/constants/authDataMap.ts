@@ -1,26 +1,17 @@
 // src/shared/constants/authDataMap.ts
-
 import { AuthDataCodes } from '@/shared/constants'
 
-export type AuthDataValues = {
-  formTitle: string
-  formSubtitle: string
-  ask: string
-  source: string
-  linkTo: string
-}
-
-export const AUTH_DATA_MAP: Record<string, AuthDataValues> = {
+export const AUTH_DATA_MAP = {
   [AuthDataCodes.LOGIN]: {
     formTitle: 'Sign in to your account',
-    formSubtitle: 'Welcome back! Please sign in to continue',
+    formSubtitle: 'Welcome back! Please sign in to continue.',
     ask: 'Don’t have an account?',
     source: 'Sign up',
     linkTo: '/register',
   },
   [AuthDataCodes.REGISTER]: {
     formTitle: 'Create your account',
-    formSubtitle: 'Welcome! Please fill in the details to get started',
+    formSubtitle: 'Welcome! Please fill in the details to get started.',
     ask: 'Already have an account?',
     source: 'Sign in',
     linkTo: '/login',
@@ -39,4 +30,4 @@ export const AUTH_DATA_MAP: Record<string, AuthDataValues> = {
     source: 'Sign in',
     linkTo: '/login',
   },
-}
+} as const

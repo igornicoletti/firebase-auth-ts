@@ -4,9 +4,7 @@ import type { LoaderFunctionArgs } from 'react-router-dom'
 
 import { AUTH_DATA_MAP } from '@/shared/constants'
 
-const isAuthDataCode = (codeKey: string) => {
-  return codeKey in AUTH_DATA_MAP
-}
+const isAuthDataCode = (codeKey: string) => codeKey in AUTH_DATA_MAP
 
 export const authLoader = ({ request }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url)
@@ -19,4 +17,4 @@ export const authLoader = ({ request }: LoaderFunctionArgs) => {
   return AUTH_DATA_MAP[code]
 }
 
-export type AuthLoaderData = Awaited<ReturnType<typeof authLoader>>
+export type AuthLoaderData = ReturnType<typeof authLoader>

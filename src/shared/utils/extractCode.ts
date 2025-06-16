@@ -8,5 +8,6 @@ export const extractCode = (codeKey: unknown): string => {
   if (codeKey && typeof codeKey === 'object' && 'code' in codeKey) {
     return String((codeKey as any).code)
   }
+
   return 'unknown'
 }

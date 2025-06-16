@@ -1,4 +1,4 @@
-// src/router/index.ts
+// src/routers/index.ts
 
 export { CallbackRoute } from './CallbackRoute'
 export { ErrorBoundaryRoute } from './ErrorBoundaryRoute'

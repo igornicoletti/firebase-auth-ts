@@ -11,7 +11,6 @@ import {
 } from 'react'
 
 import { authService } from '@/features/auth/services'
-import { LoadingProgress } from '@/shared/components'
 
 type AuthState = {
   user: User | null
@@ -35,13 +34,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const value = useMemo(() => ({ user, loading }), [user, loading])
 
-  if (loading) {
-    return <LoadingProgress />
-  }
+  if (loading) return
 
   return (
     <AuthContext.Provider value={value}>
-      {loading && <LoadingProgress message="Initializing authentication..." />}
       {!loading && children}
     </AuthContext.Provider>
   )
@@ -49,8 +45,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext)
+
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider')
   }
+
   return context
 }

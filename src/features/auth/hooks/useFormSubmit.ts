@@ -1,4 +1,4 @@
-// src/common/hooks/useFormSubmit.ts
+// src/features/auth/hooks/useFormSubmit.ts
 
 import { useState } from 'react'
 

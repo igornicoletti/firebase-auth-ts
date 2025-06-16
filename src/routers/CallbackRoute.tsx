@@ -1,4 +1,4 @@
-// src/router/CallbackRoute.tsx
+// src/routers/CallbackRoute.tsx
 
 import { AuthErrorCodes } from 'firebase/auth'
 import { useEffect } from 'react'

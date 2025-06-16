@@ -10,12 +10,11 @@ export const useToast = () => {
     const code = extractCode(errorKey)
     const { title, description } = formatCode.error(code)
 
-    toast.dismiss()
     toast.message(title, {
       description, classNames: {
         title: '!text-destructive',
         description: '!text-foreground',
-      },
+      }
     })
   }, [])
 
@@ -23,12 +22,11 @@ export const useToast = () => {
     const code = extractCode(successKey)
     const { title, description } = formatCode.success(code)
 
-    toast.dismiss()
     toast.message(title, {
       description, classNames: {
         title: '!text-constructive',
         description: '!text-foreground',
-      },
+      }
     })
   }, [])
 
