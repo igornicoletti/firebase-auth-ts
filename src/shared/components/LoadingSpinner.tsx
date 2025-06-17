@@ -1,8 +1,8 @@
-// src/shared/components/LoadingScreen.tsx
+// src/shared/components/LoadingSpinner.tsx
 
 import { SpinnerGap } from '@phosphor-icons/react'
 
-export const LoadingScreen = ({ message }: { message?: string }) => {
+export const LoadingSpinner = ({ message }: { message?: string }) => {
   return (
     <div className='flex flex-1 items-center py-12'>
       <div className='w-full max-w-md mx-auto grid gap-6 px-6'>

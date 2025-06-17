@@ -8,25 +8,25 @@ import { PaperPlaneTilt, SpinnerGap } from '@phosphor-icons/react'
 
 import { AuthInputForm } from '@/features/auth/components'
 import { useFormSubmit } from '@/features/auth/hooks'
-import { type ForgotPasswordFormData, forgotPasswordSchema } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
 import { Button } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
 import { AuthSuccessCodes } from '@/shared/constants'
 import { useToast } from '@/shared/hooks'
+import { forgotPasswordSchema, type ForgotPasswordData } from '@/shared/schemas'
 
 export const ForgotPasswordForm = () => {
   const navigate = useNavigate()
   const { toastError } = useToast()
 
-  const form = useForm<ForgotPasswordFormData>({
+  const form = useForm<ForgotPasswordData>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: '',
     }
   })
 
-  const { isLoading, handleSubmit } = useFormSubmit<ForgotPasswordFormData>({
+  const { isLoading, handleSubmit } = useFormSubmit<ForgotPasswordData>({
     onSubmit: async (data) => {
       await authService.sendPasswordReset(data.email)
     },

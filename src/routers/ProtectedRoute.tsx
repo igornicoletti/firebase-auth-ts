@@ -3,8 +3,8 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
-import { useAuth } from '@/features'
-import { LoadingScreen } from '@/shared/components'
+import { LoadingSpinner } from '@/shared/components'
+import { useAuth } from '@/shared/hooks'
 
 type ProtectedRouteOptions = {
   requireEmailVerified?: boolean
@@ -31,7 +31,7 @@ export const ProtectedRoute = ({
     }
   }, [loading, isAllowed, pathname, navigate, redirectTo])
 
-  if (loading) return <LoadingScreen message='Verifying your session...' />
+  if (loading) return <LoadingSpinner message='Verifying your session...' />
 
   return isAllowed ? <Outlet /> : null
 }

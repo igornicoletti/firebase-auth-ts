@@ -8,7 +8,6 @@ import {
   LoginForm,
   RegisterForm,
   ResetPasswordForm,
-  useAuth,
 } from '@/features'
 import { dashboardLoader } from '@/features/dashboard/loaders/dashboardLoaders'
 import { DashboardPage } from '@/features/dashboard/pages/DashboardPage'
@@ -19,14 +18,15 @@ import {
   ProtectedRoute,
   PublicRoute
 } from '@/routers'
-import { LoadingScreen } from '@/shared/components'
+import { LoadingSpinner } from '@/shared/components'
 import { AuthDataCodes } from '@/shared/constants'
+import { useAuth } from '@/shared/hooks'
 import { LazyAppLayout, LazyAuthLayout, RootLayout } from '@/shared/layouts'
 import { authLoader } from '@/shared/loaders'
 
 const RootRedirect = () => {
   const { user, loading } = useAuth()
-  if (loading) return <LoadingScreen />
+  if (loading) return <LoadingSpinner />
   return user?.emailVerified
     ? <Navigate to='/dashboard' replace />
     : <Navigate to='/login' replace />
@@ -87,7 +87,7 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute requireEmailVerified={true} />,
         children: [{
           element: (
-            <Suspense fallback={<LoadingScreen />}>
+            <Suspense fallback={<LoadingSpinner />}>
               <LazyAppLayout />
             </Suspense>
           ),
@@ -99,7 +99,7 @@ export const router = createBrowserRouter([
         element: <PublicRoute />,
         children: [{
           element: (
-            <Suspense fallback={<LoadingScreen />}>
+            <Suspense fallback={<LoadingSpinner />}>
               <LazyAuthLayout />
             </Suspense>
           ),

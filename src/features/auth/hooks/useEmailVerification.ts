@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from 'react'
 
-import { useAuth } from '@/features/auth/contexts'
 import { authService } from '@/features/auth/services'
 import { AuthSuccessCodes } from '@/shared/constants'
-import { useToast } from '@/shared/hooks'
+import { useAuth, useToast } from '@/shared/hooks'
 
 type UseEmailVerificationOptions = {
   showWarning?: boolean

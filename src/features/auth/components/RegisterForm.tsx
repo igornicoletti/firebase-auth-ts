@@ -8,18 +8,18 @@ import { SpinnerGap, UserCirclePlus } from '@phosphor-icons/react'
 
 import { AuthInputForm } from '@/features/auth/components'
 import { useFormSubmit } from '@/features/auth/hooks'
-import { registerSchema, type RegisterFormData } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
 import { Button } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
 import { AuthSuccessCodes } from '@/shared/constants'
 import { useToast } from '@/shared/hooks'
+import { registerSchema, type RegisterData } from '@/shared/schemas'
 
 export const RegisterForm = () => {
   const navigate = useNavigate()
   const { toastError } = useToast()
 
-  const form = useForm<RegisterFormData>({
+  const form = useForm<RegisterData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       email: '',
@@ -29,7 +29,7 @@ export const RegisterForm = () => {
     }
   })
 
-  const { isLoading, handleSubmit } = useFormSubmit<RegisterFormData>({
+  const { isLoading, handleSubmit } = useFormSubmit<RegisterData>({
     onSubmit: async (data) => {
       await authService.createUserWithEmail(data.email, data.password, data.displayName)
     },

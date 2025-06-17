@@ -7,10 +7,14 @@ export const AuthDataCodes = {
   RESET_PASSWORD: 'reset-password',
 } as const
 
+export type AuthDataCode = keyof typeof AuthDataCodes
+
 export const AuthCallbackCodes = {
   RESET_PASSWORD: 'resetPassword',
   VERIFY_PASSWORD: 'verifyEmail',
 } as const
+
+export type AuthCallbackCode = keyof typeof AuthCallbackCodes
 
 export const AuthSuccessCodes = {
   EMAIL_RESEND_SUCCESS: 'email-resend-success',
@@ -31,3 +35,5 @@ export const AuthSuccessCodes = {
   SIGNUP_SUCCESS: 'signup-success',
   UNLINK_SUCCESS: 'unlink-success',
 } as const
+
+export type AuthSuccessCode = keyof typeof AuthSuccessCodes

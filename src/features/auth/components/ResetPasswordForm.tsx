@@ -8,12 +8,12 @@ import { ShieldStar, SpinnerGap } from '@phosphor-icons/react'
 
 import { AuthInputForm } from '@/features/auth/components'
 import { useFormSubmit } from '@/features/auth/hooks'
-import { resetPasswordSchema, type ResetPasswordFormData } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
 import { Button } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
 import { AuthSuccessCodes } from '@/shared/constants'
 import { useToast } from '@/shared/hooks'
+import { resetPasswordSchema, type ResetPasswordData } from '@/shared/schemas'
 
 export const ResetPasswordForm = () => {
   const navigate = useNavigate()
@@ -22,7 +22,7 @@ export const ResetPasswordForm = () => {
 
   const oobCode = searchParams.get('oobCode')
 
-  const form = useForm<ResetPasswordFormData>({
+  const form = useForm<ResetPasswordData>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       password: '',
@@ -30,7 +30,7 @@ export const ResetPasswordForm = () => {
     }
   })
 
-  const { isLoading, handleSubmit } = useFormSubmit<ResetPasswordFormData>({
+  const { isLoading, handleSubmit } = useFormSubmit<ResetPasswordData>({
     onSubmit: async (data) => {
       if (!oobCode) {
         toastError(AuthErrorCodes.MISSING_CODE)

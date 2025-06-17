@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { useAuth } from '@/features/auth/contexts'
+import { useAuth } from '@/shared/hooks'
 
 type UseAuthRedirectOptions = {
   defaultRedirect?: string

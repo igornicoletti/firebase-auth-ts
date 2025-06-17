@@ -3,25 +3,29 @@
 import { AuthErrorCodes } from 'firebase/auth'
 
 export const AUTH_ERROR_MAP: Record<string, { title: string, description: string }> = {
+  [AuthErrorCodes.INVALID_LOGIN_CREDENTIALS]: {
+    title: 'Invalid Credentials',
+    description: 'The email or password you entered is incorrect or not registered. Please check and try again.',
+  },
+  [AuthErrorCodes.INVALID_EMAIL]: {
+    title: 'Wrong Email',
+    description: 'The email you entered is incorrect. Please try again.',
+  },
   [AuthErrorCodes.EMAIL_EXISTS]: {
     title: 'Email already in use',
     description: 'This email is already registered. Please use a different one or log in.',
-  },
-  [AuthErrorCodes.INVALID_EMAIL]: {
-    title: 'Invalid email',
-    description: 'Please enter a valid email address.',
   },
   [AuthErrorCodes.INVALID_PASSWORD]: {
     title: 'Wrong password',
     description: 'The password you entered is incorrect. Please try again.',
   },
   [AuthErrorCodes.USER_DISABLED]: {
-    title: 'User not found',
-    description: 'No account found with this email. Please register or check your email.',
+    title: 'Account disabled',
+    description: 'This account has been disabled. Please contact support.',
   },
-  [AuthErrorCodes.WEAK_PASSWORD]: {
-    title: 'Weak password',
-    description: 'Your password must be at least 6 characters long.',
+  [AuthErrorCodes.USER_DELETED]: {
+    title: 'Account not found',
+    description: 'No account found with this email. Please check or sign up.',
   },
   [AuthErrorCodes.EXPIRED_OOB_CODE]: {
     title: 'Expired code',
@@ -55,8 +59,24 @@ export const AUTH_ERROR_MAP: Record<string, { title: string, description: string
     title: 'Unauthorized domain',
     description: 'This domain is not authorized for Google sign-in. Contact support.',
   },
+  [AuthErrorCodes.CREDENTIAL_ALREADY_IN_USE]: {
+    title: 'Credential in use',
+    description: 'This credential is already associated with another account.',
+  },
+  [AuthErrorCodes.CREDENTIAL_TOO_OLD_LOGIN_AGAIN]: {
+    title: 'Re-authentication required',
+    description: 'For your security, please log in again to continue.',
+  },
+  [AuthErrorCodes.OPERATION_NOT_SUPPORTED]: {
+    title: 'Operation not supported',
+    description: 'This operation is not supported in this environment.',
+  },
+  [AuthErrorCodes.TIMEOUT]: {
+    title: 'Request timed out',
+    description: 'The connection took too long. Please try again.',
+  },
   'unknown': {
     title: 'Unknown error',
     description: 'An unexpected error occurred. Please try again.',
   },
-}
+} as const

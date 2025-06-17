@@ -71,4 +71,4 @@ export const AUTH_SUCCESS_MAP: Record<string, { title: string, description: stri
     title: 'Account Unlinked',
     description: 'That provider is no longer connected to your account.',
   },
-}
+} as const

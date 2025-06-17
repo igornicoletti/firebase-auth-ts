@@ -25,13 +25,15 @@ export const useFormSubmit = <T>({
     try {
       await onSubmit(data)
       if (successMessage) {
-        toastSuccess(successMessage as any)
+        toastSuccess(successMessage)
       }
       onSuccess?.()
     } catch (error) {
       if (onError) {
+        console.log(`if onError: ${error}`)
         onError(error)
       } else {
+        console.log(`else: ${error}`)
         toastError(error)
       }
     } finally {

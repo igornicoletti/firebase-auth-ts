@@ -7,14 +7,14 @@ export const formatCode = {
   error: (codeKey: string) => {
     const fallback = {
       title: prettifyCode(codeKey),
-      description: 'Something went wrong. Please try again.'
+      description: 'Please try again or contact support if the problem persists.'
     }
     return AUTH_ERROR_MAP[codeKey] ?? fallback
   },
   success: (codeKey: string) => {
     const fallback = {
       title: prettifyCode(codeKey),
-      description: 'Operation completed successfully.'
+      description: 'If you have any questions, feel free to contact us.'
     }
     return AUTH_SUCCESS_MAP[codeKey] ?? fallback
   }

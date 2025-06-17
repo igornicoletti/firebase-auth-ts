@@ -8,18 +8,18 @@ import { GoogleLogo, SignIn, SpinnerGap } from '@phosphor-icons/react'
 
 import { AuthInputForm } from '@/features/auth/components'
 import { useFormSubmit } from '@/features/auth/hooks'
-import { loginSchema, type LoginFormData } from '@/features/auth/schemas'
 import { authService } from '@/features/auth/services'
 import { Button, ButtonHighlight } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
 import { AuthSuccessCodes } from '@/shared/constants'
 import { useToast } from '@/shared/hooks'
+import { loginSchema, type LoginData } from '@/shared/schemas'
 
 export const LoginForm = () => {
-  const { toastError } = useToast()
   const navigate = useNavigate()
+  const { toastSuccess } = useToast()
 
-  const form = useForm<LoginFormData>({
+  const form = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
@@ -27,21 +27,17 @@ export const LoginForm = () => {
     }
   })
 
-  const { isLoading, handleSubmit } = useFormSubmit<LoginFormData>({
+  const { isLoading, handleSubmit } = useFormSubmit<LoginData>({
     onSubmit: async (data) => {
       await authService.signInWithEmail(data.email, data.password)
     },
-    successMessage: AuthSuccessCodes.SIGNIN_SUCCESS,
     onSuccess: () => navigate('/dashboard', { replace: true }),
-    onError: (error) => toastError(error)
+    successMessage: AuthSuccessCodes.SIGNIN_SUCCESS,
   })
 
   const handleSocialLogin = async () => {
-    try {
-      await authService.signInWithGoogle()
-    } catch (error) {
-      toastError(error)
-    }
+    toastSuccess(AuthSuccessCodes.SIGNIN_SUCCESS,)
+    await authService.signInWithGoogle()
   }
 
   return (

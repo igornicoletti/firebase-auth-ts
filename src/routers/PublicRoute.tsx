@@ -3,8 +3,8 @@
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
-import { useAuth } from '@/features'
-import { LoadingScreen } from '@/shared/components'
+import { LoadingSpinner } from '@/shared/components'
+import { useAuth } from '@/shared/hooks'
 
 type PublicRouteProps = {
   redirectTo?: string
@@ -28,7 +28,7 @@ export const PublicRoute = ({
     }
   }, [loading, user, navigate, redirectTo, redirectToEmailVerification])
 
-  if (loading) return <LoadingScreen message="Verifying your session..." />
+  if (loading) return <LoadingSpinner message="Verifying your session..." />
 
   return <Outlet />
 }
