@@ -1,4 +1,4 @@
-// src/common/components/form/AuthInputForm.tsx
+// src/features/auth/components/AuthInputForm.tsx
 
 import { useState } from 'react'
 import type { Control, FieldPath, FieldValues } from 'react-hook-form'
@@ -55,9 +55,9 @@ export const AuthInputForm = <T extends FieldValues>({
                   size='icon'
                   type='button'
                   variant='ghost'
+                  className='absolute top-0 right-0'
                   onClick={() => setVisible((prev) => !prev)}
-                  aria-label={visible ? 'Hide password' : 'Show password'}
-                  className='absolute top-0 right-0 text-muted-foreground hover:bg-transparent'>
+                  aria-label={visible ? 'Hide password' : 'Show password'}>
                   {visible ? <EyeSlash /> : <Eye />}
                 </Button>
               )}

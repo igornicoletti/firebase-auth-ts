@@ -1,3 +1,4 @@
+// src/features/auth/components/ResetPasswordForm.tsx
 
 import { AuthErrorCodes } from 'firebase/auth'
 import { useForm } from 'react-hook-form'
@@ -8,12 +9,14 @@ import { ShieldStar, SpinnerGap } from '@phosphor-icons/react'
 
 import { AuthInputForm } from '@/features/auth/components'
 import { useFormSubmit } from '@/features/auth/hooks'
-import { authService } from '@/features/auth/services'
+
 import { Button } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
+
 import { AuthSuccessCodes } from '@/shared/constants'
 import { useToast } from '@/shared/hooks'
 import { resetPasswordSchema, type ResetPasswordData } from '@/shared/schemas'
+import { authService } from '@/shared/services'
 
 export const ResetPasswordForm = () => {
   const navigate = useNavigate()
@@ -40,8 +43,7 @@ export const ResetPasswordForm = () => {
       await authService.confirmUserPasswordReset(oobCode, data.password)
     },
     successMessage: AuthSuccessCodes.PASSWORD_UPDATE_SUCCESS,
-    onSuccess: () => navigate('/login', { replace: true }),
-    onError: (error) => toastError(error)
+    onSuccess: () => navigate('/login', { replace: true })
   })
 
   return (

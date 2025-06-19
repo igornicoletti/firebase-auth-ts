@@ -1,5 +1,6 @@
-// src/features/auth/components/LoginForm.tsx (ou mantenha Login.tsx se preferir)
+// src/features/auth/components/LoginForm.tsx
 
+import { AuthErrorCodes } from 'firebase/auth'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -8,16 +9,19 @@ import { GoogleLogo, SignIn, SpinnerGap } from '@phosphor-icons/react'
 
 import { AuthInputForm } from '@/features/auth/components'
 import { useFormSubmit } from '@/features/auth/hooks'
-import { authService } from '@/features/auth/services'
+
 import { Button, ButtonHighlight } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
+
+import { auth } from '@/configs/firebase'
 import { AuthSuccessCodes } from '@/shared/constants'
 import { useToast } from '@/shared/hooks'
 import { loginSchema, type LoginData } from '@/shared/schemas'
+import { authService } from '@/shared/services'
 
 export const LoginForm = () => {
   const navigate = useNavigate()
-  const { toastSuccess } = useToast()
+  const { toastError, toastSuccess } = useToast()
 
   const form = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
@@ -30,14 +34,24 @@ export const LoginForm = () => {
   const { isLoading, handleSubmit } = useFormSubmit<LoginData>({
     onSubmit: async (data) => {
       await authService.signInWithEmail(data.email, data.password)
+      await auth.currentUser?.reload()
+
+      const currentUser = authService.getCurrentUser()
+      if (currentUser && !currentUser.emailVerified) {
+        throw new Error(AuthErrorCodes.UNVERIFIED_EMAIL)
+      }
     },
-    onSuccess: () => navigate('/dashboard', { replace: true }),
     successMessage: AuthSuccessCodes.SIGNIN_SUCCESS,
+    onSuccess: () => navigate('/dashboard', { replace: true })
   })
 
   const handleSocialLogin = async () => {
-    toastSuccess(AuthSuccessCodes.SIGNIN_SUCCESS,)
-    await authService.signInWithGoogle()
+    try {
+      await authService.signInWithGoogle()
+      toastSuccess(AuthSuccessCodes.SIGNIN_SUCCESS)
+    } catch (error) {
+      toastError(error)
+    }
   }
 
   return (

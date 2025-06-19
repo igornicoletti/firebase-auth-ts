@@ -1,4 +1,4 @@
-// src/routes/NotFoundRoute.tsx
+// src/routes/components/NotFoundRoute.tsx
 
 import { useNavigate } from 'react-router-dom'
 

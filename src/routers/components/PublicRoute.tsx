@@ -1,4 +1,4 @@
-// src/routers/PublicRoute.tsx
+// src/routers/components/PublicRoute.tsx
 
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
@@ -28,7 +28,7 @@ export const PublicRoute = ({
     }
   }, [loading, user, navigate, redirectTo, redirectToEmailVerification])
 
-  if (loading) return <LoadingSpinner message="Verifying your session..." />
+  if (loading) return <LoadingSpinner />
 
   return <Outlet />
 }

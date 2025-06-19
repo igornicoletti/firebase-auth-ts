@@ -38,5 +38,5 @@ export const AUTH_DATA_MAP: Record<(typeof AuthDataCodes)[keyof typeof AuthDataC
     ask: 'Back to',
     source: 'Sign in',
     linkTo: '/login',
-  },
+  }
 } as const

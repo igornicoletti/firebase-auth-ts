@@ -2,8 +2,9 @@
 
 import { RouterProvider } from 'react-router-dom'
 
-import { router } from '@/routers'
 import { Toaster } from '@/shadcn/ui/sonner'
+
+import { router } from '@/routers'
 import { AuthProvider, ThemeProvider } from '@/shared/contexts'
 
 export const App = () => {

@@ -1,4 +1,4 @@
-// src/auth/components/form/ForgotPasswordForm.tsx
+// src/features/auth/components/ForgotPasswordForm.tsx
 
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -8,16 +8,16 @@ import { PaperPlaneTilt, SpinnerGap } from '@phosphor-icons/react'
 
 import { AuthInputForm } from '@/features/auth/components'
 import { useFormSubmit } from '@/features/auth/hooks'
-import { authService } from '@/features/auth/services'
+
 import { Button } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
+
 import { AuthSuccessCodes } from '@/shared/constants'
-import { useToast } from '@/shared/hooks'
 import { forgotPasswordSchema, type ForgotPasswordData } from '@/shared/schemas'
+import { authService } from '@/shared/services'
 
 export const ForgotPasswordForm = () => {
   const navigate = useNavigate()
-  const { toastError } = useToast()
 
   const form = useForm<ForgotPasswordData>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -31,8 +31,7 @@ export const ForgotPasswordForm = () => {
       await authService.sendPasswordReset(data.email)
     },
     successMessage: AuthSuccessCodes.PASSWORD_RESET_EMAIL_SENT,
-    onSuccess: () => navigate('/login', { replace: true }),
-    onError: (error) => toastError(error)
+    onSuccess: () => navigate('/login', { replace: true })
   })
 
   return (

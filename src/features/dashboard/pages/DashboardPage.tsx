@@ -4,14 +4,15 @@ import { useLoaderData } from 'react-router-dom'
 
 import { SignOut } from '@phosphor-icons/react'
 
-import { authService } from '@/features'
-import type { DashboardLoaderData } from '@/features/dashboard/loaders/dashboardLoaders'
 import { Button, ButtonHighlight } from '@/shadcn/ui/button'
-
 import { Card, CardDescription, CardHeader, CardTitle } from '@/shadcn/ui/card'
+
+import type { DashboardLoaderData } from '@/features/dashboard/loaders/dashboardLoaders'
+
 import { ThemeSwitcher } from '@/shared/components'
 import { AuthSuccessCodes } from '@/shared/constants'
 import { useToast } from '@/shared/hooks'
+import { authService } from '@/shared/services'
 
 export const DashboardPage = () => {
   const { dashboardData } = useLoaderData() as DashboardLoaderData

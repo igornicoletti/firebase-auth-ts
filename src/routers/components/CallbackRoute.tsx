@@ -1,13 +1,14 @@
-// src/routers/CallbackRoute.tsx
+// src/routers/components/CallbackRoute.tsx
 
 import { AuthErrorCodes } from 'firebase/auth'
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { auth } from '@/configs/firebase'
-import { authService } from '@/features/auth/services'
+
 import { AuthCallbackCodes, AuthSuccessCodes } from '@/shared/constants'
 import { useAuth, useToast } from '@/shared/hooks'
+import { authService } from '@/shared/services'
 
 export const CallbackRoute = () => {
   const [searchParams] = useSearchParams()

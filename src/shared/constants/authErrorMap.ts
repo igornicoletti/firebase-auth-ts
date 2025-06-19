@@ -3,6 +3,10 @@
 import { AuthErrorCodes } from 'firebase/auth'
 
 export const AUTH_ERROR_MAP: Record<string, { title: string, description: string }> = {
+  [AuthErrorCodes.UNVERIFIED_EMAIL]: {
+    title: 'Email not verified',
+    description: 'Please verify your email address before logging in. Check your inbox for a verification link.',
+  },
   [AuthErrorCodes.INVALID_LOGIN_CREDENTIALS]: {
     title: 'Invalid Credentials',
     description: 'The email or password you entered is incorrect or not registered. Please check and try again.',

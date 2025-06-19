@@ -1,4 +1,4 @@
-// src/auth/components/form/RegisterForm.tsx
+// src/features/auth/components/RegisterForm.tsx
 
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -8,16 +8,16 @@ import { SpinnerGap, UserCirclePlus } from '@phosphor-icons/react'
 
 import { AuthInputForm } from '@/features/auth/components'
 import { useFormSubmit } from '@/features/auth/hooks'
-import { authService } from '@/features/auth/services'
+
 import { Button } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
+
 import { AuthSuccessCodes } from '@/shared/constants'
-import { useToast } from '@/shared/hooks'
 import { registerSchema, type RegisterData } from '@/shared/schemas'
+import { authService } from '@/shared/services'
 
 export const RegisterForm = () => {
   const navigate = useNavigate()
-  const { toastError } = useToast()
 
   const form = useForm<RegisterData>({
     resolver: zodResolver(registerSchema),
@@ -34,8 +34,7 @@ export const RegisterForm = () => {
       await authService.createUserWithEmail(data.email, data.password, data.displayName)
     },
     successMessage: AuthSuccessCodes.SIGNUP_SUCCESS,
-    onSuccess: () => navigate('/login', { replace: true }),
-    onError: (error) => toastError(error)
+    onSuccess: () => navigate('/login', { replace: true })
   })
 
   return (

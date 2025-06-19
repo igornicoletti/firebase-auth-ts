@@ -1,4 +1,4 @@
-// src/routers/ProtectedRoute.tsx
+// src/routers/components/ProtectedRoute.tsx
 
 import { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
@@ -31,7 +31,7 @@ export const ProtectedRoute = ({
     }
   }, [loading, isAllowed, pathname, navigate, redirectTo])
 
-  if (loading) return <LoadingSpinner message='Verifying your session...' />
+  if (loading) return <LoadingSpinner />
 
   return isAllowed ? <Outlet /> : null
 }

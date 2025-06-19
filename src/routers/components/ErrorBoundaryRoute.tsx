@@ -1,4 +1,4 @@
-// src/routes/ErrorBoundaryRoute.ts
+// src/routes/components/ErrorBoundaryRoute.ts
 
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
 

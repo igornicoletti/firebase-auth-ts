@@ -3,7 +3,7 @@
 import type { User } from 'firebase/auth'
 import { createContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 
-import { authService } from '@/features/auth/services'
+import { authService } from '@/shared/services'
 
 type AuthState = {
   user: User | null

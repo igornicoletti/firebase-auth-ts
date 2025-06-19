@@ -11,17 +11,13 @@ type UseFormSubmitOptions<T> = {
   onError?: (error: unknown) => void
 }
 
-export const useFormSubmit = <T>({
-  onSubmit,
-  successMessage,
-  onSuccess,
-  onError
-}: UseFormSubmitOptions<T>) => {
-  const [isLoading, setIsLoading] = useState(false)
+export const useFormSubmit = <T>({ onSubmit, successMessage, onSuccess, onError }: UseFormSubmitOptions<T>) => {
   const { toastError, toastSuccess } = useToast()
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (data: T) => {
     setIsLoading(true)
+
     try {
       await onSubmit(data)
       if (successMessage) {
@@ -30,10 +26,8 @@ export const useFormSubmit = <T>({
       onSuccess?.()
     } catch (error) {
       if (onError) {
-        console.log(`if onError: ${error}`)
         onError(error)
       } else {
-        console.log(`else: ${error}`)
         toastError(error)
       }
     } finally {
