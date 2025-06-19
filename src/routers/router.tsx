@@ -1,34 +1,22 @@
 // src/routers/router.tsx
 
 import { Suspense } from 'react'
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 
-import { CallbackRoute, ErrorBoundaryRoute, NotFoundRoute, ProtectedRoute, PublicRoute } from '@/routers/components'
+import { CallbackRoute, ErrorBoundaryRoute, NotFoundRoute, ProtectedRoute, PublicRoute, RedirectRoute } from '@/routers/components'
 import { protectedRoutes, publicRoutes } from '@/routers/constants'
 
 import { LoadingSpinner } from '@/shared/components'
-import { useAuth } from '@/shared/hooks'
-import { LazyAppLayout, LazyAuthLayout, RootLayout } from '@/shared/layouts'
-
-export const RootRedirect = () => {
-  const { user, loading } = useAuth()
-
-  if (loading) return <LoadingSpinner />
-
-  return user?.emailVerified
-    ? <Navigate to='/dashboard' replace />
-    : <Navigate to='/login' replace />
-}
+import { LazyAppLayout, LazyAuthLayout, LazyRootLayout } from '@/shared/layouts'
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <RootLayout />,
-    errorElement: <ErrorBoundaryRoute />,
+    element: <LazyRootLayout />,
     children: [
       {
         path: '/',
-        element: <RootRedirect />,
+        element: <RedirectRoute />,
         errorElement: <ErrorBoundaryRoute />
       },
       {
@@ -37,27 +25,27 @@ export const router = createBrowserRouter([
         errorElement: <ErrorBoundaryRoute />
       },
       {
-        element: <ProtectedRoute requireEmailVerified={true} />,
-        children: [{
-          element: (
-            <Suspense fallback={<LoadingSpinner message='Please wait while we prepare everything' />}>
-              <LazyAppLayout />
-            </Suspense>
-          ),
-          errorElement: <ErrorBoundaryRoute />,
-          children: protectedRoutes
-        }]
-      },
-      {
         element: <PublicRoute />,
+        errorElement: <ErrorBoundaryRoute />,
         children: [{
           element: (
             <Suspense fallback={<LoadingSpinner message='Please wait while we prepare everything' />}>
               <LazyAuthLayout />
             </Suspense>
           ),
-          errorElement: <ErrorBoundaryRoute />,
           children: publicRoutes
+        }]
+      },
+      {
+        element: <ProtectedRoute requireEmailVerified={true} />,
+        errorElement: <ErrorBoundaryRoute />,
+        children: [{
+          element: (
+            <Suspense fallback={<LoadingSpinner message='Please wait while we prepare everything' />}>
+              <LazyAppLayout />
+            </Suspense>
+          ),
+          children: protectedRoutes
         }]
       },
       {

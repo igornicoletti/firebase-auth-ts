@@ -35,7 +35,7 @@ export const registerSchema = z.object({
     .min(2, 'Username must be at least 2 characters.')
     .optional(),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match. Please check and try again.",
+  message: 'Passwords don’t match. Please check and try again.',
   path: ['confirmPassword'],
 })
 
@@ -59,7 +59,7 @@ export const resetPasswordSchema = z.object({
     .string()
     .min(1, 'Please confirm your password.'),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match. Please check and try again.",
+  message: 'Passwords don’t match. Please check and try again.',
   path: ['confirmPassword'],
 })
 

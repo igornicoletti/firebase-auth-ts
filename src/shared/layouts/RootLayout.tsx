@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 
 import { ProgressBar } from '@/shared/components'
 
-export const RootLayout = () => {
+const RootLayout = () => {
   return (
     <div className='flex min-h-svh'>
       <ProgressBar />
@@ -12,3 +12,5 @@ export const RootLayout = () => {
     </div>
   )
 }
+
+export default RootLayout

@@ -5,7 +5,7 @@ import { AuthSuccessCodes } from '@/shared/constants'
 export const AUTH_SUCCESS_MAP: Record<string, { title: string, description: string }> = {
   [AuthSuccessCodes.EMAIL_RESEND_SUCCESS]: {
     title: 'Verification Email Sent!',
-    description: "We’ve fired off a new verification email. If it doesn't show up soon, check your spam folder.",
+    description: 'We’ve fired off a new verification email. If it doesn’t show up soon, check your spam folder.',
   },
   [AuthSuccessCodes.EMAIL_SIGNIN_SUCCESS]: {
     title: 'Signed In with Email',
@@ -65,7 +65,7 @@ export const AUTH_SUCCESS_MAP: Record<string, { title: string, description: stri
   },
   [AuthSuccessCodes.SIGNUP_SUCCESS]: {
     title: 'Account Created!',
-    description: "Welcome aboard! We've sent you a verification email — check your inbox to activate your account.",
+    description: 'Welcome aboard! We’ve sent you a verification email — check your inbox to activate your account.',
   },
   [AuthSuccessCodes.UNLINK_SUCCESS]: {
     title: 'Account Unlinked',
