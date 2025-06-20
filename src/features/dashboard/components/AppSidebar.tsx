@@ -1,4 +1,4 @@
-import { NavMain, NavUser } from '@/features/dashboard/components'
+import { NavMain, UserMenu } from '@/features/dashboard/components'
 import type { TopLevelNavItem, UserProfile } from '@/features/dashboard/types'
 import {
   Sidebar,
@@ -41,7 +41,7 @@ export const AppSidebar = ({ user, navMain, ...props }: AppSidebarProps) => {
         <NavMain items={navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser {...user} />
+        <UserMenu {...user} />
       </SidebarFooter>
     </Sidebar>
   )

@@ -7,10 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { PaperPlaneTilt, SpinnerGap } from '@phosphor-icons/react'
 
 import { InputForm } from '@/features/auth'
-
 import { Button } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
-
 import { AuthSuccessCodes } from '@/shared/constants'
 import { useSubmit } from '@/shared/hooks'
 import { forgotPasswordSchema, type ForgotPasswordData } from '@/shared/schemas'
@@ -22,7 +20,7 @@ export const ForgotPassword = () => {
   const form = useForm<ForgotPasswordData>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
-      email: '',
+      email: ''
     }
   })
 
@@ -37,8 +35,8 @@ export const ForgotPassword = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handleSubmit)}
         noValidate
+        onSubmit={form.handleSubmit(handleSubmit)}
         className='grid gap-4'>
         <InputForm
           control={form.control}

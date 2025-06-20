@@ -23,10 +23,15 @@ export const BreadcrumbMatch = () => {
     .filter((match) => match.handle?.crumb)
     .map((match) => {
       const crumb = match.handle!.crumb
-      const name = typeof crumb === 'function' ? crumb(match.params) : crumb
-      const isCurrent = match.pathname === pathname
+      const name = typeof crumb === 'function'
+        ? crumb(match.params)
+        : crumb
 
-      return { path: match.pathname, name, isCurrent }
+      return {
+        name,
+        path: match.pathname,
+        isCurrent: match.pathname === pathname
+      }
     })
 
   return (

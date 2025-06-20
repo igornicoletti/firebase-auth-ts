@@ -49,8 +49,8 @@ export const ResetPassword = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handleSubmit)}
         noValidate
+        onSubmit={form.handleSubmit(handleSubmit)}
         className='grid gap-4'>
         <InputForm
           control={form.control}

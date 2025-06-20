@@ -7,15 +7,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { GoogleLogo, SignIn, SpinnerGap } from '@phosphor-icons/react'
 
+import { auth } from '@/configs/firebase'
 import { InputForm } from '@/features/auth'
-import { useSubmit } from '@/shared/hooks'
-
 import { Button, ButtonHighlight } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
-
-import { auth } from '@/configs/firebase'
 import { AuthSuccessCodes } from '@/shared/constants'
-import { useToast } from '@/shared/hooks'
+import { useSubmit, useToast } from '@/shared/hooks'
 import { loginSchema, type LoginData } from '@/shared/schemas'
 import { authService } from '@/shared/services'
 
@@ -57,8 +54,8 @@ export const Login = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handleSubmit)}
         noValidate
+        onSubmit={form.handleSubmit(handleSubmit)}
         className='grid gap-4'>
         <Button
           onClick={handleSocialLogin}
