@@ -1,30 +1,21 @@
-// src/shared/components/DynamicBreadcrumb.tsx
+// src/shared/components/BreadcrumbMatch.tsx
 
 import React from 'react'
 import { Link, useLocation, useMatches } from 'react-router-dom'
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/shadcn/ui/breadcrumb'
-
-type MatchHandle = {
-  crumb?: string | ((params: Record<string, string | undefined>) => string)
-}
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/shadcn/ui/breadcrumb'
 
 type Match = {
   id: string
   pathname: string
   params: Record<string, string | undefined>
   data: unknown
-  handle?: MatchHandle
+  handle?: {
+    crumb?: string | ((params: Record<string, string | undefined>) => string)
+  }
 }
 
-export const DynamicBreadcrumb = () => {
+export const BreadcrumbMatch = () => {
   const matches = useMatches() as Match[]
   const { pathname } = useLocation()
 

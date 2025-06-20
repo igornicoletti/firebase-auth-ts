@@ -1,4 +1,4 @@
-// src/features/auth/components/RegisterForm.tsx
+// src/features/auth/Register.tsx
 
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SpinnerGap, UserCirclePlus } from '@phosphor-icons/react'
 
-import { AuthInputForm } from '@/features/auth/components'
-import { useFormSubmit } from '@/features/auth/hooks'
+import { InputForm } from '@/features/auth'
+import { useSubmit } from '@/shared/hooks'
 
 import { Button } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
@@ -16,7 +16,7 @@ import { AuthSuccessCodes } from '@/shared/constants'
 import { registerSchema, type RegisterData } from '@/shared/schemas'
 import { authService } from '@/shared/services'
 
-export const RegisterForm = () => {
+export const Register = () => {
   const navigate = useNavigate()
 
   const form = useForm<RegisterData>({
@@ -29,7 +29,7 @@ export const RegisterForm = () => {
     }
   })
 
-  const { isLoading, handleSubmit } = useFormSubmit<RegisterData>({
+  const { isLoading, handleSubmit } = useSubmit<RegisterData>({
     onSubmit: async (data) => {
       await authService.createUserWithEmail(data.email, data.password, data.displayName)
     },
@@ -43,7 +43,7 @@ export const RegisterForm = () => {
         onSubmit={form.handleSubmit(handleSubmit)}
         noValidate
         className='grid gap-4'>
-        <AuthInputForm
+        <InputForm
           control={form.control}
           disabled={isLoading}
           type='text'
@@ -52,7 +52,7 @@ export const RegisterForm = () => {
           autoComplete='given-name'
           autoFocus
         />
-        <AuthInputForm
+        <InputForm
           control={form.control}
           disabled={isLoading}
           type='email'
@@ -60,7 +60,7 @@ export const RegisterForm = () => {
           placeholder='Email'
           autoComplete='username'
         />
-        <AuthInputForm
+        <InputForm
           control={form.control}
           disabled={isLoading}
           type='password'
@@ -68,7 +68,7 @@ export const RegisterForm = () => {
           placeholder='Password'
           autoComplete='new-password'
         />
-        <AuthInputForm
+        <InputForm
           control={form.control}
           disabled={isLoading}
           type='password'

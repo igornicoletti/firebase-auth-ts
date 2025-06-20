@@ -1,4 +1,4 @@
-// src/features/auth/components/LoginForm.tsx
+// src/features/auth/Login.tsx
 
 import { AuthErrorCodes } from 'firebase/auth'
 import { useForm } from 'react-hook-form'
@@ -7,8 +7,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { GoogleLogo, SignIn, SpinnerGap } from '@phosphor-icons/react'
 
-import { AuthInputForm } from '@/features/auth/components'
-import { useFormSubmit } from '@/features/auth/hooks'
+import { InputForm } from '@/features/auth'
+import { useSubmit } from '@/shared/hooks'
 
 import { Button, ButtonHighlight } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
@@ -19,7 +19,7 @@ import { useToast } from '@/shared/hooks'
 import { loginSchema, type LoginData } from '@/shared/schemas'
 import { authService } from '@/shared/services'
 
-export const LoginForm = () => {
+export const Login = () => {
   const navigate = useNavigate()
   const { toastError, toastSuccess } = useToast()
 
@@ -31,7 +31,7 @@ export const LoginForm = () => {
     }
   })
 
-  const { isLoading, handleSubmit } = useFormSubmit<LoginData>({
+  const { isLoading, handleSubmit } = useSubmit<LoginData>({
     onSubmit: async (data) => {
       await authService.signInWithEmail(data.email, data.password)
       await auth.currentUser?.reload()
@@ -74,7 +74,7 @@ export const LoginForm = () => {
           after:h-px after:flex-1 after:bg-gradient-to-r after:from-border after:via-border after:to-transparent'>
           or
         </p>
-        <AuthInputForm
+        <InputForm
           control={form.control}
           disabled={isLoading}
           type='email'
@@ -88,7 +88,7 @@ export const LoginForm = () => {
           className='h-auto ml-auto -mb-2 p-0 text-xs font-semibold'>
           <Link to='/forgot-password'>Forgot password?</Link>
         </Button>
-        <AuthInputForm
+        <InputForm
           control={form.control}
           disabled={isLoading}
           type='password'

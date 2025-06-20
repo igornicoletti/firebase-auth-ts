@@ -1,4 +1,4 @@
-// src/features/auth/components/ResetPasswordForm.tsx
+// src/features/auth/ResetPassword.tsx
 
 import { AuthErrorCodes } from 'firebase/auth'
 import { useForm } from 'react-hook-form'
@@ -7,8 +7,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ShieldStar, SpinnerGap } from '@phosphor-icons/react'
 
-import { AuthInputForm } from '@/features/auth/components'
-import { useFormSubmit } from '@/features/auth/hooks'
+import { InputForm } from '@/features/auth'
+import { useSubmit } from '@/shared/hooks'
 
 import { Button } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
@@ -18,7 +18,7 @@ import { useToast } from '@/shared/hooks'
 import { resetPasswordSchema, type ResetPasswordData } from '@/shared/schemas'
 import { authService } from '@/shared/services'
 
-export const ResetPasswordForm = () => {
+export const ResetPassword = () => {
   const navigate = useNavigate()
   const { toastError } = useToast()
   const [searchParams] = useSearchParams()
@@ -33,7 +33,7 @@ export const ResetPasswordForm = () => {
     }
   })
 
-  const { isLoading, handleSubmit } = useFormSubmit<ResetPasswordData>({
+  const { isLoading, handleSubmit } = useSubmit<ResetPasswordData>({
     onSubmit: async (data) => {
       if (!oobCode) {
         toastError(AuthErrorCodes.MISSING_CODE)
@@ -52,7 +52,7 @@ export const ResetPasswordForm = () => {
         onSubmit={form.handleSubmit(handleSubmit)}
         noValidate
         className='grid gap-4'>
-        <AuthInputForm
+        <InputForm
           control={form.control}
           disabled={isLoading}
           type='password'
@@ -61,7 +61,7 @@ export const ResetPasswordForm = () => {
           autoComplete='new-password'
           autoFocus
         />
-        <AuthInputForm
+        <InputForm
           control={form.control}
           disabled={isLoading}
           type='password'

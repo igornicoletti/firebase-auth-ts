@@ -8,6 +8,7 @@ import { protectedRoutes, publicRoutes } from '@/routers/constants'
 
 import { LoadingSpinner } from '@/shared/components'
 import { LazyAppLayout, LazyAuthLayout, LazyRootLayout } from '@/shared/layouts'
+import { appLoader } from '@/shared/loaders/appLoader'
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,7 @@ export const router = createBrowserRouter([
               <LazyAppLayout />
             </Suspense>
           ),
+          loader: appLoader,
           children: protectedRoutes
         }]
       },

@@ -1,42 +1,35 @@
-// src/routes/components/ErrorBoundaryRoute.ts
-
+import { Terminal } from '@phosphor-icons/react'
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
 
-import { Terminal } from '@phosphor-icons/react'
-
+import { NotFoundRoute } from '@/routers/components'
 import { Alert, AlertDescription, AlertTitle } from '@/shadcn/ui/alert'
 
 export const ErrorBoundaryRoute = () => {
   const error = useRouteError()
 
-  let message = 'Oops!'
-  let details = 'An unexpected error occurred.'
-  let stack: string | undefined
-
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? '404' : 'Error'
-    details = error.status === 404
-      ? 'The requested page could not be found.'
-      : error.statusText || details
-
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message
-    stack = error.stack
+  if (isRouteErrorResponse(error) && error.status === 404) {
+    return <NotFoundRoute />
   }
+
+  const stack =
+    import.meta.env.DEV && error instanceof Error
+      ? error.stack
+      : undefined
 
   return (
     <div className='flex flex-1 items-center py-12'>
       <div className='w-full max-w-7xl mx-auto grid gap-6 px-6'>
-        <Alert>
+        <Alert variant='destructive'>
           <Terminal />
-          <AlertTitle>{message} {details}</AlertTitle>
-          <AlertDescription>
-            {stack && (
+          {stack ? (
+            <AlertDescription>
               <pre>
                 <code>{stack}</code>
               </pre>
-            )}
-          </AlertDescription>
+            </AlertDescription>
+          ) : (
+            <AlertTitle>Unknown Error</AlertTitle>
+          )}
         </Alert>
       </div>
     </div>

@@ -3,14 +3,13 @@
 import type { LoaderFunctionArgs } from 'react-router-dom'
 
 import { AUTH_DATA_MAP } from '@/shared/constants'
-
-type AuthDataCode = keyof typeof AUTH_DATA_MAP
+import type { AuthDataCode, AuthLoaderData } from '@/shared/types'
 
 const isAuthDataCode = (codeKey: string): codeKey is AuthDataCode => {
   return codeKey in AUTH_DATA_MAP
 }
 
-export const authLoader = ({ request }: LoaderFunctionArgs) => {
+export const authLoader = ({ request }: LoaderFunctionArgs): AuthLoaderData => {
   const { pathname } = new URL(request.url)
   const code = pathname.replace(/^\/+/, '').trim()
 
@@ -20,5 +19,3 @@ export const authLoader = ({ request }: LoaderFunctionArgs) => {
 
   return AUTH_DATA_MAP[code]
 }
-
-export type AuthLoaderData = ReturnType<typeof authLoader>

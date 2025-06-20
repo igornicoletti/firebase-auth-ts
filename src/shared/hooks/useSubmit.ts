@@ -1,17 +1,17 @@
-// src/features/auth/hooks/useFormSubmit.ts
+// src/features/auth/hooks/useSubmit.ts
 
 import { useState } from 'react'
 
 import { useToast } from '@/shared/hooks'
 
-type UseFormSubmitOptions<T> = {
+type useSubmitOptions<T> = {
   onSubmit: (data: T) => Promise<void> | void
   successMessage?: string
   onSuccess?: () => void
   onError?: (error: unknown) => void
 }
 
-export const useFormSubmit = <T>({ onSubmit, successMessage, onSuccess, onError }: UseFormSubmitOptions<T>) => {
+export const useSubmit = <T>({ onSubmit, successMessage, onSuccess, onError }: useSubmitOptions<T>) => {
   const { toastError, toastSuccess } = useToast()
   const [isLoading, setIsLoading] = useState(false)
 

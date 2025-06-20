@@ -1,4 +1,4 @@
-// src/features/auth/components/ForgotPasswordForm.tsx
+// src/features/auth/ForgotPassword.tsx
 
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -6,17 +6,17 @@ import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PaperPlaneTilt, SpinnerGap } from '@phosphor-icons/react'
 
-import { AuthInputForm } from '@/features/auth/components'
-import { useFormSubmit } from '@/features/auth/hooks'
+import { InputForm } from '@/features/auth'
 
 import { Button } from '@/shadcn/ui/button'
 import { Form } from '@/shadcn/ui/form'
 
 import { AuthSuccessCodes } from '@/shared/constants'
+import { useSubmit } from '@/shared/hooks'
 import { forgotPasswordSchema, type ForgotPasswordData } from '@/shared/schemas'
 import { authService } from '@/shared/services'
 
-export const ForgotPasswordForm = () => {
+export const ForgotPassword = () => {
   const navigate = useNavigate()
 
   const form = useForm<ForgotPasswordData>({
@@ -26,7 +26,7 @@ export const ForgotPasswordForm = () => {
     }
   })
 
-  const { isLoading, handleSubmit } = useFormSubmit<ForgotPasswordData>({
+  const { isLoading, handleSubmit } = useSubmit<ForgotPasswordData>({
     onSubmit: async (data) => {
       await authService.sendPasswordReset(data.email)
     },
@@ -40,7 +40,7 @@ export const ForgotPasswordForm = () => {
         onSubmit={form.handleSubmit(handleSubmit)}
         noValidate
         className='grid gap-4'>
-        <AuthInputForm
+        <InputForm
           control={form.control}
           disabled={isLoading}
           type='email'

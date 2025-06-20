@@ -7,7 +7,7 @@ export const protectedRoutes = [
     path: '/dashboard',
     element: <DashboardPage />,
     handle: {
-      crumb: 'Dashboard',
+      crumb: 'Dashboard'
     },
   }
 ]

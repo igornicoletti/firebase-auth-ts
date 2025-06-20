@@ -1,4 +1,4 @@
-// src/features/auth/components/AuthInputForm.tsx
+// src/features/auth/InputForm.tsx
 
 import { useState } from 'react'
 import type { Control, FieldPath, FieldValues } from 'react-hook-form'
@@ -20,7 +20,7 @@ interface InputProps<T extends FieldValues> {
   label?: string
 }
 
-export const AuthInputForm = <T extends FieldValues>({
+export const InputForm = <T extends FieldValues>({
   name,
   control,
   type,

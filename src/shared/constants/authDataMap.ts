@@ -3,8 +3,8 @@
 import { AuthDataCodes } from '@/shared/constants'
 
 export type AuthDataValues = {
-  formTitle: string
-  formSubtitle: string
+  title: string
+  subtitle: string
   ask: string
   source: string
   linkTo: string
@@ -12,29 +12,29 @@ export type AuthDataValues = {
 
 export const AUTH_DATA_MAP: Record<(typeof AuthDataCodes)[keyof typeof AuthDataCodes], AuthDataValues> = {
   [AuthDataCodes.LOGIN]: {
-    formTitle: 'Sign in to your account',
-    formSubtitle: 'Welcome back! Please sign in to continue.',
+    title: 'Sign in to your account',
+    subtitle: 'Welcome back! Please sign in to continue.',
     ask: 'Don’t have an account?',
     source: 'Sign up',
     linkTo: '/register',
   },
   [AuthDataCodes.REGISTER]: {
-    formTitle: 'Create your account',
-    formSubtitle: 'Welcome! Please fill in the details to get started.',
+    title: 'Create your account',
+    subtitle: 'Welcome! Please fill in the details to get started.',
     ask: 'Already have an account?',
     source: 'Sign in',
     linkTo: '/login',
   },
   [AuthDataCodes.FORGOT_PASSWORD]: {
-    formTitle: 'Forgot your password?',
-    formSubtitle: 'We’ll send you a link to reset it.',
+    title: 'Forgot your password?',
+    subtitle: 'We’ll send you a link to reset it.',
     ask: 'Back to',
     source: 'Sign in',
     linkTo: '/login',
   },
   [AuthDataCodes.RESET_PASSWORD]: {
-    formTitle: 'Reset your password',
-    formSubtitle: 'Set a new password for your account.',
+    title: 'Reset your password',
+    subtitle: 'Set a new password for your account.',
     ask: 'Back to',
     source: 'Sign in',
     linkTo: '/login',
