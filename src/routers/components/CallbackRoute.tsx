@@ -6,8 +6,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { auth } from '@/configs/firebase'
 import { AuthCallbackCodes, AuthSuccessCodes } from '@/constants/auth'
-import { useAuth, useToast } from '@/shared/hooks'
-import { authService } from '@/shared/services'
+import { useAuth, useToast } from '@/hooks'
+import { authService } from '@/services'
 
 export const CallbackRoute = () => {
   const [searchParams] = useSearchParams()

@@ -26,7 +26,7 @@ export const NavMain = ({ items }: NavMainProps) => {
         {items.map((item) => {
           const hasSubItems = item.items && item.items.length > 0
           return (
-            <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
+            <Collapsible key={item.title} asChild defaultOpen={!!item.isActive}>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild

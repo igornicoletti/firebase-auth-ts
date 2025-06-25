@@ -1,0 +1,30 @@
+// src/layouts/AppLayout.tsx
+
+import { Outlet } from 'react-router-dom'
+
+import { BreadcrumbMatch, ThemeSwitcher } from '@/components/common'
+import { Separator, SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui'
+import { AppSidebar } from '@/features/dashboard/components'
+
+export const AppLayout = () => {
+  return (
+    <SidebarProvider>
+      <AppSidebar variant='sidebar' />
+      <SidebarInset>
+        <header className='flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12'>
+          <div className='flex w-full items-center gap-2 px-4'>
+            <SidebarTrigger className='-ml-1' />
+            <Separator orientation='vertical' className='mr-2 data-[orientation=vertical]:h-4' />
+            <BreadcrumbMatch />
+            <div className='ml-auto flex items-center gap-2'>
+              <ThemeSwitcher variant='ghost' />
+            </div>
+          </div>
+        </header>
+        <div className='flex flex-1 flex-col gap-4 p-4 pt-0'>
+          <Outlet />
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  )
+}

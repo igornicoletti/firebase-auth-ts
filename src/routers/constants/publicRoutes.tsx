@@ -3,7 +3,7 @@
 import { ForgotPassword, Login, Register, ResetPassword } from '@/components/auth'
 
 import { AuthDataCodes } from '@/constants/auth'
-import { authLoader } from '@/shared/loaders'
+import { authLoader } from '@/loaders'
 
 export const publicRoutes = [
   {

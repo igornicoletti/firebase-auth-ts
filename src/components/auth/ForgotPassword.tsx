@@ -4,27 +4,28 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { PaperPlaneTilt, SpinnerGap } from '@phosphor-icons/react'
+import { PaperPlaneTiltIcon, SpinnerGapIcon } from '@phosphor-icons/react'
 
 import { InputForm } from '@/components/auth'
-import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
+import { Button, Form } from '@/components/ui'
 import { AuthSuccessCodes } from '@/constants/auth'
-import { useSubmit } from '@/shared/hooks'
-import { forgotPasswordSchema, type ForgotPasswordData } from '@/shared/schemas'
-import { authService } from '@/shared/services'
+import { useSubmit } from '@/hooks'
+import { authService } from '@/services'
+
+import { forgotPasswordSchema } from '@/schemas'
+import type { ForgotPasswordFormValues } from '@/types'
 
 export const ForgotPassword = () => {
   const navigate = useNavigate()
 
-  const form = useForm<ForgotPasswordData>({
+  const form = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: '',
     }
   })
 
-  const { isLoading, handleSubmit } = useSubmit<ForgotPasswordData>({
+  const { isLoading, handleSubmit } = useSubmit<ForgotPasswordFormValues>({
     onSubmit: async (data) => {
       await authService.sendPasswordReset(data.email)
     },
@@ -48,7 +49,7 @@ export const ForgotPassword = () => {
           autoFocus
         />
         <Button disabled={isLoading} type='submit'>
-          {isLoading ? <SpinnerGap className='animate-spin' /> : <PaperPlaneTilt />}
+          {isLoading ? <SpinnerGapIcon className='animate-spin' /> : <PaperPlaneTiltIcon />}
           {isLoading ? 'Sending...' : 'Send reset email'}
         </Button>
       </form>

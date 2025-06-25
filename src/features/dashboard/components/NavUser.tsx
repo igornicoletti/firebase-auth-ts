@@ -2,8 +2,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
-import { authService } from '@/shared/services'
-import { Bell, CaretUpDown, Gear, SignOut, UserCircle, type Icon } from '@phosphor-icons/react'
+import { authService } from '@/services'
+import { BellIcon, CaretUpDownIcon, GearIcon, SignOutIcon, UserCircleIcon, type Icon } from '@phosphor-icons/react'
 
 type MenuItem = {
   icon: Icon
@@ -21,9 +21,9 @@ type User = {
 }
 
 const items: MenuItem[] = [
-  { icon: UserCircle, label: 'Account' },
-  { icon: Gear, label: 'Settings' },
-  { icon: Bell, label: 'Notifications' }
+  { icon: UserCircleIcon, label: 'Account' },
+  { icon: GearIcon, label: 'Settings' },
+  { icon: BellIcon, label: 'Notifications' }
 ]
 
 const UserProfile = ({ name, email, avatar }: UserValues) => (
@@ -53,7 +53,7 @@ export const UserMenu = ({ user }: User) => {
               size='lg'
               className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'>
               <UserProfile {...user} />
-              <CaretUpDown className='ml-auto' weight='light' />
+              <CaretUpDownIcon className='ml-auto' weight='light' />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -76,7 +76,7 @@ export const UserMenu = ({ user }: User) => {
             <DropdownMenuItem
               onClick={() => authService.signOut()}
               className='cursor-pointer flex gap-2'>
-              <SignOut weight='light' />
+              <SignOutIcon weight='light' />
               Sign Out
             </DropdownMenuItem>
           </DropdownMenuContent>

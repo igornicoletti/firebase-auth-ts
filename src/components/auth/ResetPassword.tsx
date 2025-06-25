@@ -5,18 +5,17 @@ import { useForm } from 'react-hook-form'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ShieldStar, SpinnerGap } from '@phosphor-icons/react'
+import { ShieldStarIcon, SpinnerGapIcon } from '@phosphor-icons/react'
 
 import { InputForm } from '@/components/auth'
-import { useSubmit } from '@/shared/hooks'
-
-import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
-
+import { Button, Form } from '@/components/ui'
 import { AuthSuccessCodes } from '@/constants/auth'
-import { useToast } from '@/shared/hooks'
-import { resetPasswordSchema, type ResetPasswordData } from '@/shared/schemas'
-import { authService } from '@/shared/services'
+
+import { useSubmit, useToast } from '@/hooks'
+import { authService } from '@/services'
+
+import { resetPasswordSchema } from '@/schemas'
+import type { ResetPasswordFormValues } from '@/types'
 
 export const ResetPassword = () => {
   const navigate = useNavigate()
@@ -25,7 +24,7 @@ export const ResetPassword = () => {
 
   const oobCode = searchParams.get('oobCode')
 
-  const form = useForm<ResetPasswordData>({
+  const form = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       password: '',
@@ -33,7 +32,7 @@ export const ResetPassword = () => {
     }
   })
 
-  const { isLoading, handleSubmit } = useSubmit<ResetPasswordData>({
+  const { isLoading, handleSubmit } = useSubmit<ResetPasswordFormValues>({
     onSubmit: async (data) => {
       if (!oobCode) {
         toastError(AuthErrorCodes.MISSING_CODE)
@@ -70,7 +69,7 @@ export const ResetPassword = () => {
           autoComplete='new-password'
         />
         <Button disabled={isLoading} type='submit'>
-          {isLoading ? <SpinnerGap className='animate-spin' /> : <ShieldStar />}
+          {isLoading ? <SpinnerGapIcon className='animate-spin' /> : <ShieldStarIcon />}
           {isLoading ? 'Resetting...' : 'Reset password'}
         </Button>
       </form>

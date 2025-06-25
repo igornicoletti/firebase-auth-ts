@@ -5,25 +5,24 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { GoogleLogo, SignIn, SpinnerGap } from '@phosphor-icons/react'
+import { GoogleLogoIcon, SignInIcon, SpinnerGapIcon } from '@phosphor-icons/react'
 
 import { InputForm } from '@/components/auth'
-import { useSubmit } from '@/shared/hooks'
-
-import { Button, ButtonHighlight } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
-
-import { auth } from '@/configs/firebase'
+import { Button, ButtonHighlight, Form } from '@/components/ui'
 import { AuthSuccessCodes } from '@/constants/auth'
-import { useToast } from '@/shared/hooks'
-import { loginSchema, type LoginData } from '@/shared/schemas'
-import { authService } from '@/shared/services'
+
+import { useSubmit, useToast } from '@/hooks'
+import { authService } from '@/services'
+
+import { auth } from '@/configs'
+import { loginSchema } from '@/schemas'
+import type { LoginFormValues } from '@/types'
 
 export const Login = () => {
   const navigate = useNavigate()
   const { toastError, toastSuccess } = useToast()
 
-  const form = useForm<LoginData>({
+  const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
@@ -31,7 +30,7 @@ export const Login = () => {
     }
   })
 
-  const { isLoading, handleSubmit } = useSubmit<LoginData>({
+  const { isLoading, handleSubmit } = useSubmit<LoginFormValues>({
     onSubmit: async (data) => {
       await authService.signInWithEmail(data.email, data.password)
       await auth.currentUser?.reload()
@@ -65,7 +64,7 @@ export const Login = () => {
           disabled={isLoading}
           type='button'
           variant='secondary'>
-          {isLoading ? <SpinnerGap className='animate-spin' /> : <GoogleLogo />}
+          {isLoading ? <SpinnerGapIcon className='animate-spin' /> : <GoogleLogoIcon />}
           {isLoading ? 'Logging in..' : 'Login with Google'}
           <ButtonHighlight />
         </Button>
@@ -97,7 +96,7 @@ export const Login = () => {
           autoComplete='current-password'
         />
         <Button disabled={isLoading} type='submit'>
-          {isLoading ? <SpinnerGap className='animate-spin' /> : <SignIn />}
+          {isLoading ? <SpinnerGapIcon className='animate-spin' /> : <SignInIcon />}
           {isLoading ? 'Logging in...' : 'Login'}
         </Button>
       </form>

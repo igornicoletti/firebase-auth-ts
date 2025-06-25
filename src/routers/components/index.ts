@@ -1,8 +1,8 @@
 // src/routers/components/index.ts
 
-export * from './CallbackRoute'
-export * from './ErrorBoundaryRoute'
-export * from './NotFoundRoute'
-export * from './ProtectedRoute'
-export * from './PublicRoute'
-export * from './RedirectRoute'
+export { CallbackRoute } from '@/routers/components/CallbackRoute'
+export { ErrorBoundaryRoute } from '@/routers/components/ErrorBoundaryRoute'
+export { NotFoundRoute } from '@/routers/components/NotFoundRoute'
+export { ProtectedRoute } from '@/routers/components/ProtectedRoute'
+export { PublicRoute } from '@/routers/components/PublicRoute'
+export { RedirectRoute } from '@/routers/components/RedirectRoute'

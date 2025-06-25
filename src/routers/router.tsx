@@ -3,11 +3,12 @@
 import { Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 
+import { LoadingSpinner } from '@/components/common'
+import { LazyRootLayout } from '@/configs'
+import { AppLayout, AuthLayout } from '@/layouts'
+import { appLoader } from '@/loaders'
 import { CallbackRoute, ErrorBoundaryRoute, NotFoundRoute, ProtectedRoute, PublicRoute, RedirectRoute } from '@/routers/components'
 import { protectedRoutes, publicRoutes } from '@/routers/constants'
-import { LoadingSpinner } from '@/shared/components'
-import { AppLayout, AuthLayout, LazyRootLayout } from '@/shared/layouts'
-import { appLoader } from '@/shared/loaders/appLoader'
 
 export const router = createBrowserRouter([
   {

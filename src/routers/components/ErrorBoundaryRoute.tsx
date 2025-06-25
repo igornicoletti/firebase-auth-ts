@@ -1,4 +1,4 @@
-import { Terminal } from '@phosphor-icons/react'
+import { TerminalIcon } from '@phosphor-icons/react'
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -20,7 +20,7 @@ export const ErrorBoundaryRoute = () => {
     <div className='flex flex-1 items-center py-12'>
       <div className='w-full max-w-7xl mx-auto grid gap-6 px-6'>
         <Alert variant='destructive'>
-          <Terminal />
+          <TerminalIcon />
           {stack ? (
             <AlertDescription>
               <pre>

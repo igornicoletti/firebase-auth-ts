@@ -20,7 +20,7 @@ const initialState: ThemeProviderState = {
   setTheme: () => null
 }
 
-export const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+export const ThemeContext = createContext<ThemeProviderState>(initialState)
 
 export const ThemeProvider = ({
   children,
@@ -57,8 +57,8 @@ export const ThemeProvider = ({
   }
 
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeContext.Provider {...props} value={value}>
       {children}
-    </ThemeProviderContext.Provider>
+    </ThemeContext.Provider>
   )
 }

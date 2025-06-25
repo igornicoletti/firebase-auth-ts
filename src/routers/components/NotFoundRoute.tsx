@@ -2,7 +2,7 @@
 
 import { useNavigate } from 'react-router-dom'
 
-import { ArrowLeft } from '@phosphor-icons/react'
+import { ArrowLeftIcon } from '@phosphor-icons/react'
 
 import { Button, ButtonHighlight } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -19,7 +19,7 @@ export const NotFoundRoute = () => {
           <p className='text-sm text-muted-foreground'>This page could not be found.</p>
         </div>
         <Button onClick={() => navigate('/')} variant='secondary'>
-          <ArrowLeft />
+          <ArrowLeftIcon />
           Go back
           <ButtonHighlight />
         </Button>

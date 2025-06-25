@@ -4,22 +4,22 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SpinnerGap, UserCirclePlus } from '@phosphor-icons/react'
+import { SpinnerGapIcon, UserCirclePlusIcon } from '@phosphor-icons/react'
 
 import { InputForm } from '@/components/auth'
-import { useSubmit } from '@/shared/hooks'
-
-import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
-
+import { Button, Form } from '@/components/ui'
 import { AuthSuccessCodes } from '@/constants/auth'
-import { registerSchema, type RegisterData } from '@/shared/schemas'
-import { authService } from '@/shared/services'
+
+import { useSubmit } from '@/hooks'
+import { authService } from '@/services'
+
+import { registerSchema } from '@/schemas'
+import type { RegisterFormValues } from '@/types'
 
 export const Register = () => {
   const navigate = useNavigate()
 
-  const form = useForm<RegisterData>({
+  const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       email: '',
@@ -29,7 +29,7 @@ export const Register = () => {
     }
   })
 
-  const { isLoading, handleSubmit } = useSubmit<RegisterData>({
+  const { isLoading, handleSubmit } = useSubmit<RegisterFormValues>({
     onSubmit: async (data) => {
       await authService.createUserWithEmail(data.email, data.password, data.displayName)
     },
@@ -77,7 +77,7 @@ export const Register = () => {
           autoComplete='new-password'
         />
         <Button disabled={isLoading} type='submit'>
-          {isLoading ? <SpinnerGap className='animate-spin' /> : <UserCirclePlus />}
+          {isLoading ? <SpinnerGapIcon className='animate-spin' /> : <UserCirclePlusIcon />}
           {isLoading ? 'Creating...' : 'Create account'}
         </Button>
       </form>

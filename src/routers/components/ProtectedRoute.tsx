@@ -3,8 +3,8 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
-import { LoadingSpinner } from '@/shared/components'
-import { useAuth } from '@/shared/hooks'
+import { LoadingSpinner } from '@/components/common'
+import { useAuth } from '@/hooks'
 
 type ProtectedRouteOptions = {
   requireEmailVerified?: boolean

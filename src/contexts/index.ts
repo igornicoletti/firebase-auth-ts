@@ -1,4 +1,4 @@
 // src/contexts/index.ts
 
-export * from './AuthProvider'
-export * from './ThemeProvider'
+export { AuthContext, AuthProvider } from '@/contexts/AuthProvider'
+export { ThemeContext, ThemeProvider } from '@/contexts/ThemeProvider'

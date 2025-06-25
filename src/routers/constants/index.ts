@@ -1,4 +1,4 @@
 // src/routers/constants/index.ts
 
-export * from './protectedRoutes'
-export * from './publicRoutes'
+export { protectedRoutes } from '@/routers/constants/protectedRoutes'
+export { publicRoutes } from '@/routers/constants/publicRoutes'
