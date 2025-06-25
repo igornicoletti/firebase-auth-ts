@@ -2,7 +2,7 @@
 
 import { Moon, Sun } from '@phosphor-icons/react'
 
-import { Button } from '@/shadcn/ui/button'
+import { Button } from '@/components/ui/button'
 import { useTheme } from '@/shared/hooks'
 
 export const ThemeSwitcher = ({ ...props }: React.ComponentProps<typeof Button>) => {

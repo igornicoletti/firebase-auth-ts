@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigation } from 'react-router-dom'
 
-import { Progress } from '@/shadcn/ui/progress'
+import { Progress } from '@/components/ui/progress'
 
 const START_DELAY_MS = 150
 const FINISH_ANIMATION_MS = 200

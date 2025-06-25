@@ -5,15 +5,18 @@ import { createBrowserRouter } from 'react-router-dom'
 
 import { CallbackRoute, ErrorBoundaryRoute, NotFoundRoute, ProtectedRoute, PublicRoute, RedirectRoute } from '@/routers/components'
 import { protectedRoutes, publicRoutes } from '@/routers/constants'
-
 import { LoadingSpinner } from '@/shared/components'
-import { LazyAppLayout, LazyAuthLayout, LazyRootLayout } from '@/shared/layouts'
+import { AppLayout, AuthLayout, LazyRootLayout } from '@/shared/layouts'
 import { appLoader } from '@/shared/loaders/appLoader'
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <LazyRootLayout />,
+    element: (
+      <Suspense fallback={<LoadingSpinner message='Please wait while we prepare everything' />}>
+        <LazyRootLayout />
+      </Suspense>
+    ),
     children: [
       {
         path: '/',
@@ -29,11 +32,7 @@ export const router = createBrowserRouter([
         element: <PublicRoute />,
         errorElement: <ErrorBoundaryRoute />,
         children: [{
-          element: (
-            <Suspense fallback={<LoadingSpinner message='Please wait while we prepare everything' />}>
-              <LazyAuthLayout />
-            </Suspense>
-          ),
+          element: <AuthLayout />,
           children: publicRoutes
         }]
       },
@@ -41,12 +40,8 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute requireEmailVerified={true} />,
         errorElement: <ErrorBoundaryRoute />,
         children: [{
-          element: (
-            <Suspense fallback={<LoadingSpinner message='Please wait while we prepare everything' />}>
-              <LazyAppLayout />
-            </Suspense>
-          ),
           loader: appLoader,
+          element: <AppLayout />,
           children: protectedRoutes
         }]
       },

@@ -2,9 +2,9 @@ import type { AppLoaderData, BasicNavItem } from '@/features/dashboard/types.ts'
 import type { LoaderFunctionArgs } from 'react-router-dom'
 
 export const appLoader = async (_args: LoaderFunctionArgs): Promise<AppLoaderData> => {
-  try {
-    await new Promise((resolve) => setTimeout(resolve, 300))
-    return {
+  await new Promise((resolve) => setTimeout(resolve, 300))
+  return {
+    mockData: {
       user: {
         name: 'shadcn',
         email: 'm@example.com',
@@ -20,23 +20,9 @@ export const appLoader = async (_args: LoaderFunctionArgs): Promise<AppLoaderDat
             { title: 'History', url: '/playground/history' },
             { title: 'Starred', url: '/playground/starred' },
             { title: 'Settings', url: '/playground/settings' },
-          ] as BasicNavItem[], // Cast for clarity
-        },
-        {
-          title: 'Settings',
-          url: '/settings',
-          icon: 'Settings2',
-          items: [
-            { title: 'General', url: '/settings/general' },
-            { title: 'Team', url: '/settings/team' },
-            { title: 'Billing', url: '/settings/billing' },
-            { title: 'Limits', url: '/settings/limits' },
-          ] as BasicNavItem[], // Cast for clarity
-        },
-      ],
+          ] as BasicNavItem[],
+        }
+      ]
     }
-  } catch (error) {
-    console.error('Failed to load app data:', error)
-    throw new Response('Failed to load application data', { status: 500 })
   }
 }

@@ -1,5 +1,4 @@
-import type { BasicNavItem, IconName, TopLevelNavItem } from '@/features/dashboard/types'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/shadcn/ui/collapsible'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -10,17 +9,13 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from '@/shadcn/ui/sidebar'
-import { ChevronRight, type LucideIcon, Settings2, SquareTerminal } from 'lucide-react'
+} from '@/components/ui/sidebar'
+import type { BasicNavItem, TopLevelNavItem } from '@/features/dashboard/types'
+import { ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export interface NavMainProps {
   items: TopLevelNavItem[]
-}
-
-const ICONS: Record<IconName, LucideIcon> = {
-  SquareTerminal,
-  Settings2,
 }
 
 export const NavMain = ({ items }: NavMainProps) => {
@@ -29,7 +24,6 @@ export const NavMain = ({ items }: NavMainProps) => {
       <SidebarGroupLabel>Navigation</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
-          const Icon = ICONS[item.icon]
           const hasSubItems = item.items && item.items.length > 0
           return (
             <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
@@ -40,7 +34,6 @@ export const NavMain = ({ items }: NavMainProps) => {
                   aria-current={item.isActive ? 'page' : undefined}
                 >
                   <Link to={item.url}>
-                    {Icon && <Icon className="mr-2 size-4" aria-hidden="true" />}
                     <span>{item.title}</span>
                   </Link>
                 </SidebarMenuButton>

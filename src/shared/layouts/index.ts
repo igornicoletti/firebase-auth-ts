@@ -2,6 +2,8 @@
 
 import { lazy } from 'react'
 
-export const LazyRootLayout = lazy(() => import('./RootLayout'))
-export const LazyAppLayout = lazy(() => import('./AppLayout'))
-export const LazyAuthLayout = lazy(() => import('./AuthLayout'))
+export * from './AppLayout'
+export * from './AuthLayout'
+export const LazyRootLayout =
+  lazy(() => import('./RootLayout')
+    .then((m) => ({ default: m.RootLayout })))

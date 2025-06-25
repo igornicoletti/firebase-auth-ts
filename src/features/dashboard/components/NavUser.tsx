@@ -1,50 +1,47 @@
-import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/shadcn/ui/avatar'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/shadcn/ui/dropdown-menu'
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/shadcn/ui/sidebar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
 import { authService } from '@/shared/services'
-import React from 'react'
+import { Bell, CaretUpDown, Gear, SignOut, UserCircle, type Icon } from '@phosphor-icons/react'
 
-type UserMenuItem = {
-  Icon: React.ElementType
+type MenuItem = {
+  icon: Icon
   label: string
-  onClick: () => void
 }
 
-type UserProfile = {
+type UserValues = {
   name: string
   email: string
   avatar?: string
 }
 
-const UserProfileText = ({ name, email }: Pick<UserProfile, 'name' | 'email'>) => (
-  <div className='grid flex-1 text-left text-sm leading-tight'>
-    <span className='truncate font-medium'>{name}</span>
-    <span className='truncate text-xs text-muted-foreground'>{email}</span>
-  </div>
-)
+type User = {
+  user: UserValues
+}
 
-const UserProfileDisplay = ({ name, email, avatar }: UserProfile) => (
+const items: MenuItem[] = [
+  { icon: UserCircle, label: 'Account' },
+  { icon: Gear, label: 'Settings' },
+  { icon: Bell, label: 'Notifications' }
+]
+
+const UserProfile = ({ name, email, avatar }: UserValues) => (
   <div className='flex w-full items-center gap-2'>
-    <Avatar className='h-8 w-8 rounded-lg'>
+    <Avatar className='size-8 rounded-lg'>
       <AvatarImage src={avatar} alt={`Avatar of ${name}`} />
       <AvatarFallback className='rounded-lg'>
         {name.charAt(0).toUpperCase()}
       </AvatarFallback>
     </Avatar>
-    <UserProfileText name={name} email={email} />
+    <div className='flex flex-col gap-0.5 leading-none'>
+      <span className='truncate font-medium'>{name}</span>
+      <span className='truncate text-xs text-muted-foreground'>{email}</span>
+    </div>
   </div>
 )
 
-const userMenuItems: UserMenuItem[] = [
-  { Icon: Sparkles, label: 'Upgrade to Pro', onClick: () => console.log('Upgrade to Pro clicked') },
-  { Icon: BadgeCheck, label: 'Account', onClick: () => console.log('Account clicked') },
-  { Icon: CreditCard, label: 'Billing', onClick: () => console.log('Billing clicked') },
-  { Icon: Bell, label: 'Notifications', onClick: () => console.log('Notifications clicked') },
-]
-
-export const UserMenu = ({ name, email, avatar }: UserProfile) => {
+export const UserMenu = ({ user }: User) => {
   const { isMobile } = useSidebar()
 
   return (
@@ -54,39 +51,33 @@ export const UserMenu = ({ name, email, avatar }: UserProfile) => {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size='lg'
-              className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
-              aria-label={`Open user menu for ${name}`}>
-              <UserProfileDisplay name={name} email={email} avatar={avatar} />
-              <ChevronsUpDown className='ml-auto size-4 text-muted-foreground' aria-hidden='true' />
+              className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'>
+              <UserProfile {...user} />
+              <CaretUpDown className='ml-auto' weight='light' />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align='end'
-            sideOffset={4}
             side={isMobile ? 'bottom' : 'right'}
             className='w-[var(--radix-dropdown-menu-trigger-width)] min-w-56 rounded-lg'>
-            <DropdownMenuLabel className='p-2'>
-              <UserProfileText name={name} email={email} />
+            <DropdownMenuLabel>
+              <UserProfile {...user} />
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              {userMenuItems.map(({ Icon, label, onClick }, index) => (
-                <React.Fragment key={label}>
-                  <DropdownMenuItem onClick={onClick} className='cursor-pointer'>
-                    <Icon className='mr-2 size-4' aria-hidden='true' />
-                    {label}
-                  </DropdownMenuItem>
-                  {index === 0 && <DropdownMenuSeparator />}
-                </React.Fragment>
+              {items.map(({ icon: Icon, label }) => (
+                <DropdownMenuItem key={label} className='cursor-pointer flex gap-2'>
+                  <Icon weight='light' />
+                  {label}
+                </DropdownMenuItem>
               ))}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => authService.signOut()}
-              className='cursor-pointer text-destructive'
-              aria-label='Log out'>
-              <LogOut className='mr-2 size-4' aria-hidden='true' />
-              Log out
+              className='cursor-pointer flex gap-2'>
+              <SignOut weight='light' />
+              Sign Out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

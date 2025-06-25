@@ -2,7 +2,7 @@
 
 import type { LoaderFunctionArgs } from 'react-router-dom'
 
-import { AUTH_DATA_MAP } from '@/shared/constants'
+import { AUTH_DATA_MAP } from '@/constants/auth'
 import type { AuthDataCode, AuthLoaderData } from '@/shared/types'
 
 const isAuthDataCode = (codeKey: string): codeKey is AuthDataCode => {

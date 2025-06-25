@@ -1,8 +1,8 @@
 import { Terminal } from '@phosphor-icons/react'
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
 
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { NotFoundRoute } from '@/routers/components'
-import { Alert, AlertDescription, AlertTitle } from '@/shadcn/ui/alert'
 
 export const ErrorBoundaryRoute = () => {
   const error = useRouteError()

@@ -5,8 +5,7 @@ import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { auth } from '@/configs/firebase'
-
-import { AuthCallbackCodes, AuthSuccessCodes } from '@/shared/constants'
+import { AuthCallbackCodes, AuthSuccessCodes } from '@/constants/auth'
 import { useAuth, useToast } from '@/shared/hooks'
 import { authService } from '@/shared/services'
 

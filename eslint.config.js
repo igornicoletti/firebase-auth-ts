@@ -47,9 +47,8 @@ export default tseslint.config(
           groups: [
             ['builtin', 'external'],
             'internal',
-            'parent',
-            'sibling',
-            'index',
+            ['parent', 'sibling', 'index'],
+            'type',
           ],
           alphabetize: { order: 'asc', caseInsensitive: true },
           pathGroups: [

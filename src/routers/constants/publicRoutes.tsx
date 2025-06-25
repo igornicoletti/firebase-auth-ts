@@ -1,8 +1,8 @@
-// src/routers/constants/publicRoutes.ts
+// src/routers/constants/publicRoutes.tsx
 
-import { ForgotPassword, Login, Register, ResetPassword } from '@/features/auth'
+import { ForgotPassword, Login, Register, ResetPassword } from '@/components/auth'
 
-import { AuthDataCodes } from '@/shared/constants'
+import { AuthDataCodes } from '@/constants/auth'
 import { authLoader } from '@/shared/loaders'
 
 export const publicRoutes = [

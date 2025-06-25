@@ -28,6 +28,8 @@ export interface UserProfile {
 
 // Define the shape of the data returned by the app loader
 export interface AppLoaderData {
-  user: UserProfile
-  navMain: TopLevelNavItem[]
+  mockData: {
+    user: UserProfile
+    navMain: TopLevelNavItem[]
+  }
 }

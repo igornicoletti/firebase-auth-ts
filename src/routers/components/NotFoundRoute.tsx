@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { ArrowLeft } from '@phosphor-icons/react'
 
-import { Button, ButtonHighlight } from '@/shadcn/ui/button'
-import { Separator } from '@/shadcn/ui/separator'
+import { Button, ButtonHighlight } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 
 export const NotFoundRoute = () => {
   const navigate = useNavigate()
