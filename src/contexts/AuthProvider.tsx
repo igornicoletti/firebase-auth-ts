@@ -1,37 +1,37 @@
-// src/contexts/AuthProvider.tsx
-
 import type { User } from 'firebase/auth'
-import { createContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 
-import { authService } from '@/services'
+import { authService } from '@/services/auth.service'
 
-type AuthState = {
+type AuthContextValue = {
   user: User | null
-  loading: boolean
+  isLoading: boolean
 }
 
-export const AuthContext = createContext<AuthState | undefined>(undefined)
+const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(authService.getCurrentUser())
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<User | null>(() => authService.getCurrentUser())
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const unsubscribe = authService.onAuthStateChanged((currentUser) => {
       setUser(currentUser)
-      setLoading(false)
+      setIsLoading(false)
     })
 
     return unsubscribe
   }, [])
 
-  const value = useMemo(() => ({ user, loading }), [user, loading])
+  const value = useMemo(() => ({ user, isLoading }), [user, isLoading])
 
-  if (loading) return
+  if (isLoading) return null
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+}
+
+export const useAuth = (): AuthContextValue => {
+  const ctx = useContext(AuthContext)
+  if (!ctx) throw new Error('useAuth must be used within AuthProvider')
+  return ctx
 }

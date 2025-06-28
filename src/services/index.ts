@@ -1,3 +1,1 @@
-// src/services/index.ts
-
-export { authService } from '@/services/authService'
+export { authService } from '@/services/auth.service'

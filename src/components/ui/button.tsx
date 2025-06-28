@@ -1,4 +1,4 @@
-import { cn } from '@/shadcn/lib/utils'
+import { cn } from '@/components/ui/lib/utils'
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 import * as React from "react"

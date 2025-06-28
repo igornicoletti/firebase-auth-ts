@@ -1,0 +1,84 @@
+import {
+  applyActionCode,
+  confirmPasswordReset,
+  createUserWithEmailAndPassword,
+  EmailAuthProvider,
+  GoogleAuthProvider,
+  reauthenticateWithCredential,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
+  type Unsubscribe,
+  type User,
+} from 'firebase/auth'
+
+import { ACTION_CODE_SETTINGS } from '@/configs/action-code.config'
+import { firebaseAuth } from '@/configs/firebase.config'
+
+export const authService = {
+  signInWithGoogle: async (): Promise<User> => {
+    const provider = new GoogleAuthProvider()
+    const { user } = await signInWithPopup(firebaseAuth, provider)
+    return user
+  },
+
+  signInWithEmail: async (email: string, password: string): Promise<User> => {
+    const { user } = await signInWithEmailAndPassword(firebaseAuth, email, password)
+    return user
+  },
+
+  createUserWithEmail: async (
+    email: string,
+    password: string,
+    displayName?: string
+  ): Promise<User> => {
+    const { user } = await createUserWithEmailAndPassword(firebaseAuth, email, password)
+    if (displayName) {
+      await updateProfile(user, { displayName })
+    }
+    await sendEmailVerification(user, ACTION_CODE_SETTINGS)
+    return user
+  },
+
+  sendPasswordReset: async (email: string): Promise<void> => {
+    await sendPasswordResetEmail(firebaseAuth, email, ACTION_CODE_SETTINGS)
+  },
+
+  sendEmailVerificationToCurrentUser: async (): Promise<void> => {
+    const user = firebaseAuth.currentUser
+    if (!user) throw new Error('User not authenticated')
+    await sendEmailVerification(user, ACTION_CODE_SETTINGS)
+  },
+
+  confirmUserPasswordReset: async (oobCode: string, newPassword: string): Promise<void> => {
+    await confirmPasswordReset(firebaseAuth, oobCode, newPassword)
+  },
+
+  applyUserActionCode: async (oobCode: string): Promise<void> => {
+    await applyActionCode(firebaseAuth, oobCode)
+  },
+
+  signOut: async (): Promise<void> => {
+    await signOut(firebaseAuth)
+  },
+
+  reauthenticateWithPassword: async (password: string): Promise<void> => {
+    const user = firebaseAuth.currentUser
+    if (!user?.email) throw new Error('User not authenticated')
+    const credential = EmailAuthProvider.credential(user.email, password)
+    await reauthenticateWithCredential(user, credential)
+  },
+
+  getCurrentUser: (): User | null => firebaseAuth.currentUser,
+
+  isAuthenticated: (): boolean => !!firebaseAuth.currentUser,
+
+  isEmailVerified: (): boolean => firebaseAuth.currentUser?.emailVerified ?? false,
+
+  onAuthStateChanged: (callback: (user: User | null) => void): Unsubscribe => {
+    return firebaseAuth.onAuthStateChanged(callback)
+  }
+}

@@ -1,8 +1,10 @@
-// src/schemas/index.ts
-
 export {
   forgotPasswordSchema,
   loginSchema,
   registerSchema,
-  resetPasswordSchema
-} from '@/schemas/authSchemas'
+  resetPasswordSchema,
+  type ForgotPasswordFormValues,
+  type LoginFormValues,
+  type RegisterFormValues,
+  type ResetPasswordFormValues
+} from '@/schemas/auth.schema'
