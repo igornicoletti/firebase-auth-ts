@@ -11,10 +11,10 @@
   },
   "aliases": {
     "components": "src/components/ui",
-    "utils": "src/shadcn/lib",
+    "utils": "src/components/ui/lib",
     "ui": "@/components/ui",
-    "lib": "@/shadcn/lib",
-    "hooks": "@/shadcn/hooks"
+    "lib": "@/components/ui/lib",
+    "hooks": "@/components/ui/hooks"
   },
   "iconLibrary": "lucide"
 }

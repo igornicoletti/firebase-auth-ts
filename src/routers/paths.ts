@@ -1,6 +1,6 @@
 export const PATHS = {
   public: {
-    home: '/',
+    redirect: '/',
     callback: '/callback',
   },
   auth: {
@@ -10,8 +10,12 @@ export const PATHS = {
     resetPassword: '/reset-password',
   },
   app: {
-    dashboard: '/app/dashboard',
-    profile: '/app/profile',
-    settings: '/app/settings',
+    dashboard: '/dashboard',
+    profile: '/profile',
+    settings: '/settings',
   },
 } as const
+
+export type Paths = typeof PATHS
+export type PathCategory = keyof Paths
+export type PathValue = Paths[PathCategory][keyof Paths[PathCategory]]

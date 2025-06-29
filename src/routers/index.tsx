@@ -1,14 +1,14 @@
 import { createBrowserRouter, type RouteObject } from 'react-router-dom'
 
-import { ErrorPage } from '@/pages/errors/ErrorPage'
-import { NotFoundPage } from '@/pages/errors/NotFoundPage'
-import { AppLayout } from '@/pages/layouts/AppLayout'
-import { protectedRoutes } from '@/routers/protected.routes'
-import { publicRoutes } from '@/routers/public.routes'
+import { ErrorPage, NotFoundPage } from '@/pages/errors'
+
+import { AppLayout } from '@/pages/layouts'
+import { getProtectedRoutes } from '@/routers/protected.routes'
+import { getPublicRoutes } from '@/routers/public.routes'
 
 const allRoutes: RouteObject[] = [
-  ...publicRoutes,
-  ...protectedRoutes,
+  ...getPublicRoutes(),
+  ...getProtectedRoutes(),
 ]
 
 export const router = createBrowserRouter([

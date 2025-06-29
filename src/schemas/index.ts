@@ -7,4 +7,4 @@ export {
   type LoginFormValues,
   type RegisterFormValues,
   type ResetPasswordFormValues
-} from '@/schemas/auth.schema'
+} from './auth.schema'

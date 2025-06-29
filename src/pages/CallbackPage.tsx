@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-import { firebaseAuth } from '@/configs/firebase.config'
+import { useAuth } from '@/contexts/AuthProvider'
 import { PATHS } from '@/routers/paths'
 import { authService } from '@/services/auth.service'
 
 export const CallbackPage = () => {
+  const { user, isLoading } = useAuth()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
@@ -18,14 +19,15 @@ export const CallbackPage = () => {
       return
     }
 
+    if (isLoading) return
+
     const handleAction = async () => {
       try {
         switch (mode) {
           case 'verifyEmail': {
             await authService.applyUserActionCode(oobCode)
-            await firebaseAuth.currentUser?.reload()
 
-            const isVerified = firebaseAuth.currentUser?.emailVerified
+            const isVerified = user?.emailVerified
 
             if (isVerified) {
               navigate(PATHS.app.dashboard, { replace: true })
@@ -52,7 +54,7 @@ export const CallbackPage = () => {
     }
 
     handleAction()
-  }, [mode, oobCode, navigate])
+  }, [mode, oobCode, navigate, user, isLoading])
 
   return null
 }

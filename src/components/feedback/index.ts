@@ -1,2 +1,2 @@
-export { LoadingSpinner } from '@/components/feedback/LoadingSpinner'
-export { ProgressBar } from '@/components/feedback/ProgressBar'
+export { LoadingSpinner } from './LoadingSpinner'
+export { ProgressBar } from './ProgressBar'

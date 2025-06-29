@@ -1,14 +1,10 @@
 import { SpinnerGapIcon } from '@phosphor-icons/react'
 
-type LoadingSpinnerProps = {
-  message?: string
-}
-
-export const LoadingSpinner = ({ message }: LoadingSpinnerProps) => {
-  return (
-    <div className='flex h-full min-h-screen flex-col items-center justify-center bg-background'>
-      <div className='flex flex-col items-center gap-4'>
-        <SpinnerGapIcon className='animate-spin text-muted-foreground' size={32} />
+export const LoadingSpinner = ({ message }: { message?: string }) => (
+  <div className='relative flex min-h-svh flex-col'>
+    <div className='flex flex-1 flex-col items-center justify-center py-12'>
+      <div className='grid gap-6 px-6'>
+        <SpinnerGapIcon className='size-6 animate-spin' />
         {message && (
           <p className='text-sm text-muted-foreground text-center'>
             {message}
@@ -16,5 +12,5 @@ export const LoadingSpinner = ({ message }: LoadingSpinnerProps) => {
         )}
       </div>
     </div>
-  )
-}
+  </div>
+)

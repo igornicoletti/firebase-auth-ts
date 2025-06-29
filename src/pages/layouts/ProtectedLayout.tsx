@@ -11,13 +11,7 @@ export const ProtectedLayout = () => {
   if (isLoading) return <LoadingSpinner />
 
   if (!isAllowed) {
-    return (
-      <Navigate
-        to={PATHS.auth.login}
-        replace
-        state={{ from: location }}
-      />
-    )
+    return <Navigate to={PATHS.auth.login} replace state={{ from: location }} />
   }
 
   return <Outlet />

@@ -1,12 +1,13 @@
 import { useCallback, useState } from 'react'
 import type { Control, FieldPath, FieldValues } from 'react-hook-form'
 
+import { EyeIcon, EyeSlashIcon } from '@phosphor-icons/react'
+
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { EyeIcon, EyeSlashIcon } from '@phosphor-icons/react'
 
-export interface FormInputProps<T extends FieldValues> {
+interface FieldProps<T extends FieldValues> {
   name: FieldPath<T>
   control: Control<T>
   type: 'text' | 'email' | 'password' | 'number'
@@ -17,16 +18,7 @@ export interface FormInputProps<T extends FieldValues> {
   label?: string
 }
 
-export const FormInput = <T extends FieldValues>({
-  name,
-  control,
-  type,
-  placeholder,
-  disabled,
-  autoComplete,
-  autoFocus,
-  label,
-}: FormInputProps<T>) => {
+export const FormInputField = <T extends FieldValues>({ name, control, type, placeholder, disabled, autoComplete, autoFocus, label }: FieldProps<T>) => {
   const [visible, setVisible] = useState(false)
 
   const isPassword = type === 'password'

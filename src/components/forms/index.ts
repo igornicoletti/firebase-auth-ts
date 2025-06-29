@@ -1,1 +1,1 @@
-export { FormInput } from '@/components/forms/FormInput'
+export { FormInputField } from './FormInputField'

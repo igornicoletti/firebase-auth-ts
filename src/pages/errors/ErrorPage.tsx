@@ -1,11 +1,10 @@
-import { isRouteErrorResponse, useNavigate, useRouteError } from 'react-router-dom'
+import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
 
-import { Button, ButtonHighlight } from '@/components/ui/button'
-import { ArrowLeftIcon } from '@phosphor-icons/react'
+import { Alert, AlertDescription } from '@/components/ui'
+import { TerminalIcon } from '@phosphor-icons/react'
 
 export const ErrorPage = () => {
   const error = useRouteError()
-  const navigate = useNavigate()
 
   let title = 'Oops! Something went wrong'
   let message = 'Sorry, an unexpected error occurred. Please try again later.'
@@ -40,25 +39,25 @@ export const ErrorPage = () => {
 
   const stack = import.meta.env.DEV && error instanceof Error ? error.stack : undefined
 
-  console.error('Route Error Details:', error)
-
   return (
-    <div className='flex min-h-svh flex-col items-center justify-center p-6'>
-      <div className='w-full max-w-md mx-auto grid gap-6 text-center'>
-        <div>
-          <h1 className='text-xl font-bold tracking-tight'>{title}</h1>
-          <p className='text-muted-foreground mt-2'>{message}</p>
+    <div className='relative flex min-h-svh flex-col'>
+      <div className='flex flex-1 flex-col items-center justify-center py-12'>
+        <div className='w-full max-w-7xl grid gap-6 px-6'>
+          <div className='grid gap-2 text-center'>
+            <h2 className='text-xl font-bold'>{title}</h2>
+            <p className='text-sm text-muted-foreground'>{message}</p>
+          </div>
           {stack && (
-            <pre className='mt-4 overflow-auto rounded-md bg-muted p-4 text-xs text-muted-foreground'>
-              <code>{stack}</code>
-            </pre>
+            <Alert variant='destructive'>
+              <TerminalIcon />
+              <AlertDescription>
+                <pre>
+                  <code>{stack}</code>
+                </pre>
+              </AlertDescription>
+            </Alert>
           )}
         </div>
-        <Button onClick={() => navigate('/')} variant='secondary'>
-          <ArrowLeftIcon className='size-4' />
-          Go back
-          <ButtonHighlight />
-        </Button>
       </div>
     </div>
   )

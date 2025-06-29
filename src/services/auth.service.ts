@@ -11,7 +11,6 @@ import {
   signInWithPopup,
   signOut,
   updateProfile,
-  type Unsubscribe,
   type User,
 } from 'firebase/auth'
 
@@ -30,11 +29,7 @@ export const authService = {
     return user
   },
 
-  createUserWithEmail: async (
-    email: string,
-    password: string,
-    displayName?: string
-  ): Promise<User> => {
+  createUserWithEmail: async (email: string, password: string, displayName?: string): Promise<User> => {
     const { user } = await createUserWithEmailAndPassword(firebaseAuth, email, password)
     if (displayName) {
       await updateProfile(user, { displayName })
@@ -78,7 +73,5 @@ export const authService = {
 
   isEmailVerified: (): boolean => firebaseAuth.currentUser?.emailVerified ?? false,
 
-  onAuthStateChanged: (callback: (user: User | null) => void): Unsubscribe => {
-    return firebaseAuth.onAuthStateChanged(callback)
-  }
+  onAuthStateChanged: firebaseAuth.onAuthStateChanged.bind(firebaseAuth)
 }

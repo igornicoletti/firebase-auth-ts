@@ -10,11 +10,9 @@ export const PublicLayout = () => {
   if (isLoading) return <LoadingSpinner />
 
   if (isAuthenticated) {
-    return isEmailVerified ? (
-      <Navigate to={PATHS.app.dashboard} replace />
-    ) : (
-      <Navigate to={PATHS.auth.login} replace />
-    )
+    return isEmailVerified
+      ? <Navigate to={PATHS.app.dashboard} replace />
+      : <Navigate to={PATHS.auth.login} replace />
   }
 
   return <Outlet />
